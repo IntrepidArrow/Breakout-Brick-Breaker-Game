@@ -6,16 +6,23 @@ class GameDesigner{
 const Float PADDLEWIDTH = 5.0;
 const Float BALLDIAMETER = 10.0;
 const Float BLOCKSIDE = 20.0;
-//singleton;
+const Integer MINPLAYAREALENGTH = 200;
+const Integer MAXPLAYAREALENGTH = 500;
+const Integer MINPLAYAREAWIDTH = 200;
+const Integer MAXPLAYAREAWIDTH = 500;
+
+immutable Integer playAreaLength;
+immutable Integer playAreaWidth;
 }
 class User{
-String name;
+unique String name;
 String password;
 Boolean isAdmin;
 String adminPassword;
   1 -- 1 GameDesigner;
 }
 class Game{
+  unique String name;
 Float minPaddleLength;
 Float maxPaddleLength;
 Float speedFactor;
@@ -23,18 +30,19 @@ Integer numOfBlocks;
 Integer blockLimit;
 Float minBallSpeed;
   * -- 1 GameDesigner;
-  1 <@>- * SetBlock blocks;
+  1 <@>- * GameBlock blocks;
   1 <@>- * Level levels;
 }
-class SetBlock{
+class GameBlock {
 enum Color {Red, Blue, Green}
 Color blockColor;
 Float blockPoints;
 }
 class Level{
+  Integer levelNumber;
  1 -- 100..625 Cell cells; 
 }
 class Cell {
-1 -- 0..1 SetBlock;
+1 -- 0..1 GameBlock;
 }
 
