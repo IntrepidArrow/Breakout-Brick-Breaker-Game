@@ -1,0 +1,40 @@
+class AppManager{
+ 1 -- 1 GameDesigner;
+//singleton;
+}
+class GameDesigner{
+const Float PADDLEWIDTH = 5.0;
+const Float BALLDIAMETER = 10.0;
+const Float BLOCKSIDE = 20.0;
+//singleton;
+}
+class User{
+String name;
+String password;
+Boolean isAdmin;
+String adminPassword;
+  1 -- 1 GameDesigner;
+}
+class Game{
+Float minPaddleLength;
+Float maxPaddleLength;
+Float speedFactor;
+Integer numOfBlocks;
+Integer blockLimit;
+Float minBallSpeed;
+  * -- 1 GameDesigner;
+  1 <@>- * SetBlock blocks;
+  1 <@>- * Level levels;
+}
+class SetBlock{
+enum Color {Red, Blue, Green}
+Color blockColor;
+Float blockPoints;
+}
+class Level{
+ 1 -- 100..625 Cell cells; 
+}
+class Cell {
+1 -- 0..1 SetBlock;
+}
+
