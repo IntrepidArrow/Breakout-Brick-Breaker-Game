@@ -1,7 +1,7 @@
 class AppManager{
  1 -- 1 GameDesigner;
-//singleton;
 }
+
 class GameDesigner{
 const Float PADDLEWIDTH = 5.0;
 const Float BALLDIAMETER = 10.0;
@@ -14,6 +14,7 @@ const Integer MAXPLAYAREAWIDTH = 500;
 immutable Integer playAreaLength;
 immutable Integer playAreaWidth;
 }
+
 class User{
 unique String name;
 String password;
@@ -21,6 +22,7 @@ Boolean isAdmin;
 String adminPassword;
   1 -- 1 GameDesigner;
 }
+
 class Game{
   unique String name;
 Float minPaddleLength;
@@ -31,18 +33,25 @@ Integer blockLimit;
 Float minBallSpeed;
   * -- 1 GameDesigner;
   1 <@>- * GameBlock blocks;
-  1 <@>- * Level levels;
+  1 <@>- 1..99 Level levels;
 }
+
 class GameBlock {
 enum Color {Red, Blue, Green}
 Color blockColor;
 Float blockPoints;
 }
+
 class Level{
-  Integer levelNumber;
- 1 -- 100..625 Cell cells; 
+  Integer levelNumber; 
 }
+
 class Cell {
 1 -- 0..1 GameBlock;
 }
 
+//Question: Should the User class be replaced with strict Admin class instead, since User gives the idea of more than one type. When designing the game, the only one that matters is Admin and not the player. 
+//class AdminRole{
+//unique String name;
+//String adminPassword;
+//}
