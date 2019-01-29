@@ -1,0 +1,65 @@
+class Login{
+  
+}
+class User{
+  1 -<@> 1 Login;
+unique String name;
+class Player{
+}
+
+class Admin{
+  1 -- * Game;
+}
+}
+
+
+
+
+
+class Game{
+ unique String name;
+ Integer id;
+Float minPaddleLength;
+Float maxPaddleLength;
+Float speedFactor;
+Integer numOfBlocks;
+Integer blockLimit;
+Float minBallSpeed;
+const Float PADDLEWIDTH = 5.0;
+const Float BALLDIAMETER = 10.0;
+const Float BLOCKSIDE = 20.0;
+const Integer MINPLAYAREALENGTH = 200;
+const Integer MAXPLAYAREALENGTH = 500;
+const Integer MINPLAYAREAWIDTH = 200;
+const Integer MAXPLAYAREAWIDTH = 500;
+
+immutable Integer playAreaLength;
+immutable Integer playAreaWidth;
+  1 <@>- * GameBlock blocks;
+  1 <@>- 0..99 Level levels;
+}
+
+class GameBlock {
+enum Color {Red, Blue, Green}
+Color blockColor;
+Float blockPoints;
+  
+}
+
+class Level{
+  Integer levelNumber; 
+}
+
+class Cell {
+Integer positionX;
+Integer  positionY;
+* -<@> 1 GridSystem ;
+  1 -- 0..1 GameBlock;
+}
+
+class GridSystem{
+  1 -<@> 1 Level;
+ 
+}
+
+
