@@ -1,20 +1,13 @@
-class Login{
-  
-}
 class User{
-  1 -<@> 1 Login;
-unique String name;
+unique String userName;
 class Player{
+  String passwordPlayer;
 }
 
 class Admin{
-  1 -- * Game;
+  String passwordAdmin;
 }
 }
-
-
-
-
 
 class Game{
  unique String name;
@@ -35,8 +28,10 @@ const Integer MAXPLAYAREAWIDTH = 500;
 
 immutable Integer playAreaLength;
 immutable Integer playAreaWidth;
+  
   1 <@>- * GameBlock blocks;
   1 <@>- 0..99 Level levels;
+  * -- 1 Admin designer;
 }
 
 class GameBlock {
@@ -51,14 +46,13 @@ class Level{
 }
 
 class Cell {
-Integer positionX;
-Integer  positionY;
-* -<@> 1 GridSystem ;
+unique Integer[] position;
   1 -- 0..1 GameBlock;
 }
 
 class GridSystem{
   1 -<@> 1 Level;
+  1 <@>- * Cell cells ;
  
 }
 
