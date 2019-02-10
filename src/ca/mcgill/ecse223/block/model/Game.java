@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.block.model;
 import java.util.*;
 
-// line 27 "../../../../../Block.ump"
+// line 27 "../../../../../Block223.ump"
 public class Game
 {
 
