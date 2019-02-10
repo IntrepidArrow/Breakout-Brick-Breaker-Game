@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.block.model;
 import java.util.*;
 
-// line 78 "../../../../../Block223.ump"
+// line 78 "../../../../../Block.ump"
 public class Paddle
 {
 
