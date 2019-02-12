@@ -22,21 +22,38 @@ public class Block223Controller {
 		// aGridVerticalPosition, Block aBlock, Game aGame);
 
 	}
-
-	public static void moveBlock() {
-
+	
+	
+	//Query methods
+	
+	//Finding a specific block by ID
+	private static Block findBlock(int id, String gameName) {
+		Game game = findGame(gameName);
+		Block foundBlock = null;
+		for(Block block : game.getBlocks()) {
+			if(block.getId() == id) {
+				foundBlock = block;
+				break;
+			}
+		}
+		return foundBlock;
+	}
+	
+	private static Game findGame(String gameName) {
+		Block223 app = Block223Application.getApp();
+		Game foundGame = null;
+		for(Game game : app.getGames()) {
+			if(game.getName() == gameName) {
+				foundGame = game;
+				break;
+			}
+		}
+		return foundGame;
 	}
 
-	/*
-	 * private static Block findBlock(int idBlock, String idGame) { Block foundBlock
-	 * = null; Game game = findGame(idGame); for (Block block : game.getBlocks() ) {
-	 * if (block.getId() == idBlock) { foundBlock = block; break; } } return
-	 * foundBlock; }
-	 * 
-	 * private static Game findGame(String idGame) { Game foundGame = null; for(Game
-	 * game: block223.getGames) { if(game.getName() == idGame) { foundGame = game;
-	 * break; } } return foundGame;
-	 * 
-	 * }
-	 */
+	//TODO: Confirm with group and see why this method is here in the controller class 
+//	public static void moveBlock() {
+//
+//		
+//	}
 }
