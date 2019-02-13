@@ -46,10 +46,11 @@ public class Block223Controller {
 //		ArrayList<TOBlock> blocks = new ArrayList<>();
 //		Game currentGame = Game.getWithName(gameName);
 //		for(Block block : currentGame.getBlocks()) {
-//			blocks.add(block);
+//			TOBlock toBlock = new TOBlock(block.getRed(), block.getGreen(), block.getBlue(), block.getPoints());
+//			blocks.add(toBlock);
 //		}
 //		return blocks;
-		
+//		
 		return null;
 	}
 	
