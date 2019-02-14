@@ -56,8 +56,7 @@ public class Block223Controller {
 	
 	//Helper methods 
 	//Finding a specific block by ID - Abhimukth Chaudhuri
-	private static Block findBlock(int id, String gameName) {
-		Game game = Game.getWithName(gameName);
+	private static Block findBlock(int id, Game game) {
 		Block foundBlock = null;
 		for(Block block : game.getBlocks()) {
 			if(block.getId() == id) {
