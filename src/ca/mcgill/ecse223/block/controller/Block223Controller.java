@@ -57,7 +57,7 @@ public class Block223Controller {
 	//Helper methods 
 	//Finding a specific block by ID - Abhimukth Chaudhuri
 	private static Block findBlock(int id, String gameName) {
-		Game game = findGame(gameName);
+		Game game = Game.getWithName(gameName);
 		Block foundBlock = null;
 		for(Block block : game.getBlocks()) {
 			if(block.getId() == id) {
@@ -67,19 +67,7 @@ public class Block223Controller {
 		}
 		return foundBlock;
 	}
-	
-	//Finding a game given its name - Abhimukth Chaudhuri
-	private static Game findGame(String gameName) {
-		Block223 app = Block223Application.getApp();
-		Game foundGame = null;
-		for(Game game : app.getGames()) {
-			if(game.getName() == gameName) {
-				foundGame = game;
-				break;
-			}
-		}
-		return foundGame;
-	}
+
 
 	//TODO: Confirm with group and see why this method is here in the controller class 
 //	public static void moveBlock() {
