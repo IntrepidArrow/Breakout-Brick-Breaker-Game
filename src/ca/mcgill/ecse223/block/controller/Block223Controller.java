@@ -32,7 +32,7 @@ public class Block223Controller {
 	public static void createBlock(int redVal, int greenVal, int blueVal, int points, String gameName) {
 		
 	}
-	public static void deleteBlock(int id) {
+	public static void deleteBlock(int id, String gameName) {
 		
 		//method uses helper method: findBlock(id) to find the block that the admin wants to delete from the game. 
 	}
