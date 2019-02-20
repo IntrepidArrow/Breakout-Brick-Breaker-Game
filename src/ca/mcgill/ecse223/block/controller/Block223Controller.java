@@ -1,42 +1,82 @@
 package ca.mcgill.ecse223.block.controller;
 
-import ca.mcgill.ecse223.block.model.Block;
-import ca.mcgill.ecse223.block.model.Block223;
-import ca.mcgill.ecse223.block.model.Game;
-import ca.mcgill.ecse223.block.model.Level;
-import ca.mcgill.ecse223.block.application.Block223Application;;
+import java.util.List;
 
-public class Block223Controller {
+class Block223Controller {
 
-	// block is already created, just position it
-	public static void positionBlock(int id, int xPos, int yPos, String gameName) {
-		Block223 block223 = Block223Application.getApp();
-		/*
-		 * conditions: number of blocks less than the limit per level check if there is
-		 * already a block assignment at this pos create a blockAssignment and add it to
-		 * a level block.addBlockAssignment(xpos,ypos,level,game)
-		 */
-
-		// get game, get level
-		// level.addBlockAssignment(int aGridHorizontalPosition, int
-		// aGridVerticalPosition, Block aBlock, Game aGame);
-
+	// ****************************
+	// Modifier methods
+	// ****************************
+	public static void createGame(String name) throws InvalidInputException {
 	}
 
-	public static void moveBlock() {
-
+	public static void setGameDetails(int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
+			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
 	}
 
-	/*
-	 * private static Block findBlock(int idBlock, String idGame) { Block foundBlock
-	 * = null; Game game = findGame(idGame); for (Block block : game.getBlocks() ) {
-	 * if (block.getId() == idBlock) { foundBlock = block; break; } } return
-	 * foundBlock; }
-	 * 
-	 * private static Game findGame(String idGame) { Game foundGame = null; for(Game
-	 * game: block223.getGames) { if(game.getName() == idGame) { foundGame = game;
-	 * break; } } return foundGame;
-	 * 
-	 * }
-	 */
+	public static void deleteGame(String name) throws InvalidInputException {
+	}
+
+	public static void selectGame(String name) throws InvalidInputException {
+	}
+
+	public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
+			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
+	}
+
+	public static void addBlock(int red, int green, int blue, int points) throws InvalidInputException {
+	}
+
+	public static void deleteBlock(int id) throws InvalidInputException {
+	}
+
+	public static void updateBlock(int id, int red, int green, int blue, int points) throws InvalidInputException {
+	}
+
+	public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition)
+			throws InvalidInputException {
+	}
+
+	public static void moveBlock(int level, int oldGridHorizontalPosition, int oldGridVerticalPosition,
+			int newGridHorizontalPosition, int newGridVerticalPosition) throws InvalidInputException {
+	}
+
+	public static void removeBlock(int level, int gridHorizontalPosition, int gridVerticalPosition)
+			throws InvalidInputException {
+	}
+
+	public static void saveGame() throws InvalidInputException {
+	}
+
+	public static void register(String username, String playerPassword, String adminPassword)
+			throws InvalidInputException {
+	}
+
+	public static void login(String username, String password) throws InvalidInputException {
+	}
+
+	public static void logout() {
+	}
+
+	// ****************************
+	// Query methods
+	// ****************************
+	public static List<TOGame> getDesignableGames() {
+	}
+
+	public static TOGame getCurrentDesignableGame() {
+	}
+
+	public static List<TOBlock> getBlocksOfCurrentDesignableGame() {
+	}
+
+	public static TOBlock getBlockOfCurrentDesignableGame(int id) throws InvalidInputException {
+	}
+
+	public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
+	}
+
+	public static TOUserMode getUserMode() {
+	}
+
 }
