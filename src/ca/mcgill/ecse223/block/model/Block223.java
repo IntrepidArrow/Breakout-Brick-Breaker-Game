@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 3 "../../../../../Block223 v2.ump"
-public class Block223
+// line 3 "../../../../../Block223Persistence.ump"
+// line 5 "../../../../../Block223 v2.ump"
+public class Block223 implements Serializable
 {
 
   //------------------------
@@ -359,5 +361,13 @@ public class Block223
     }
     
   }
+  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 6 "../../../../../Block223Persistence.ump"
+  private static final long serialVersionUID = -2683593616927798071L ;
 
+  
 }
