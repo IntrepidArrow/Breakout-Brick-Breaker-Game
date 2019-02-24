@@ -602,6 +602,18 @@ public class Game implements Serializable
     }
   }
 
+  // line 45 "../../../../../Block223 v2.ump"
+   public Block findBlock(int id){
+    Block foundBlock = null;
+	  List<Block> blocks = this.getBlocks();
+	  for(Block block : blocks) {
+		  if(block.getId() == id) {
+			  foundBlock = block;
+		  }
+	  }
+	  return foundBlock;
+  }
+
 
   public String toString()
   {
