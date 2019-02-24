@@ -1,76 +1,156 @@
 package ca.mcgill.ecse223.block.controller;
 
+import java.util.List;
+
+import ca.mcgill.ecse.btms.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.model.Block;
-import ca.mcgill.ecse223.block.model.Block223;
+import ca.mcgill.ecse223.block.model.BlockAssignment;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Level;
 
-import java.util.ArrayList;
-import java.util.List;
+class Block223Controller {
 
-import ca.mcgill.ecse223.block.application.Block223Application;;
-
-public class Block223Controller {
-
-	// block is already created, just position it - Albert Assouad 
-	public static void positionBlock(int id, int xPos, int yPos, String gameName) {
-		Block223 block223 = Block223Application.getApp();
-		/*
-		 * conditions: number of blocks less than the limit per level check if there is
-		 * already a block assignment at this pos create a blockAssignment and add it to
-		 * a level block.addBlockAssignment(xpos,ypos,level,game)
-		 */
-
-		// get game, get level
-		// level.addBlockAssignment(int aGridHorizontalPosition, int
-		// aGridVerticalPosition, Block aBlock, Game aGame);
-
+	// ****************************
+	// Modifier methods
+	// ****************************
+	public static void createGame(String name) throws InvalidInputException {
 	}
-	
-	//Feature 5 and 6 - Abhimukth Chaudhuri
-	//Feature 5: Add a block to the game so it can be used in a level 
-	public static void createBlock(int redVal, int greenVal, int blueVal, int points, String gameName) {
-		
+
+	public static void setGameDetails(int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
+			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
 	}
-	public static void deleteBlock(int id, String gameName) {
-		
-		//method uses helper method: findBlock(id) to find the block that the admin wants to delete from the game. 
+
+	public static void deleteGame(String name) throws InvalidInputException {
 	}
-	
-	
-	//Query methods
-	//getBlocks query method - Abhimukth Chaudhuri
-	public static List<TOBlock> getBlocks(String gameName){
-		
-		//Possible implementation for the above query method 
-//		ArrayList<TOBlock> blocks = new ArrayList<>();
-//		Game currentGame = Game.getWithName(gameName);
-//		for(Block block : currentGame.getBlocks()) {
-//			TOBlock toBlock = new TOBlock(block.getRed(), block.getGreen(), block.getBlue(), block.getPoints());
-//			blocks.add(toBlock);
-//		}
-//		return blocks;
-//		
-		return null;
+
+	public static void selectGame(String name) throws InvalidInputException {
 	}
-	
-	//Helper methods 
-	//Finding a specific block by ID - Abhimukth Chaudhuri
-	private static Block findBlock(int id, Game game) {
-		Block foundBlock = null;
-		for(Block block : game.getBlocks()) {
-			if(block.getId() == id) {
-				foundBlock = block;
-				break;
-			}
+
+	public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
+			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
+	}
+
+	public static void addBlock(int red, int green, int blue, int points) throws InvalidInputException {
+	}
+
+	public static void deleteBlock(int id) throws InvalidInputException {
+	}
+
+	public static void updateBlock(int id, int red, int green, int blue, int points) throws InvalidInputException {
+	}
+
+	public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition)
+			throws InvalidInputException {
+		String error = "";
+		if (Block223Application.getCurrentUserRole() == "AdminRole") {
+			error = "Admin privileges are required to position a block. ";
 		}
-		return foundBlock;
+
+		if (Block223Application.getCurrentGame() == null) {
+			error += "A game must be selected to position a block. ";
+		}
+
+		/*
+		 * if(Block223Application.getCurrentUserRole() ==
+		 * Block223Application.getCurrentGame().getAdmin(). ){ error +=
+		 * "Only the admin who created the game can position a block." }
+		 */
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+		Game game = Block223Application.getCurrentGame();
+		// check level number
+		Level actualLevel = game.getLevel(level);
+		// check, block does not exist invalidinputexception
+		Block block = game.findBlock(id);
+		BlockAssignment blockAssignment = new BlockAssignment(gridHorizontalPosition, gridVerticalPosition, actualLevel,
+				block, game);
+
 	}
 
+	public static void moveBlock(int level, int oldGridHorizontalPosition, int oldGridVerticalPosition,
+			int newGridHorizontalPosition, int newGridVerticalPosition) throws InvalidInputException {
+		Game game = Block223Application.getCurrentGame();
+		// check level number
+		Level actualLevel = game.getLevel(level);
+		BlockAssignment assignment = actualLevel.findBlock //define findblock
+	}
 
-	//TODO: Confirm with group and see why this method is here in the controller class 
-//	public static void moveBlock() {
-//
-//		
-//	}
+	public static void removeBlock(int level, int gridHorizontalPosition, int gridVerticalPosition)
+			throws InvalidInputException {
+	}
+
+	public static void saveGame() throws InvalidInputException {
+	}
+
+	public static void register(String username, String playerPassword, String adminPassword)
+			throws InvalidInputException {
+	}
+
+	public static void login(String username, String password) throws InvalidInputException {
+	}
+
+	public static void logout() {
+	}
+
+	// ****************************
+	// Query methods
+	// ****************************
+	public static List<TOGame> getDesignableGames() {
+	}
+
+	public static TOGame getCurrentDesignableGame() {
+	}
+
+	public static List<TOBlock> getBlocksOfCurrentDesignableGame() {
+
+	}
+
+	public static TOBlock getBlockOfCurrentDesignableGame(int id) throws InvalidInputException {
+
+	}
+
+	public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
+		String error = "";
+
+		if (Block223Application.getCurrentUserRole() == "AdminRole") {
+			error = "Admin privileges are required to access game information. ";
+		}
+
+		if (Block223Application.getCurrentGame() == null) {
+			error += "A game must be selected to access its information.";
+		}
+
+		// if(Block223Application.getCurrentUserRole() ==
+		// Block223Application.getCurrentGame().getAdmin(). )
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+		Game game = Block223Application.getCurrentGame();
+		List<TOGridCell> result = new List<TOGridCell>();
+		// TODO fix the throw, create List
+		try {
+			Level actualLevel = game.getLevel(level);
+		} catch (IndexOutOfBoundsException ex) {
+			throw new IndexOutOfBoundsException("Level" + level + " does not exist for the game.");
+		}
+
+		List<BlockAssignment> assignments = actualLevel.getBlockAssignments();
+
+		for (int i = 0; i < assignments.size(); i++) {
+			BlockAssignment assignment = assignments.get(i);
+			TOGridCell to = new TOGridCell(assignment.getGridHorizontalPosition(), assignment.getGridVerticalPosition(),
+					assignment.getBlock().getId(), assignment.getBlock().getRed(), assignment.getBlock().getGreen(),
+					assignment.getBlock().getBlue(), assignment.getBlock().getPoints());
+			result.add(to);
+		}
+
+		return result;
+
+	}
+
+	public static TOUserMode getUserMode() {
+	}
+
 }

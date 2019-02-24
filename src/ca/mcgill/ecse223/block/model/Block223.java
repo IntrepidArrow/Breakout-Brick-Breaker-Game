@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 3 "../../../../../Block223.ump"
-public class Block223
+// line 3 "../../../../../Block223Persistence.ump"
+// line 5 "../../../../../Block223.ump"
+public class Block223 implements Serializable
 {
 
   //------------------------
@@ -268,9 +270,9 @@ public class Block223
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Game addGame(String aName, int aNrBlocksPerLevel, int aWidthPlayArea, int aHeightPlayArea, Admin aAdmin, Ball aBall, Paddle aPaddle)
+  public Game addGame(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle)
   {
-    return new Game(aName, aNrBlocksPerLevel, aWidthPlayArea, aHeightPlayArea, aAdmin, aBall, aPaddle, this);
+    return new Game(aName, aNrBlocksPerLevel, aAdmin, aBall, aPaddle, this);
   }
 
   public boolean addGame(Game aGame)
@@ -359,5 +361,13 @@ public class Block223
     }
     
   }
+  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 6 "../../../../../Block223Persistence.ump"
+  private static final long serialVersionUID = -2683593616927798071L ;
 
+  
 }

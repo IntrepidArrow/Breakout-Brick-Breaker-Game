@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 19 "../../../../../Block223.ump"
-public class Admin extends UserRole
+// line 15 "../../../../../Block223Persistence.ump"
+// line 21 "../../../../../Block223.ump"
+public class Admin extends UserRole implements Serializable
 {
 
   //------------------------
@@ -64,9 +66,9 @@ public class Admin extends UserRole
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Game addGame(String aName, int aNrBlocksPerLevel, int aWidthPlayArea, int aHeightPlayArea, Ball aBall, Paddle aPaddle, Block223 aBlock223)
+  public Game addGame(String aName, int aNrBlocksPerLevel, Ball aBall, Paddle aPaddle, Block223 aBlock223)
   {
-    return new Game(aName, aNrBlocksPerLevel, aWidthPlayArea, aHeightPlayArea, this, aBall, aPaddle, aBlock223);
+    return new Game(aName, aNrBlocksPerLevel, this, aBall, aPaddle, aBlock223);
   }
 
   public boolean addGame(Game aGame)
@@ -140,5 +142,13 @@ public class Admin extends UserRole
     }
     super.delete();
   }
+  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 18 "../../../../../Block223Persistence.ump"
+  private static final long serialVersionUID = -2683599616927790862L ;
 
+  
 }
