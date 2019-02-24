@@ -36,7 +36,6 @@ class Block {
   private static final long serialVersionUID = -2686593616927799876L;
 }
 
-
 class Level {
   depend java.io.Serializable;
   isA Serializable;

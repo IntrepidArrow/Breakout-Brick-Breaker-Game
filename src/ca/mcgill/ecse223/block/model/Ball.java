@@ -5,8 +5,8 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 52 "../../../../../Block223Persistence.ump"
-// line 81 "../../../../../Block223 v2.ump"
+// line 51 "../../../../../Block223Persistence.ump"
+// line 81 "../../../../../Block223.ump"
 public class Ball implements Serializable
 {
 
@@ -123,7 +123,7 @@ public class Ball implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 55 "../../../../../Block223Persistence.ump"
+  // line 54 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = -2683593676927799878L ;
 
   
