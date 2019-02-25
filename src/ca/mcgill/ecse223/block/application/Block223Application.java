@@ -33,10 +33,11 @@ public class Block223Application {
 		return true;
 	}
 
-	public static String getCurrentUserRole() {
+	public static UserRole getCurrentUserRole() {
+		UserRole userRole = null;
 		// TODO implement this method
 		// a getCurrentUserRole() method that returns the currently logged in user role,
-		return "AdminRole";
+		return userRole;
 	}
 
 	public boolean setCurrentGame(Game aGame) {
