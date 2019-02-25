@@ -9,10 +9,13 @@ public class Block223Application {
 
 	private static Block223 block223;
 
-	public Block223 getBlock223() {
-		// TODO implement this method,
-		// a getBlock223() method that returns the root block223 object
-		return new Block223();
+	public static Block223 getBlock223() {
+		if(block223 == null) {
+			block223 = new Block223();
+		}
+		
+		//will directly return class variable if it is not empty 
+		return block223;
 	}
 
 	public Block223 resetBlock223() {
