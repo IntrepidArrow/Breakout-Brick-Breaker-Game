@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.block.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.model.Admin;
 import ca.mcgill.ecse223.block.model.Block;
@@ -10,6 +11,7 @@ import ca.mcgill.ecse223.block.model.Block223;
 import ca.mcgill.ecse223.block.model.BlockAssignment;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Level;
+
 
 public class Block223Controller {
 
@@ -74,6 +76,7 @@ public class Block223Controller {
 
 	public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition)
 			throws InvalidInputException {
+
 		String error = "";
 		if (Block223Application.getCurrentUserRole() == "AdminRole") {
 			error = "Admin privileges are required to position a block. ";
@@ -102,6 +105,7 @@ public class Block223Controller {
 
 	public static void moveBlock(int level, int oldGridHorizontalPosition, int oldGridVerticalPosition,
 			int newGridHorizontalPosition, int newGridVerticalPosition) throws InvalidInputException {
+
 		Game game = Block223Application.getCurrentGame();
 		// check level number
 		Level actualLevel = game.getLevel(level);
@@ -147,6 +151,7 @@ public class Block223Controller {
 		}
 		
 		return result;
+
 	}
 
 	public static TOGame getCurrentDesignableGame() throws InvalidInputException {
@@ -159,6 +164,7 @@ public class Block223Controller {
 	}
 
 	public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
+
 		String error = "";
 		
 		if(Block223Application.getCurrentUserRole() == "AdminRole") {
@@ -193,7 +199,6 @@ public class Block223Controller {
 		}
 		
 		return result;
-		
 	}
 
 	public static TOUserMode getUserMode() {
