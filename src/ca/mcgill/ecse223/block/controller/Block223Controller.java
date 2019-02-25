@@ -31,6 +31,36 @@ public class Block223Controller {
 	}
 
 	public static void addBlock(int red, int green, int blue, int points) throws InvalidInputException {
+		//InavlidInputException checks
+		if(!(Block223Application.getCurrentUserRole()).equals("AdminRole")) {
+			throw new InvalidInputException("Admin privileges are required to add a block.");
+		}
+		if(Block223Application.getCurrentGame() == null) {
+			throw new InvalidInputException("A game must be selected to add a block");
+		}
+		
+		//TODO: need to add InvalidInputExceptions 3 and 4.
+		
+		Game game = Block223Application.getCurrentGame();
+		try {
+			game.addBlock(red, green, blue, points);
+		}
+		catch(RuntimeException e) {
+			String error = e.getMessage();
+			if(error.equals("Cannot set red color due to invalid input")) {
+				error = "Red must be between 0 and 255.";
+			}
+			if(error.equals("Cannot set green color due to invalid input")) {
+				error = "Green must be between 0 and 255.";
+			}
+			if(error.equals("Cannot set blue color due to invalid input")) {
+				error = "Blue must be between 0 and 255.";
+			}
+			if(error.equals("Cannot set points value due to invalid input")) {
+				error = "Points must be beween 1 and 1000.";
+			}
+			throw new InvalidInputException(error);
+		}
 	}
 
 	public static void deleteBlock(int id) throws InvalidInputException {
