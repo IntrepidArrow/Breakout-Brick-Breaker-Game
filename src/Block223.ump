@@ -61,9 +61,29 @@ class Block {
    const Integer SIZE = 20;
    autounique id;
    Integer red;
+   before constructor, setRed {
+   	if((aRed < 0) || (aRed > 255)){
+   		throw new RuntimeException("Cannot set red color due to invalid input");
+   	}
+   }
    Integer green;
+      before constructor, setGreen {
+   	if((aGreen < 0) || (aGreen > 255)){
+   		throw new RuntimeException("Cannot set green color due to invalid input");
+   	}
+   }
    Integer blue;
+      before constructor, setBlue {
+   	if((aBlue < 0) || (aBlue > 255)){
+   		throw new RuntimeException("Cannot set blue color due to invalid input");
+   	}
+   }
    Integer points;
+      before constructor, setPoints {
+   	if((aPoints < 1) || (aPoints > 1000)){
+   		throw new RuntimeException("Cannot set points value due to invalid input");
+   	}
+   }
 }
 
 // random attribute not needed anymore
