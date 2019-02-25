@@ -1,6 +1,12 @@
 package ca.mcgill.ecse223.block.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import ca.mcgill.ecse223.block.application.Block223Application;
+import ca.mcgill.ecse223.block.model.Admin;
+import ca.mcgill.ecse223.block.model.Block223;
+import ca.mcgill.ecse223.block.model.Game;
 
 public class Block223Controller {
 
@@ -62,6 +68,24 @@ public class Block223Controller {
 	// Query methods
 	// ****************************
 	public static List<TOGame> getDesignableGames() throws InvalidInputException {
+		Block223 block223 = Block223Application.getBlock223();
+		String admin = Block223Application.getCurrentUserRole();
+		if(!((Block223Application.getCurrentUserRole()).equals("AdminRole"))){
+			throw new InvalidInputException("Admin privileges are required to access game information");
+		}
+		List<TOGame> result = new ArrayList<>();
+		List<Game> games = block223.getGames();
+		for(Game game : games) {
+			Admin gameAdmin = game.getAdmin();
+			
+			if(gameAdmin.equals(admin)) {
+				TOGame to = new TOGame(game.getName(), game.getLevels().size(), game.getNrBlocksPerLevel(), game.getBall().getMinBallSpeedX(), game.getBall().getMinBallSpeedY(), 
+						game.getBall().getBallSpeedIncreaseFactor(), game.getPaddle().getMaxPaddleLength(), game.getPaddle().getMinPaddleLength());
+				result.add(to);
+			}
+		}
+		
+		return result;
 	}
 
 	public static TOGame getCurrentDesignableGame() throws InvalidInputException {
