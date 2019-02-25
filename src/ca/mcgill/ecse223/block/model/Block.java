@@ -44,6 +44,26 @@ public class Block implements Serializable
 
   public Block(int aRed, int aGreen, int aBlue, int aPoints, Game aGame)
   {
+    // line 65 "../../../../../Block223.ump"
+    if((aRed < 0) || (aRed > 255)){
+       		throw new RuntimeException("Cannot set red color due to invalid input");
+       	}
+    // END OF UMPLE BEFORE INJECTION
+    // line 71 "../../../../../Block223.ump"
+    if((aGreen < 0) || (aGreen > 255)){
+       		throw new RuntimeException("Cannot set green color due to invalid input");
+       	}
+    // END OF UMPLE BEFORE INJECTION
+    // line 77 "../../../../../Block223.ump"
+    if((aBlue < 0) || (aBlue > 255)){
+       		throw new RuntimeException("Cannot set blue color due to invalid input");
+       	}
+    // END OF UMPLE BEFORE INJECTION
+    // line 83 "../../../../../Block223.ump"
+    if((aPoints < 1) || (aPoints > 1000)){
+       		throw new RuntimeException("Cannot set points value due to invalid input");
+       	}
+    // END OF UMPLE BEFORE INJECTION
     red = aRed;
     green = aGreen;
     blue = aBlue;
@@ -64,6 +84,11 @@ public class Block implements Serializable
   public boolean setRed(int aRed)
   {
     boolean wasSet = false;
+    // line 65 "../../../../../Block223.ump"
+    if((aRed < 0) || (aRed > 255)){
+       		throw new RuntimeException("Cannot set red color due to invalid input");
+       	}
+    // END OF UMPLE BEFORE INJECTION
     red = aRed;
     wasSet = true;
     return wasSet;
@@ -72,6 +97,11 @@ public class Block implements Serializable
   public boolean setGreen(int aGreen)
   {
     boolean wasSet = false;
+    // line 71 "../../../../../Block223.ump"
+    if((aGreen < 0) || (aGreen > 255)){
+       		throw new RuntimeException("Cannot set green color due to invalid input");
+       	}
+    // END OF UMPLE BEFORE INJECTION
     green = aGreen;
     wasSet = true;
     return wasSet;
@@ -80,6 +110,11 @@ public class Block implements Serializable
   public boolean setBlue(int aBlue)
   {
     boolean wasSet = false;
+    // line 77 "../../../../../Block223.ump"
+    if((aBlue < 0) || (aBlue > 255)){
+       		throw new RuntimeException("Cannot set blue color due to invalid input");
+       	}
+    // END OF UMPLE BEFORE INJECTION
     blue = aBlue;
     wasSet = true;
     return wasSet;
@@ -88,6 +123,11 @@ public class Block implements Serializable
   public boolean setPoints(int aPoints)
   {
     boolean wasSet = false;
+    // line 83 "../../../../../Block223.ump"
+    if((aPoints < 1) || (aPoints > 1000)){
+       		throw new RuntimeException("Cannot set points value due to invalid input");
+       	}
+    // END OF UMPLE BEFORE INJECTION
     points = aPoints;
     wasSet = true;
     return wasSet;
