@@ -3,7 +3,7 @@ package ca.mcgill.ecse223.block.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import ca.mcgill.ecse.btms.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.model.Admin;
 import ca.mcgill.ecse223.block.model.Block;
@@ -156,24 +156,31 @@ public class Block223Controller {
 		Level actualLevel = game.getLevel(level);
 		
 		//check if old block assignment exists at old position
-		boolean exist = false;
-		for(BlockAssignment blockAssignment : actualLevel.getBlockAssignments()) {
-			if( blockAssignment.getGridHorizontalPosition() == oldGridHorizontalPosition && blockAssignment.getGridVerticalPosition() == oldGridVerticalPosition )
-				exist = true;
-			break;
-			
-		}
-		if(exist == false) {
+		BlockAssignment blockassignment = actualLevel.findBlockAssignment(oldGridHorizontalPosition, oldGridVerticalPosition);
+		if(blockassignment == null) {
 			error += error + "A block does not exist at location" + oldGridHorizontalPosition + "/" + oldGridVerticalPosition + ".";
 		}
 		
-		
 		//check if position is taken
-				for(BlockAssignment blockAssignment : actualLevel.getBlockAssignments()) {
-					if( blockAssignment.getGridHorizontalPosition() == gridHorizontalPosition && blockAssignment.getGridVerticalPosition() == gridVerticalPosition )
-						error += "A block already exists at location" + gridHorizontalPosition + "/" + gridVerticalPosition + ".";
-					
-				}
+		BlockAssignment takenBlockassignemnt = actualLevel.findBlockAssignment(newGridHorizontalPosition, newGridVerticalPosition); 
+		if(takenBlockassignemnt != null) {
+			error += error + " A block already exists at location" + newGridHorizontalPosition + "/" + newGridVerticalPosition + ".";
+		}
+		
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+		
+		try {
+			blockassignment.setGridHorizontalPosition(newGridHorizontalPosition);
+			blockassignment.setGridVerticalPosition(newGridVerticalPosition);
+		}
+		catch (RuntimeException e) {
+			error = e.getMessage();
+			throw new InvalidInputException(error);
+		}		
+		
+		
 		
 	}
 
@@ -232,8 +239,8 @@ public class Block223Controller {
 
 		String error = "";
 		
-		if(Block223Application.getCurrentUserRole() == "AdminRole") {
-			error = "Admin privileges are required to access game information. ";
+		if(!(Block223Application.getCurrentUserRole()).equals("AdminRole")) {
+			error += "Admin privileges are required to add a block.";
 		}
 		
 		if(Block223Application.getCurrentGame() == null) {
