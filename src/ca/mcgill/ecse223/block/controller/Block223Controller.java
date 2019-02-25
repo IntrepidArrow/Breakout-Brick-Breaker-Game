@@ -76,40 +76,105 @@ public class Block223Controller {
 
 	public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition)
 			throws InvalidInputException {
-
 		String error = "";
-		if (Block223Application.getCurrentUserRole() == "AdminRole") {
-			error = "Admin privileges are required to position a block. ";
+		if(!(Block223Application.getCurrentUserRole()).equals("AdminRole")) {
+			error += "Admin privileges are required to add a block.";
 		}
-
-		if (Block223Application.getCurrentGame() == null) {
+		
+		if(Block223Application.getCurrentGame() == null) {
 			error += "A game must be selected to position a block. ";
 		}
-
-		/*
-		 * if(Block223Application.getCurrentUserRole() ==
-		 * Block223Application.getCurrentGame().getAdmin(). ){ error +=
-		 * "Only the admin who created the game can position a block." }
-		 */
+		
+		/*if(Block223Application.getCurrentUserRole() == Block223Application.getCurrentGame().getAdmin(). ){
+		 * error += "Only the admin who created the game can position a block."
+	}
+	*/
+		
+		Game game = Block223Application.getCurrentGame();
+		
+		// check level number
+		if(level < 1 || level > game.getLevels().size()) {
+			error += "Level " + level + " does not exist for the game.";
+		}
+		Level actualLevel = game.getLevel(level);
+		
+		//check if max number of blocks
+		if(actualLevel.getBlockAssignments().size() + 1 == game.getNrBlocksPerLevel()) {
+			error += "The number of blocks has reached the maximum number" + game.getNrBlocksPerLevel() +" allowed for this game. ";
+			
+		}
+		
+		//check block exist
+		Block block = game.findBlock(id);
+		if (block == null) {
+			error = error + "The block does not exist. ";
+		}
+		
+		//check if position is taken
+		BlockAssignment blockAss = actualLevel.findBlockAssignment(gridHorizontalPosition, gridVerticalPosition);
+		if(blockAss != null) {
+			error += error +  "A block already exists at location" + gridHorizontalPosition + "/" + gridVerticalPosition + ".";
+		}
+		
 		if (error.length() > 0) {
 			throw new InvalidInputException(error.trim());
 		}
-		Game game = Block223Application.getCurrentGame();
-		// check level number
-		Level actualLevel = game.getLevel(level);
-		// check, block does not exist invalidinputexception
-		Block block = game.findBlock(id);
-		BlockAssignment blockAssignment = new BlockAssignment(gridHorizontalPosition, gridVerticalPosition, actualLevel,
-				block, game);
+		
+		try {
+		actualLevel.addBlockAssignment(gridHorizontalPosition,gridVerticalPosition,block,game);
+		
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
+		
+		
 	}
 
 	public static void moveBlock(int level, int oldGridHorizontalPosition, int oldGridVerticalPosition,
 			int newGridHorizontalPosition, int newGridVerticalPosition) throws InvalidInputException {
-
+		String error = "";
+		if(!(Block223Application.getCurrentUserRole()).equals("AdminRole")) {
+			error += "Admin privileges are required to add a block.";
+		}
+		
+		if(Block223Application.getCurrentGame() == null) {
+			error += "A game must be selected to position a block. ";
+		}
+		
+		/*if(Block223Application.getCurrentUserRole() == Block223Application.getCurrentGame().getAdmin(). ){
+		 * error += "Only the admin who created the game can position a block."
+	}
+	*/
 		Game game = Block223Application.getCurrentGame();
+		
 		// check level number
+				if(level < 1 || level > game.getLevels().size()) {
+					error += "Level " + level + " does not exist for the game.";
+				}
+
 		Level actualLevel = game.getLevel(level);
-		BlockAssignment assignment = actualLevel.findBlock() //define findblock
+		
+		//check if old block assignment exists at old position
+		boolean exist = false;
+		for(BlockAssignment blockAssignment : actualLevel.getBlockAssignments()) {
+			if( blockAssignment.getGridHorizontalPosition() == oldGridHorizontalPosition && blockAssignment.getGridVerticalPosition() == oldGridVerticalPosition )
+				exist = true;
+			break;
+			
+		}
+		if(exist == false) {
+			error += error + "A block does not exist at location" + oldGridHorizontalPosition + "/" + oldGridVerticalPosition + ".";
+		}
+		
+		
+		//check if position is taken
+				for(BlockAssignment blockAssignment : actualLevel.getBlockAssignments()) {
+					if( blockAssignment.getGridHorizontalPosition() == gridHorizontalPosition && blockAssignment.getGridVerticalPosition() == gridVerticalPosition )
+						error += "A block already exists at location" + gridHorizontalPosition + "/" + gridVerticalPosition + ".";
+					
+				}
+		
 	}
 
 	public static void removeBlock(int level, int gridHorizontalPosition, int gridVerticalPosition)
