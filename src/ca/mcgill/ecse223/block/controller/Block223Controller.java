@@ -436,8 +436,15 @@ public class Block223Controller {
 		}
 		Game game = Block223Application.getCurrentGame();
 		List<TOGridCell> result = new ArrayList<TOGridCell>();
+		Level actualLevel;
 		try {
-			Level actualLevel = game.getLevel(level);
+			actualLevel = game.getLevel(level);
+			
+		}
+		catch( IndexOutOfBoundsException ex ){
+			throw new InvalidInputException("Level" + level + " does not exist for the game.");
+		}
+
 
 			List<BlockAssignment> assignments = actualLevel.getBlockAssignments();
 
@@ -447,11 +454,7 @@ public class Block223Controller {
 						assignment.getBlock().getRed(), assignment.getBlock().getGreen(), assignment.getBlock().getBlue(), assignment.getBlock().getPoints());
 				result.add(to);
 			}
-		}
-		catch( IndexOutOfBoundsException ex ){
-			throw new InvalidInputException("Level" + level + " does not exist for the game.");
-		}
-
+		
 		return result;
 	}
 
