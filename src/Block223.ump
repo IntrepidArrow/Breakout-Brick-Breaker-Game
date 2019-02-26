@@ -56,7 +56,7 @@ class Game {
 	  return maxNbr;
   }
   public int getMaxNumberVerticalBlocks() {
-	  int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING - 30 - 5 - 10 , (Block.SIZE + ROW_PADDING) ); 
+	  int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - WALL_PADDING - 30 - 5 - 10 , (Block.SIZE + ROW_PADDING) ); 
 	  return maxNbr;
   }
   
