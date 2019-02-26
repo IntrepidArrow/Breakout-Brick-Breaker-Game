@@ -29,11 +29,11 @@ public class BlockAssignment implements Serializable
   public BlockAssignment(int aGridHorizontalPosition, int aGridVerticalPosition, Level aLevel, Block aBlock, Game aGame)
   {
     // line 122 "../../../../../Block223.ump"
-    if(aGridHorizontalPosition < 1 || aGridHorizontalPosition > 400)
+    if(aGridHorizontalPosition < 1 || aGridHorizontalPosition > game.getMaxNumberHorizontalBlocks())
        throw new RuntimeException("The horizontal position must be between 1 and " + game.getMaxNumberHorizontalBlocks() + ".");
     // END OF UMPLE BEFORE INJECTION
     // line 126 "../../../../../Block223.ump"
-    if(aGridVerticalPosition < 1 || aGridVerticalPosition > 400)
+    if(aGridVerticalPosition < 1 || aGridVerticalPosition > game.getMaxNumberVerticalBlocks())
        throw new RuntimeException("The vertical position must be between 1 and " + game.getMaxNumberVerticalBlocks() + ".");
     // END OF UMPLE BEFORE INJECTION
     gridHorizontalPosition = aGridHorizontalPosition;
@@ -63,7 +63,7 @@ public class BlockAssignment implements Serializable
   {
     boolean wasSet = false;
     // line 122 "../../../../../Block223.ump"
-    if(aGridHorizontalPosition < 1 || aGridHorizontalPosition > 400)
+    if(aGridHorizontalPosition < 1 || aGridHorizontalPosition > game.getMaxNumberHorizontalBlocks())
        throw new RuntimeException("The horizontal position must be between 1 and " + game.getMaxNumberHorizontalBlocks() + ".");
     // END OF UMPLE BEFORE INJECTION
     gridHorizontalPosition = aGridHorizontalPosition;
@@ -75,7 +75,7 @@ public class BlockAssignment implements Serializable
   {
     boolean wasSet = false;
     // line 126 "../../../../../Block223.ump"
-    if(aGridVerticalPosition < 1 || aGridVerticalPosition > 400)
+    if(aGridVerticalPosition < 1 || aGridVerticalPosition > game.getMaxNumberVerticalBlocks())
        throw new RuntimeException("The vertical position must be between 1 and " + game.getMaxNumberVerticalBlocks() + ".");
     // END OF UMPLE BEFORE INJECTION
     gridVerticalPosition = aGridVerticalPosition;

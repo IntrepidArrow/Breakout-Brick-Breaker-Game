@@ -622,7 +622,7 @@ public class Game implements Serializable
 
   // line 59 "../../../../../Block223.ump"
    public int getMaxNumberVerticalBlocks(){
-    int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING , (Block.SIZE + ROW_PADDING) );
+    int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING - 30 - 5 - 10 , (Block.SIZE + ROW_PADDING) ); 
 	  return maxNbr;
   }
 
@@ -642,5 +642,7 @@ public class Game implements Serializable
   //------------------------
   
   // line 30 "../../../../../Block223Persistence.ump"
-  private static final long serialVersionUID = -2687593616927799864L; 
+  private static final long serialVersionUID = -2687593616927799864L ;
+
+  
 }

@@ -52,11 +52,11 @@ class Game {
 	  return foundBlock;
   }
   public int getMaxNumberHorizontalBlocks() {
-	  int maxNbr = Math.floorDiv( PLAY_AREA_SIDE + 2*WALL_PADDING , (Block.SIZE + COLUMNS_PADDING) );
+	  int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING , (Block.SIZE + COLUMNS_PADDING) );
 	  return maxNbr;
   }
   public int getMaxNumberVerticalBlocks() {
-	  int maxNbr = Math.floorDiv( PLAY_AREA_SIDE + 2*WALL_PADDING , (Block.SIZE + ROW_PADDING) );
+	  int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING - 30 - 5 - 10 , (Block.SIZE + ROW_PADDING) ); 
 	  return maxNbr;
   }
   
@@ -119,11 +119,11 @@ class BlockAssignment {
    * -- 1 Block block;
    
    before constructor, setGridHorizontalPosition{
-   if(aGridHorizontalPosition < 1 || aGridHorizontalPosition > 400)
+   if(aGridHorizontalPosition < 1 || aGridHorizontalPosition > game.getMaxNumberHorizontalBlocks())
    throw new RuntimeException("The horizontal position must be between 1 and " + game.getMaxNumberHorizontalBlocks() + ".");
    }
    before constructor, setGridVerticalPosition{
-   if(aGridVerticalPosition < 1 || aGridVerticalPosition > 400)
+   if(aGridVerticalPosition < 1 || aGridVerticalPosition > game.getMaxNumberVerticalBlocks())
    throw new RuntimeException("The vertical position must be between 1 and " + game.getMaxNumberVerticalBlocks() + ".");
    }
    
