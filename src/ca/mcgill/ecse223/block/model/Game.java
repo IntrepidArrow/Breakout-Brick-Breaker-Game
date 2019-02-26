@@ -616,13 +616,13 @@ public class Game implements Serializable
 
   // line 55 "../../../../../Block223.ump"
    public int getMaxNumberHorizontalBlocks(){
-    int maxNbr = Math.floorDiv( PLAY_AREA_SIDE + 2*WALL_PADDING , (Block.SIZE + COLUMNS_PADDING) );
+    int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING , (Block.SIZE + COLUMNS_PADDING) );
 	  return maxNbr;
   }
 
   // line 59 "../../../../../Block223.ump"
    public int getMaxNumberVerticalBlocks(){
-    int maxNbr = Math.floorDiv( PLAY_AREA_SIDE + 2*WALL_PADDING , (Block.SIZE + ROW_PADDING) );
+    int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING , (Block.SIZE + ROW_PADDING) );
 	  return maxNbr;
   }
 
