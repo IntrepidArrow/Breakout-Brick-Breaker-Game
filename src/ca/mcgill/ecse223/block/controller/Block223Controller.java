@@ -64,6 +64,7 @@ public class Block223Controller {
 		Game game = Block223Application.getCurrentGame();
 		try {
 			game.addBlock(red, green, blue, points);
+			Block223Persistence.save(Block223Application.getBlock223());
 		}
 		catch (RuntimeException e) {
 			if(error.equals("Cannot set red color due to invalid input")) {
@@ -99,9 +100,18 @@ public class Block223Controller {
 			throw new InvalidInputException(error.trim());
 		}
 		
+		//Main method body
 		Game game = Block223Application.getCurrentGame();
-		
-
+		Block block = game.findBlock(id);
+		if(block != null) {
+			block.delete();
+			try {
+				Block223Persistence.save(Block223Application.getBlock223());
+			}
+			catch (RuntimeException e) {
+				throw new InvalidInputException(e.getMessage());
+			}
+		}
 	}
 
 	public static void updateBlock(int id, int red, int green, int blue, int points) throws InvalidInputException {
