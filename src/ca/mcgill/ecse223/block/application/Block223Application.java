@@ -9,6 +9,7 @@ import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 public class Block223Application {
 
 	private static Block223 block223;
+
 	private Game game;
 	private static UserRole currentUserRole;
 
@@ -26,21 +27,17 @@ public class Block223Application {
 		// a resetBlock223() method that forces a load from the file and returns the
 		// root block223 object,
 		block223 = Block223Persistence.load();
-
 		return block223;
 	}
 
 	public static boolean setCurrentUserRole(UserRole aUserRole) {
-		// TODO implement this method
-		// a setCurrentUserRole(UserRole aUserRole) method that remembers the currently
-		// logged in user role,
-
+		//sets the currently logged in user role,
+		currentUserRole = aUserRole;
 		return true;
 	}
 
 	public static UserRole getCurrentUserRole() {
-		// TODO implement this method
-		// a getCurrentUserRole() method that returns the currently logged in user role,
+		//returns the currently logged in user role,
 		return currentUserRole;
 	}
 
