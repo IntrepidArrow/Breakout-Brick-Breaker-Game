@@ -29,10 +29,9 @@ public class Block223Application {
 		return block223;
 	}
 
-	public static boolean setCurrentUserRole(UserRole aUserRole) {
+	public static void setCurrentUserRole(UserRole aUserRole) {
 		//sets the currently logged in user role,
 		currentUserRole = aUserRole;
-		return true;
 	}
 
 	public static UserRole getCurrentUserRole() {
@@ -40,11 +39,10 @@ public class Block223Application {
 		return currentUserRole;
 	}
 
-	public static boolean setCurrentGame(Game aGame) {
+	public static void setCurrentGame(Game aGame) {
 		// TODO implement this method
 		// a setCurrentGame(Game aGame) method that remembers the current game,
 		currentGame = aGame;
-		return true;
 	}
 
 	public static Game getCurrentGame() {
