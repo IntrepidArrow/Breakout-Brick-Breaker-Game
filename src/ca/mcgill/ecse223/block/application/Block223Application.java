@@ -4,6 +4,7 @@ import ca.mcgill.ecse223.block.model.Admin;
 import ca.mcgill.ecse223.block.model.Block223;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.UserRole;
+import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
 public class Block223Application {
 
@@ -23,10 +24,13 @@ public class Block223Application {
 		// TODO implement this method,
 		// a resetBlock223() method that forces a load from the file and returns the
 		// root block223 object,
-		return new Block223();
+
+		block223 = Block223Persistence.load();
+
+		return block223;
 	}
 
-	public boolean setCurrentUserRole(UserRole aUserRole) {
+	public static boolean setCurrentUserRole(UserRole aUserRole) {
 		//sets the currently logged in user role,
 		currentUserRole = aUserRole;
 		return true;
