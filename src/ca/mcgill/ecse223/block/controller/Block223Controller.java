@@ -11,6 +11,8 @@ import ca.mcgill.ecse223.block.model.Block223;
 import ca.mcgill.ecse223.block.model.BlockAssignment;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Level;
+import ca.mcgill.ecse223.block.model.Player;
+import ca.mcgill.ecse223.block.model.UserRole;
 
 
 public class Block223Controller {
@@ -29,6 +31,29 @@ public class Block223Controller {
 	}
 
 	public static void selectGame(String name) throws InvalidInputException {
+		String error = "";
+		
+		UserRole currentRole=Block223Application.getCurrentUserRole();
+		if(!( currentRole instanceof Admin)) {
+			error += "Admin privileges are required to position a block. ";
+		}
+		else if(currentRole instanceof Admin){
+			Admin currentAdmin=(Admin) currentRole;
+			if(!currentAdmin.getGames().contains(Block223Application.getCurrentGame())) {
+				error += "Only the admin who created the game can position a block. ";
+			}
+		}
+		
+		Game game = Game.getWithName(name);
+		if(Block223Application.getCurrentGame() == null) {
+			error += "A game with name " + name + " does not exist.";
+		}
+		
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+		
+		Block223Application.setCurrentGame(game);
 	}
 
 	public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
@@ -77,18 +102,22 @@ public class Block223Controller {
 	public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition)
 			throws InvalidInputException {
 		String error = "";
-		if(!(Block223Application.getCurrentUserRole()).equals("AdminRole")) {
-			error += "Admin privileges are required to add a block.";
+		
+		UserRole currentRole=Block223Application.getCurrentUserRole();
+		if(!( currentRole instanceof Admin)) {
+			error += "Admin privileges are required to position a block.";
+		}
+		else if(currentRole instanceof Admin){
+			Admin currentAdmin=(Admin) currentRole;
+			if(!currentAdmin.getGames().contains(Block223Application.getCurrentGame())) {
+				error += "Only the admin who created the game can position a block. ";
+			}
 		}
 		
 		if(Block223Application.getCurrentGame() == null) {
 			error += "A game must be selected to position a block. ";
 		}
 		
-		/*if(Block223Application.getCurrentUserRole() == Block223Application.getCurrentGame().getAdmin(). ){
-		 * error += "Only the admin who created the game can position a block."
-	}
-	*/
 		
 		Game game = Block223Application.getCurrentGame();
 		
@@ -111,8 +140,8 @@ public class Block223Controller {
 		}
 		
 		//check if position is taken
-		BlockAssignment blockAss = actualLevel.findBlockAssignment(gridHorizontalPosition, gridVerticalPosition);
-		if(blockAss != null) {
+		BlockAssignment takenBlockAssignment = actualLevel.findBlockAssignment(gridHorizontalPosition, gridVerticalPosition);
+		if(takenBlockAssignment != null) {
 			error += error +  "A block already exists at location" + gridHorizontalPosition + "/" + gridVerticalPosition + ".";
 		}
 		
@@ -133,25 +162,31 @@ public class Block223Controller {
 
 	public static void moveBlock(int level, int oldGridHorizontalPosition, int oldGridVerticalPosition,
 			int newGridHorizontalPosition, int newGridVerticalPosition) throws InvalidInputException {
+		
 		String error = "";
-		if(!(Block223Application.getCurrentUserRole()).equals("AdminRole")) {
-			error += "Admin privileges are required to add a block.";
+		UserRole currentRole=Block223Application.getCurrentUserRole();
+		
+		if(!( currentRole instanceof Admin)) {
+			error += "Admin privileges are required to move a block. ";
+		}
+		else if(currentRole instanceof Admin){
+			Admin currentAdmin=(Admin) currentRole;
+			if(!currentAdmin.getGames().contains(Block223Application.getCurrentGame())) {
+				error += "Only the admin who created the game can move a block. ";
+			}
 		}
 		
 		if(Block223Application.getCurrentGame() == null) {
 			error += "A game must be selected to position a block. ";
 		}
+
 		
-		/*if(Block223Application.getCurrentUserRole() == Block223Application.getCurrentGame().getAdmin(). ){
-		 * error += "Only the admin who created the game can position a block."
-	}
-	*/
 		Game game = Block223Application.getCurrentGame();
 		
 		// check level number
-				if(level < 1 || level > game.getLevels().size()) {
-					error += "Level " + level + " does not exist for the game.";
-				}
+		if(level < 1 || level > game.getLevels().size()) {
+			error += "Level " + level + " does not exist for the game.";
+		}
 
 		Level actualLevel = game.getLevel(level);
 		
@@ -227,9 +262,11 @@ public class Block223Controller {
 	}
 
 	public static TOGame getCurrentDesignableGame() throws InvalidInputException {
+		
 	}
 
 	public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInputException {
+		
 	}
 
 	public static TOBlock getBlockOfCurrentDesignableGame(int id) throws InvalidInputException {
@@ -239,21 +276,26 @@ public class Block223Controller {
 
 		String error = "";
 		
-		if(!(Block223Application.getCurrentUserRole()).equals("AdminRole")) {
-			error += "Admin privileges are required to add a block.";
+		UserRole currentRole=Block223Application.getCurrentUserRole();
+		
+		if(!( currentRole instanceof Admin)) {
+			error += "Admin privileges are required to access game information. ";
+		}else if(currentRole instanceof Admin){
+			Admin currentAdmin=(Admin) currentRole;
+			if(!currentAdmin.getGames().contains(Block223Application.getCurrentGame())) {
+				error += "Only the admin who created the game can access its information. ";
+			}
 		}
 		
 		if(Block223Application.getCurrentGame() == null) {
 			error += "A game must be selected to access its information.";
 		}
 		
-		//if(Block223Application.getCurrentUserRole() == Block223Application.getCurrentGame().getAdmin(). )
 		if (error.length() > 0) {
 			throw new InvalidInputException(error.trim());
 		}
 		Game game = Block223Application.getCurrentGame();
 		List<TOGridCell> result = new ArrayList<TOGridCell>();
-		//TODO fix the throw, create List
 		try {
 		Level actualLevel = game.getLevel(level);
 		
@@ -266,7 +308,7 @@ public class Block223Controller {
 			result.add(to);
 		}
 		}
-		catch( IndexOutOfBoundsException ex){
+		catch( IndexOutOfBoundsException ex ){
 			throw new InvalidInputException("Level" + level + " does not exist for the game.");
 		}
 		
@@ -274,6 +316,21 @@ public class Block223Controller {
 	}
 
 	public static TOUserMode getUserMode() {
-	}
+		UserRole userRole=Block223Application.getCurrentUserRole();
+		TOUserMode.Mode mode = null;
+		
+		if(userRole == null) {
+			mode=TOUserMode.Mode.None;
+		}
+		else if(userRole instanceof Player) {
+			mode=TOUserMode.Mode.Play;
 
-}
+		}
+		else if(userRole instanceof Admin) {
+			mode=TOUserMode.Mode.Design;
+
+		}
+		TOUserMode userMode= new TOUserMode(mode);
+		return userMode;
+	}
+	}

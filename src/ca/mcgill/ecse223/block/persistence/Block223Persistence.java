@@ -17,7 +17,7 @@ public class Block223Persistence {
 			block223 = new Block223();
 		} else {
 			// TODO: define reinitialize
-			block223.reinitialize();
+			//block223.reinitialize();
 		}
 		return block223;
 	}

@@ -4,10 +4,13 @@ import ca.mcgill.ecse223.block.model.Admin;
 import ca.mcgill.ecse223.block.model.Block223;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.UserRole;
+import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
 public class Block223Application {
 
 	private static Block223 block223;
+	private Game game;
+	private static UserRole currentUserRole;
 
 	public static Block223 getBlock223() {
 		if(block223 == null) {
@@ -22,10 +25,12 @@ public class Block223Application {
 		// TODO implement this method,
 		// a resetBlock223() method that forces a load from the file and returns the
 		// root block223 object,
-		return new Block223();
+		block223 = Block223Persistence.load();
+
+		return block223;
 	}
 
-	public boolean setCurrentUserRole(UserRole aUserRole) {
+	public static boolean setCurrentUserRole(UserRole aUserRole) {
 		// TODO implement this method
 		// a setCurrentUserRole(UserRole aUserRole) method that remembers the currently
 		// logged in user role,
@@ -34,22 +39,22 @@ public class Block223Application {
 	}
 
 	public static UserRole getCurrentUserRole() {
-		UserRole userRole = null;
 		// TODO implement this method
 		// a getCurrentUserRole() method that returns the currently logged in user role,
-		return userRole;
+		return currentUserRole;
 	}
 
-	public boolean setCurrentGame(Game aGame) {
+	public static boolean setCurrentGame(Game aGame) {
 		// TODO implement this method
 		// a setCurrentGame(Game aGame) method that remembers the current game,
+		game = aGame:
 		return true;
 	}
 
 	public static Game getCurrentGame() {
 		// TODO implement this method
 		// a getCurrentGame() method that return the current game.
-		return new Game();
+		return game;
 	}
 
 }
