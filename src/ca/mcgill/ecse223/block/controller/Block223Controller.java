@@ -11,6 +11,9 @@ import ca.mcgill.ecse223.block.model.Block223;
 import ca.mcgill.ecse223.block.model.BlockAssignment;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Level;
+import ca.mcgill.ecse223.block.model.Player;
+import ca.mcgill.ecse223.block.model.UserRole;
+import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
 
 public class Block223Controller {
@@ -182,6 +185,35 @@ public class Block223Controller {
 	}
 
 	public static void saveGame() throws InvalidInputException {
+		String error = "";
+		UserRole currentRole=Block223Application.getCurrentUserRole();
+		
+		if(!( currentRole instanceof Admin)) {
+			error += "Admin privileges are required to access game information. ";
+		}else if(currentRole instanceof Admin){
+			Admin currentAdmin=(Admin) currentRole;
+			if(!currentAdmin.getGames().contains(Block223Application.getCurrentGame())) {
+				error += "Only the admin who created the game can save it. ";
+			}
+		}
+		
+		if(Block223Application.getCurrentGame() == null) {
+			error += "A game must be selected to access its information.";
+		}
+
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+		Block223 block223 = Block223Application.getBlock223();
+		try {
+			Block223Persistence.save(block223);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException("An error has occured while saving the game.");
+		}
+		
+		return;
+		
 	}
 
 	public static void register(String username, String playerPassword, String adminPassword)
@@ -267,6 +299,22 @@ public class Block223Controller {
 	}
 
 	public static TOUserMode getUserMode() {
+		UserRole userRole=Block223Application.getCurrentUserRole();
+		TOUserMode.Mode mode = null;
+		
+		if(userRole == null) {
+			mode=TOUserMode.Mode.None;
+		}
+		else if(userRole instanceof Player) {
+			mode=TOUserMode.Mode.Play;
+
+		}
+		else if(userRole instanceof Admin) {
+			mode=TOUserMode.Mode.Design;
+
+		}
+		TOUserMode userMode= new TOUserMode(mode);
+		return userMode;
 	}
 
 }

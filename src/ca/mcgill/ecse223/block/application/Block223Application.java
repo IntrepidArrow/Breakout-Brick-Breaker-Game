@@ -8,7 +8,8 @@ import ca.mcgill.ecse223.block.model.UserRole;
 public class Block223Application {
 
 	private static Block223 block223;
-
+	private static UserRole currentUserRole;
+	
 	public static Block223 getBlock223() {
 		if(block223 == null) {
 			block223 = new Block223();
@@ -26,18 +27,14 @@ public class Block223Application {
 	}
 
 	public boolean setCurrentUserRole(UserRole aUserRole) {
-		// TODO implement this method
-		// a setCurrentUserRole(UserRole aUserRole) method that remembers the currently
-		// logged in user role,
-
+		//sets the currently logged in user role,
+		currentUserRole = aUserRole;
 		return true;
 	}
 
 	public static UserRole getCurrentUserRole() {
-		UserRole userRole = null;
-		// TODO implement this method
-		// a getCurrentUserRole() method that returns the currently logged in user role,
-		return userRole;
+		//returns the currently logged in user role,
+		return currentUserRole;
 	}
 
 	public boolean setCurrentGame(Game aGame) {
