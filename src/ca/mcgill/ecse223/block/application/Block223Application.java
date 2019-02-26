@@ -9,8 +9,10 @@ import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 public class Block223Application {
 
 	private static Block223 block223;
+
+	private Game game;
 	private static UserRole currentUserRole;
-	
+
 	public static Block223 getBlock223() {
 		if(block223 == null) {
 			block223 = new Block223();
@@ -24,9 +26,7 @@ public class Block223Application {
 		// TODO implement this method,
 		// a resetBlock223() method that forces a load from the file and returns the
 		// root block223 object,
-
 		block223 = Block223Persistence.load();
-
 		return block223;
 	}
 
@@ -41,16 +41,17 @@ public class Block223Application {
 		return currentUserRole;
 	}
 
-	public boolean setCurrentGame(Game aGame) {
+	public static boolean setCurrentGame(Game aGame) {
 		// TODO implement this method
 		// a setCurrentGame(Game aGame) method that remembers the current game,
+		game = aGame:
 		return true;
 	}
 
 	public static Game getCurrentGame() {
 		// TODO implement this method
 		// a getCurrentGame() method that return the current game.
-		return new Game();
+		return game;
 	}
 
 }
