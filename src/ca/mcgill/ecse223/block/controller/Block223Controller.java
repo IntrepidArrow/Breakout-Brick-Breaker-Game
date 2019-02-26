@@ -99,7 +99,7 @@ public class Block223Controller {
 		if(error.length() > 0) {
 			throw new InvalidInputException(error.trim());
 		}
-		
+
 		//Main method body
 		Game game = Block223Application.getCurrentGame();
 		Block block = game.findBlock(id);
@@ -295,6 +295,28 @@ public class Block223Controller {
 	}
 
 	public static TOGame getCurrentDesignableGame() throws InvalidInputException {
+		String error = "";
+		//InavlidInputException checks
+		//Check if this is the right way to do the invalid input exception
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {	//if current user role is not set to Admin
+			error += "Admin privileges are required to access game information. ";
+		}
+		if(Block223Application.getCurrentGame() == null) {	//if the current game is not set 
+			error += "A game must be selected to access its information. ";
+		}
+		if(Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {	//if current user role is not the admin of the game
+			error += "Only the admin who created the game can access its information. ";
+		}
+		if(error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+		
+		Game game = Block223Application.getCurrentGame();
+		TOGame to = new TOGame(game.getName(), game.getLevels().size(), game.getNrBlocksPerLevel(), game.getBall().getMinBallSpeedX(),
+				game.getBall().getMinBallSpeedY(), game.getBall().getBallSpeedIncreaseFactor(), game.getPaddle().getMaxPaddleLength(), 
+				game.getPaddle().getMinPaddleLength());
+		
+		return to;
 	}
 
 	public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInputException {
@@ -328,6 +350,31 @@ public class Block223Controller {
 	}
 
 	public static TOBlock getBlockOfCurrentDesignableGame(int id) throws InvalidInputException {
+		String error = "";
+		//InavlidInputException checks
+		//Check if this is the right way to do the invalid input exception
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {	//if current user role is not set to Admin
+			error += "Admin privileges are required to access game information. ";
+		}
+		if(Block223Application.getCurrentGame() == null) {	//if the current game is not set 
+			error += "A game must be selected to access its information. ";
+		}
+		if(Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {	//if current user role is not the admin of the game
+			error += "Only the admin who created the game can access its information. ";
+		}
+		if(error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+
+		Game game = Block223Application.getCurrentGame();
+		Block block = game.findBlock(id);
+		if(block == null) {
+			throw new InvalidInputException("The block does not exist. ");
+		}
+
+		TOBlock to = new TOBlock(block.getId(), block.getRed(), block.getGreen(), block.getBlue(), block.getPoints());
+
+		return to;
 	}
 
 	public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
