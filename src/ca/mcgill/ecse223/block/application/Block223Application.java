@@ -9,8 +9,7 @@ import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 public class Block223Application {
 
 	private static Block223 block223;
-
-	private Game game;
+	private static Game currentGame;
 	private static UserRole currentUserRole;
 
 	public static Block223 getBlock223() {
@@ -44,14 +43,14 @@ public class Block223Application {
 	public static boolean setCurrentGame(Game aGame) {
 		// TODO implement this method
 		// a setCurrentGame(Game aGame) method that remembers the current game,
-		game = aGame:
+		currentGame = aGame;
 		return true;
 	}
 
 	public static Game getCurrentGame() {
 		// TODO implement this method
 		// a getCurrentGame() method that return the current game.
-		return game;
+		return currentGame;
 	}
 
 }
