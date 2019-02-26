@@ -83,6 +83,25 @@ public class Block223Controller {
 	}
 
 	public static void deleteBlock(int id) throws InvalidInputException {
+		String error = "";
+		//InavlidInputException checks
+		//Check if this is the right way to do the invalid input exception
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {	//if current user role is not set to Admin
+			error += "Admin privileges are required to delete a block. ";
+		}
+		if(Block223Application.getCurrentGame() == null) {	//if the current game is not set 
+			error += "A game must be selected to delete a block. ";
+		}
+		if(Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {	//if current user role is not the admin of the game
+			error += "Only the admin who created the game can delete a block. ";
+		}
+		if(error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+		
+		Game game = Block223Application.getCurrentGame();
+		
+
 	}
 
 	public static void updateBlock(int id, int red, int green, int blue, int points) throws InvalidInputException {
@@ -284,17 +303,17 @@ public class Block223Controller {
 		if(error.length() > 0) {
 			throw new InvalidInputException(error.trim());
 		}
-		
+
 		Game game = Block223Application.getCurrentGame();
 		List<TOBlock> result = new ArrayList<>();
 		List<Block> blocks = game.getBlocks();
-		
+
 		for(Block block : blocks) {
 			TOBlock to = new TOBlock(block.getId(), block.getRed(), block.getGreen(), block.getBlue(), block.getPoints());
-			
+
 			result.add(to);
 		}
-		
+
 		return result;
 	}
 
