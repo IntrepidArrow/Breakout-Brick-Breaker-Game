@@ -642,5 +642,5 @@ public class Game implements Serializable
   //------------------------
   
   // line 30 "../../../../../Block223Persistence.ump"
-  private static final long serialVersionUID = -2687593616927799864L 
+  private static final long serialVersionUID = -2687593616927799864L; 
 }
