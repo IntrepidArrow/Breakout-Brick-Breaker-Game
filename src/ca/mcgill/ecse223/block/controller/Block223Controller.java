@@ -243,11 +243,13 @@ public class Block223Controller {
 	// Query methods
 	// ****************************
 	public static List<TOGame> getDesignableGames() throws InvalidInputException {
-		Block223 block223 = Block223Application.getBlock223();
-		UserRole userRole = Block223Application.getCurrentUserRole();
-		if(!((Block223Application.getCurrentUserRole()).equals("AdminRole"))){
+		//Check if this is the right way to throw this invalid input exception
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin)){	//if the current user role of the game is not set to admin 
 			throw new InvalidInputException("Admin privileges are required to access game information");
 		}
+		//Method body
+		Block223 block223 = Block223Application.getBlock223();
+		UserRole admin = Block223Application.getCurrentUserRole();
 		List<TOGame> result = new ArrayList<>();
 		List<Game> games = block223.getGames();
 		for(Game game : games) {
@@ -261,7 +263,6 @@ public class Block223Controller {
 		}
 
 		return result;
-
 	}
 
 	public static TOGame getCurrentDesignableGame() throws InvalidInputException {
