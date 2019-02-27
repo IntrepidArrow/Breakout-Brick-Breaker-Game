@@ -5,8 +5,8 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 27 "../../../../../Block223Persistence.ump"
-// line 29 "../../../../../Block223.ump"
+// line 39 "../../../../../Block223Persistence.ump"
+// line 53 "../../../../../Block223.ump"
 public class Game implements Serializable
 {
 
@@ -602,7 +602,15 @@ public class Game implements Serializable
     }
   }
 
-  // line 45 "../../../../../Block223.ump"
+  // line 45 "../../../../../Block223Persistence.ump"
+   public static  void reinitializeUniqueName(List<Game> games){
+    Map<String, Game> gamesByName = new HashMap<String, Game>();
+    for (Game g : games) {
+      gamesByName.put(g.getName(), g);
+    }
+  }
+
+  // line 69 "../../../../../Block223.ump"
    public Block findBlock(int id){
     Block foundBlock = null;
 	  List<Block> blocks = this.getBlocks();
@@ -614,13 +622,13 @@ public class Game implements Serializable
 	  return foundBlock;
   }
 
-  // line 55 "../../../../../Block223.ump"
+  // line 79 "../../../../../Block223.ump"
    public int getMaxNumberHorizontalBlocks(){
     int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING , (Block.SIZE + COLUMNS_PADDING) );
 	  return maxNbr;
   }
 
-  // line 59 "../../../../../Block223.ump"
+  // line 83 "../../../../../Block223.ump"
    public int getMaxNumberVerticalBlocks(){
     int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - WALL_PADDING - 30 - 5 - 10 , (Block.SIZE + ROW_PADDING) ); 
 	  return maxNbr;
@@ -641,7 +649,7 @@ public class Game implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 30 "../../../../../Block223Persistence.ump"
+  // line 42 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = -2687593616927799864L ;
 
   

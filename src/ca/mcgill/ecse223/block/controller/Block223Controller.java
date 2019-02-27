@@ -11,6 +11,7 @@ import ca.mcgill.ecse223.block.model.BlockAssignment;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Level;
 import ca.mcgill.ecse223.block.model.Player;
+import ca.mcgill.ecse223.block.model.User;
 import ca.mcgill.ecse223.block.model.UserRole;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
@@ -26,7 +27,115 @@ public class Block223Controller {
 
 	public static void setGameDetails(int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
 			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
+
+
+		// TODO add checks for currentUserRole is set to admin role  current game and to check if the user is the admin of the game or not.
+
+
+
+
+		UserRole currentRole=Block223Application.getCurrentUserRole();
+		if(!( currentRole instanceof Admin)) {
+			error += "Admin privileges are required to position a block. ";
+		}
+		else if(currentRole instanceof Admin){
+			Admin currentAdmin=(Admin) currentRole;
+			if(!currentAdmin.getGames().contains(Block223Application.getCurrentGame())) {
+				error += "Only the admin who created the game can position a block. ";
+			}
+		}
+
+		Game game = Block223Application.getCurrentGame();
+
+		if(game == null) {
+			throw new InvalidInputException("A game must be selected to define game settings");
+		}
+
+
+
+		if(nrLevels < 1 || nrLevels > 99) {
+			throw new InvalidInputException("the number of levels must be between 1 and 99");
+
+		}
+
+		try {
+			game.setNrBlocksPerLevel(nrBlocksPerLevel);
+		} catch(RuntimeException e) {
+
+			if(nrBlocksPerLevel<=0) {
+
+				throw new RuntimeException("nrBlocksPerLevel is negative of zero");
+			}
+		}
+
+		Ball ball = game.getBall();
+
+
+		try {
+			ball.setMinBallSpeedX(minBallSpeedX);
+		} catch(RuntimeException e) {
+			if(minBallSpeedX <= 0) {
+				throw new RuntimeException(" minBallSpeedX must be greater than zero");
+			}
+		}
+
+		try {
+			ball.setMinBallSpeedY(minBallSpeedY);
+		} catch(RuntimeException e) {
+
+			if(minBallSpeedY<=0) {
+				throw new RuntimeException("minBallSpeedY must be greater than zero");
+			}
+
+		}
+
+		try {
+			ball.setBallSpeedIncreaseFactor(ballSpeedIncreaseFactor);
+		} catch(RuntimeException e) {
+
+			if(ballSpeedIncreaseFactor<=0) {
+				throw new RuntimeException("ballSpeedIncreaseFactor must be greater than zero");
+			}
+		}
+
+		Paddle paddle = game.getPaddle();
+
+		try {
+			paddle.setMaxPaddleLength(maxPaddleLength);
+
+		} catch(RuntimeException e) {
+			if((maxPaddleLength <= 0 ) || (maxPaddleLength >=400)) {
+				throw new RuntimeException("the maximum length of the paddle must be greater than 0 and less or equal to 400");
+			}
+		}
+		try {
+
+			paddle.setMinPaddleLength(minPaddleLength);
+
+		} catch(RuntimeException e) {
+			if(minPaddleLength <= 0) {
+
+				throw new RuntimeException("the minPaddleLength of the paddle must be greater than 0 ");
+			}
+		}
+
+		if(nrLevels > game.getLevels().size()) {
+
+			for(int i = game.getLevels().size(); i<= nrLevels; i++) {
+
+				game.addLevel();
+			}
+		}else if(nrLevels < game.getLevels().size()) {
+
+			for(int k=nrLevels; k<= game.getLevels().size(); k++  ) {
+				Level level = game.getLevel(game.getLevels().size()-1);
+				level.delete();
+			}
+		} else { return; }
+
 	}
+
+
 
 	public static void deleteGame(String name) throws InvalidInputException {
 	}
@@ -59,6 +168,29 @@ public class Block223Controller {
 
 	public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
 			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
+
+		String error = "";
+		UserRole currentRole=Block223Application.getCurrentUserRole();
+		if(!( currentRole instanceof Admin)) {
+			error += "Admin privileges are required to position a block. ";
+		}
+		else if(currentRole instanceof Admin){
+			Admin currentAdmin=(Admin) currentRole;
+			if(!currentAdmin.getGames().contains(Block223Application.getCurrentGame())) {
+				error += "Only the admin who created the game can position a block. ";
+			}
+		}
+		Game game = Block223Application.getCurrentGame();
+		String currentName = game.getName();
+		if(currentName.equals(name) == false) {
+
+			game.setName(name);
+		}
+
+		// TODO check if this is correct '
+		Block223Controller.setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY, ballSpeedIncreaseFactor,maxPaddleLength, minPaddleLength);
+
+
 	}
 
 	public static void addBlock(int red, int green, int blue, int points) throws InvalidInputException {
@@ -290,11 +422,61 @@ public class Block223Controller {
 
 	}
 
-	public static void register(String username, String playerPassword, String adminPassword)
-			throws InvalidInputException {
+	public static void register(String username, String playerPassword, String adminPassword) throws InvalidInputException {
+		String error = "";
+		if(Block223Application.getCurrentUserRole()!= null) {
+			error += "Cannot register a new user while a user is logged in.";
+		}
+		if(playerPassword.equals(adminPassword)) {
+			error += "The passwords have to be different.";
+		}
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+		
+		Block223 block223 = Block223Application.getBlock223();
+		Player player = new Player(playerPassword, block223);
+		User user = new User(username, block223, player);
+		if(!(adminPassword == null || adminPassword.isEmpty())){
+			Admin admin = new Admin(adminPassword, block223);
+			user.addRole(admin);
+		
+		}
+		
+		Block223Persistence.save(block223);
+	
+	
 	}
 
 	public static void login(String username, String password) throws InvalidInputException {
+		String error = "";
+		if(Block223Application.getCurrentUserRole()!= null) {
+			error += "Cannot register a new user while a user is logged in.";
+		}
+		
+		//added first according to prof
+		Block223 block223 = Block223Application.resetBlock223();
+		User user=User.getWithUsername(username);
+		if(user==null) {
+			error += "The username and password do not match.";
+		}
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}		
+		
+		List<UserRole> roles= user.getRoles();
+		for(UserRole r:roles) {
+			String rolePassword = r.getPassword();
+			if(rolePassword.equals(password)) {
+				Block223Application.setCurrentUserRole(r);
+				return;
+			}
+		}
+		
+		throw new InvalidInputException("The username and password do not match.");
+		
+		
+		
 	}
 
 	public static void logout() {

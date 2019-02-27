@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 9 "../../../../../Block223Persistence.ump"
+// line 14 "../../../../../Block223Persistence.ump"
 // line 11 "../../../../../Block223.ump"
 public class User implements Serializable
 {
@@ -33,6 +33,22 @@ public class User implements Serializable
 
   public User(String aUsername, Block223 aBlock223, UserRole... allRoles)
   {
+    // line 15 "../../../../../Block223.ump"
+    if(aUsername == null || aUsername.isEmpty()){
+       		for(UserRole r : allRoles) {
+       			aBlock223.removeRole(r);
+       		}
+       	throw new RuntimeException("The username must be specified.");
+          
+       	}
+       	if(!setUsername(aUsername)){
+       		for(UserRole r : allRoles) {
+       			aBlock223.removeRole(r);
+       		}
+       	throw new RuntimeException("The passwords have to be different.");
+          
+       	}
+    // END OF UMPLE BEFORE INJECTION
     if (!setUsername(aUsername))
     {
       throw new RuntimeException("Cannot create due to duplicate username");
@@ -247,6 +263,14 @@ public class User implements Serializable
     }
   }
 
+  // line 20 "../../../../../Block223Persistence.ump"
+   public static  void reinitializeUniqueUsername(List<User> users){
+    Map<String, User> usersByUsername = new HashMap<String, User>();
+    for (User u : users) {
+      usersByUsername.put(u.getUsername(), u);
+    }
+  }
+
 
   public String toString()
   {
@@ -258,7 +282,7 @@ public class User implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 12 "../../../../../Block223Persistence.ump"
+  // line 17 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = -2683563616927798191L ;
 
   

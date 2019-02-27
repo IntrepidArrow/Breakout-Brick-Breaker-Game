@@ -5,8 +5,8 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 33 "../../../../../Block223Persistence.ump"
-// line 65 "../../../../../Block223.ump"
+// line 52 "../../../../../Block223Persistence.ump"
+// line 89 "../../../../../Block223.ump"
 public class Block implements Serializable
 {
 
@@ -44,22 +44,22 @@ public class Block implements Serializable
 
   public Block(int aRed, int aGreen, int aBlue, int aPoints, Game aGame)
   {
-    // line 74 "../../../../../Block223.ump"
+    // line 98 "../../../../../Block223.ump"
     if((aRed < 0) || (aRed > 255)){
        		throw new RuntimeException("Cannot set red color due to invalid input");
        	}
     // END OF UMPLE BEFORE INJECTION
-    // line 80 "../../../../../Block223.ump"
+    // line 104 "../../../../../Block223.ump"
     if((aGreen < 0) || (aGreen > 255)){
        		throw new RuntimeException("Cannot set green color due to invalid input");
        	}
     // END OF UMPLE BEFORE INJECTION
-    // line 86 "../../../../../Block223.ump"
+    // line 110 "../../../../../Block223.ump"
     if((aBlue < 0) || (aBlue > 255)){
        		throw new RuntimeException("Cannot set blue color due to invalid input");
        	}
     // END OF UMPLE BEFORE INJECTION
-    // line 92 "../../../../../Block223.ump"
+    // line 116 "../../../../../Block223.ump"
     if((aPoints < 1) || (aPoints > 1000)){
        		throw new RuntimeException("Cannot set points value due to invalid input");
        	}
@@ -84,7 +84,7 @@ public class Block implements Serializable
   public boolean setRed(int aRed)
   {
     boolean wasSet = false;
-    // line 74 "../../../../../Block223.ump"
+    // line 98 "../../../../../Block223.ump"
     if((aRed < 0) || (aRed > 255)){
        		throw new RuntimeException("Cannot set red color due to invalid input");
        	}
@@ -97,7 +97,7 @@ public class Block implements Serializable
   public boolean setGreen(int aGreen)
   {
     boolean wasSet = false;
-    // line 80 "../../../../../Block223.ump"
+    // line 104 "../../../../../Block223.ump"
     if((aGreen < 0) || (aGreen > 255)){
        		throw new RuntimeException("Cannot set green color due to invalid input");
        	}
@@ -110,7 +110,7 @@ public class Block implements Serializable
   public boolean setBlue(int aBlue)
   {
     boolean wasSet = false;
-    // line 86 "../../../../../Block223.ump"
+    // line 110 "../../../../../Block223.ump"
     if((aBlue < 0) || (aBlue > 255)){
        		throw new RuntimeException("Cannot set blue color due to invalid input");
        	}
@@ -123,7 +123,7 @@ public class Block implements Serializable
   public boolean setPoints(int aPoints)
   {
     boolean wasSet = false;
-    // line 92 "../../../../../Block223.ump"
+    // line 116 "../../../../../Block223.ump"
     if((aPoints < 1) || (aPoints > 1000)){
        		throw new RuntimeException("Cannot set points value due to invalid input");
        	}
@@ -299,6 +299,20 @@ public class Block implements Serializable
     }
   }
 
+  // line 57 "../../../../../Block223Persistence.ump"
+   public static  void reinitializeAutoUniqueId(List<Game> games){
+    nextId=0;
+  	for(Game g : games){
+  		List<Block> blocks = g.getBlocks();
+  		for(Block b : blocks){
+  			if(b.getId()>nextId){
+  				nextId=b.getId();
+  			}
+  		}
+  	}
+  	nextId++;
+  }
+
 
   public String toString()
   {
@@ -314,7 +328,7 @@ public class Block implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 36 "../../../../../Block223Persistence.ump"
+  // line 55 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = -2686593616927799876L ;
 
   
