@@ -610,21 +610,19 @@ public class Block223Controller {
 		if(Block223Application.getCurrentGame() == null) {
 			error += "A game must be selected to access its information.";
 		}
-		Game game = Block223Application.getCurrentGame();
-		
-		// check level number
-		if(level < 1 || level > game.getLevels().size()) {
-			error += "Level " + level + " does not exist for the game.";
-		}
 		if (error.length() > 0) {
 			throw new InvalidInputException(error.trim());
 		}
 		
 		List<TOGridCell> result = new ArrayList<TOGridCell>();
+		Game game = Block223Application.getCurrentGame();
+		Level actualLevel = null;
+		try {
+			actualLevel = game.getLevel(level-1);
+		} catch (IndexOutOfBoundsException e) {
+			throw new InvalidInputException("Level " + level + " does not exist for the game.");
+		}
 		
-		Level actualLevel = game.getLevel(level);
-
-
 			List<BlockAssignment> assignments = actualLevel.getBlockAssignments();
 
 			for(int i = 0 ; i < assignments.size() ; i++) {
