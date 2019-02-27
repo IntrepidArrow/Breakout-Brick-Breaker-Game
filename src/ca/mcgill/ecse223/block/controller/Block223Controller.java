@@ -5,11 +5,13 @@ import java.util.List;
 
 import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.model.Admin;
+import ca.mcgill.ecse223.block.model.Ball;
 import ca.mcgill.ecse223.block.model.Block;
 import ca.mcgill.ecse223.block.model.Block223;
 import ca.mcgill.ecse223.block.model.BlockAssignment;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Level;
+import ca.mcgill.ecse223.block.model.Paddle;
 import ca.mcgill.ecse223.block.model.Player;
 import ca.mcgill.ecse223.block.model.User;
 import ca.mcgill.ecse223.block.model.UserRole;
@@ -28,11 +30,8 @@ public class Block223Controller {
 	public static void setGameDetails(int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
 			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
 
-
+		String error = "";
 		// TODO add checks for currentUserRole is set to admin role  current game and to check if the user is the admin of the game or not.
-
-
-
 
 		UserRole currentRole=Block223Application.getCurrentUserRole();
 		if(!( currentRole instanceof Admin)) {
