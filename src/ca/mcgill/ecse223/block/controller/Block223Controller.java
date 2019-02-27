@@ -31,7 +31,6 @@ public class Block223Controller {
 			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
 
 		String error = "";
-		// TODO add checks for currentUserRole is set to admin role  current game and to check if the user is the admin of the game or not.
 
 		UserRole currentRole=Block223Application.getCurrentUserRole();
 		if(!( currentRole instanceof Admin)) {
@@ -47,23 +46,23 @@ public class Block223Controller {
 		Game game = Block223Application.getCurrentGame();
 
 		if(game == null) {
-			throw new InvalidInputException("A game must be selected to define game settings");
+			error += "A game must be selected to define game settings. ";
 		}
-
-
-
 		if(nrLevels < 1 || nrLevels > 99) {
-			throw new InvalidInputException("the number of levels must be between 1 and 99");
-
+			error += "The number of levels must be between 1 and 99. ";
 		}
 
+		if(error.length() > 0) {
+			throw new InvalidInputException(error);
+		}
+		
 		try {
 			game.setNrBlocksPerLevel(nrBlocksPerLevel);
 		} catch(RuntimeException e) {
 
 			if(nrBlocksPerLevel<=0) {
 
-				throw new RuntimeException("nrBlocksPerLevel is negative of zero");
+				throw new InvalidInputException("nrBlocksPerLevel is negative of zero");
 			}
 		}
 
@@ -74,7 +73,7 @@ public class Block223Controller {
 			ball.setMinBallSpeedX(minBallSpeedX);
 		} catch(RuntimeException e) {
 			if(minBallSpeedX <= 0) {
-				throw new RuntimeException(" minBallSpeedX must be greater than zero");
+				throw new InvalidInputException(" minBallSpeedX must be greater than zero");
 			}
 		}
 
@@ -83,7 +82,7 @@ public class Block223Controller {
 		} catch(RuntimeException e) {
 
 			if(minBallSpeedY<=0) {
-				throw new RuntimeException("minBallSpeedY must be greater than zero");
+				throw new InvalidInputException("minBallSpeedY must be greater than zero");
 			}
 
 		}
@@ -93,7 +92,7 @@ public class Block223Controller {
 		} catch(RuntimeException e) {
 
 			if(ballSpeedIncreaseFactor<=0) {
-				throw new RuntimeException("ballSpeedIncreaseFactor must be greater than zero");
+				throw new InvalidInputException("ballSpeedIncreaseFactor must be greater than zero");
 			}
 		}
 
@@ -104,7 +103,7 @@ public class Block223Controller {
 
 		} catch(RuntimeException e) {
 			if((maxPaddleLength <= 0 ) || (maxPaddleLength >=400)) {
-				throw new RuntimeException("the maximum length of the paddle must be greater than 0 and less or equal to 400");
+				throw new InvalidInputException("the maximum length of the paddle must be greater than 0 and less or equal to 400");
 			}
 		}
 		try {
@@ -114,7 +113,7 @@ public class Block223Controller {
 		} catch(RuntimeException e) {
 			if(minPaddleLength <= 0) {
 
-				throw new RuntimeException("the minPaddleLength of the paddle must be greater than 0 ");
+				throw new InvalidInputException("the minPaddleLength of the paddle must be greater than 0 ");
 			}
 		}
 
