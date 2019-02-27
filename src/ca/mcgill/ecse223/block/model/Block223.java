@@ -361,6 +361,13 @@ public class Block223 implements Serializable
     }
     
   }
+
+  // line 8 "../../../../../Block223Persistence.ump"
+   public void reinitialize(){
+    User.reinitializeUniqueUsername(this.getUsers());
+	Game.reinitializeUniqueName(this.getGames());
+	Block.reinitializeAutoUniqueId(this.getGames());
+  }
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
