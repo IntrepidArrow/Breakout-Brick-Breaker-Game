@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.model;
 
-// line 16 "../../../../../Block223.ump"
+// line 35 "../../../../../Block223.ump"
 public abstract class UserRole
 {
 
@@ -23,6 +23,11 @@ public abstract class UserRole
 
   public UserRole(String aPassword, Block223 aBlock223)
   {
+    // line 39 "../../../../../Block223.ump"
+    if(aPassword == null || aPassword.isEmpty()){
+       		throw new RuntimeException("The player password needs to be specified.");
+       	}
+    // END OF UMPLE BEFORE INJECTION
     password = aPassword;
     boolean didAddBlock223 = setBlock223(aBlock223);
     if (!didAddBlock223)
@@ -38,6 +43,11 @@ public abstract class UserRole
   public boolean setPassword(String aPassword)
   {
     boolean wasSet = false;
+    // line 39 "../../../../../Block223.ump"
+    if(aPassword == null || aPassword.isEmpty()){
+       		throw new RuntimeException("The player password needs to be specified.");
+       	}
+    // END OF UMPLE BEFORE INJECTION
     password = aPassword;
     wasSet = true;
     return wasSet;

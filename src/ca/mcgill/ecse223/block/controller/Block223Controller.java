@@ -11,6 +11,7 @@ import ca.mcgill.ecse223.block.model.BlockAssignment;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Level;
 import ca.mcgill.ecse223.block.model.Player;
+import ca.mcgill.ecse223.block.model.User;
 import ca.mcgill.ecse223.block.model.UserRole;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
@@ -290,11 +291,61 @@ public class Block223Controller {
 
 	}
 
-	public static void register(String username, String playerPassword, String adminPassword)
-			throws InvalidInputException {
+	public static void register(String username, String playerPassword, String adminPassword) throws InvalidInputException {
+		String error = "";
+		if(Block223Application.getCurrentUserRole()!= null) {
+			error += "Cannot register a new user while a user is logged in.";
+		}
+		if(playerPassword.equals(adminPassword)) {
+			error += "The passwords have to be different.";
+		}
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+		
+		Block223 block223 = Block223Application.getBlock223();
+		Player player = new Player(playerPassword, block223);
+		User user = new User(username, block223, player);
+		if(!(adminPassword == null || adminPassword.isEmpty())){
+			Admin admin = new Admin(adminPassword, block223);
+			user.addRole(admin);
+		
+		}
+		
+		Block223Persistence.save(block223);
+	
+	
 	}
 
 	public static void login(String username, String password) throws InvalidInputException {
+		String error = "";
+		if(Block223Application.getCurrentUserRole()!= null) {
+			error += "Cannot register a new user while a user is logged in.";
+		}
+		
+		//added first according to prof
+		Block223 block223 = Block223Application.resetBlock223();
+		User user=User.getWithUsername(username);
+		if(user==null) {
+			error += "The username and password do not match.";
+		}
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}		
+		
+		List<UserRole> roles= user.getRoles();
+		for(UserRole r:roles) {
+			String rolePassword = r.getPassword();
+			if(rolePassword.equals(password)) {
+				Block223Application.setCurrentUserRole(r);
+				return;
+			}
+		}
+		
+		throw new InvalidInputException("The username and password do not match.");
+		
+		
+		
 	}
 
 	public static void logout() {

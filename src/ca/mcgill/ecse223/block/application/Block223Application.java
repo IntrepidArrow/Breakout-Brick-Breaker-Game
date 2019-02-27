@@ -21,7 +21,7 @@ public class Block223Application {
 		return block223;
 	}
 
-	public Block223 resetBlock223() {
+	public static Block223 resetBlock223() {
 		// TODO implement this method,
 		// a resetBlock223() method that forces a load from the file and returns the
 		// root block223 object,

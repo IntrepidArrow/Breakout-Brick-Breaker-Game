@@ -33,6 +33,22 @@ public class User implements Serializable
 
   public User(String aUsername, Block223 aBlock223, UserRole... allRoles)
   {
+    // line 15 "../../../../../Block223.ump"
+    if(aUsername == null || aUsername.isEmpty()){
+       		for(UserRole r : allRoles) {
+       			aBlock223.removeRole(r);
+       		}
+       	throw new RuntimeException("The username must be specified.");
+          
+       	}
+       	if(!setUsername(aUsername)){
+       		for(UserRole r : allRoles) {
+       			aBlock223.removeRole(r);
+       		}
+       	throw new RuntimeException("The passwords have to be different.");
+          
+       	}
+    // END OF UMPLE BEFORE INJECTION
     if (!setUsername(aUsername))
     {
       throw new RuntimeException("Cannot create due to duplicate username");

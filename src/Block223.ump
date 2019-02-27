@@ -10,12 +10,36 @@ class Block223 {
 
 class User {
    unique username;
+//unique test;
+   before constructor {
+   	if(aUsername == null || aUsername.isEmpty()){
+   		for(UserRole r : allRoles) {
+   			aBlock223.removeRole(r);
+   		}
+   	throw new RuntimeException("The username must be specified.");
+      
+   	}
+   	if(!setUsername(aUsername)){
+   		for(UserRole r : allRoles) {
+   			aBlock223.removeRole(r);
+   		}
+   	throw new RuntimeException("The passwords have to be different.");
+      
+   	}
+   }
+	
    1 -> 1..2 UserRole roles;
-}
+	
+}	
 
 class UserRole {
    abstract;
    password;
+   before constructor, setPassword {
+   	if(aPassword == null || aPassword.isEmpty()){
+   		throw new RuntimeException("The player password needs to be specified.");
+   	}
+   }
 }
 
 class Admin {
