@@ -1,33 +1,21 @@
 package ca.mcgill.ecse223.block.view;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Properties;
-
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-
 
 import ca.mcgill.ecse223.block.controller.TOBlock;
 import ca.mcgill.ecse223.block.controller.TOGridCell;
 
-public class EditLevel {
+public class EditLevel extends JFrame {
 	
 	private static final long serialVersionUID = -4426310869376315542L;
 	
@@ -71,6 +59,13 @@ public class EditLevel {
 		
 		
 		private void initComponents() {
+			
+			//elements for UI
+			logoutButton = new JButton();
+			usernameLabel = new JLabel();
+			usernameLabel.setText("username");
+			backButton = new JButton();
+			
 			// elements for error message
 			errorMessage = new JLabel();
 			errorMessage.setForeground(Color.RED);
@@ -94,13 +89,15 @@ public class EditLevel {
 			moveBlockButton = new JButton();
 			removeBlockButton = new JButton();
 			horizontalPositionTextField = new JTextField();
+			horizontalPositionTextField.setToolTipText("horizontal position of block");
 			verticalPositionTextField = new JTextField();
 			
 			
-		/*
-		 * // global settings setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		 * setTitle("Block223 Group29 Game");
-		 */
+		
+		  // global settings 
+			setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		  setTitle("Block223 Group29 Game");
+		 
 			
 			//listeners for levels
 			addLevelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -134,21 +131,91 @@ public class EditLevel {
 				}
 			});
 			
-			// horizontal line elements
+			
+			
+			// horizontal/vertical line elements
 			JSeparator verticalLineLeft = new JSeparator();
 			JSeparator verticalLineRight = new JSeparator();
+			JSeparator horizontalLineLevel = new JSeparator();
+			JSeparator horizontalLineBlock = new JSeparator();
 			
-			// layout
 			// layout
 			GroupLayout layout = new GroupLayout(getContentPane());
 			getContentPane().setLayout(layout);
 			layout.setAutoCreateGaps(true);
 			layout.setAutoCreateContainerGaps(true);
 			layout.setHorizontalGroup(
-					layout.createParallelGroup()
+				layout.createParallelGroup()
+				.addComponent(backButton)
+				.addComponent(errorMessage)
+				.addComponent(usernameLabel)
+				.addGroup(layout.createSequentialGroup())
+					.addGroup(layout.createParallelGroup()
+						.addComponent(levelLabel)
+						.addComponent(levelList)
+						.addComponent(addLevelButton)
+						.addComponent(horizontalLineLevel)
+						.addComponent(removeLevelButton))
+					.addComponent(verticalLineLeft)
+					.addGroup(layout.createParallelGroup()
+						.addComponent(blockAreaLabel)
+						//.add(PlayArea)
+						)
+					.addComponent(verticalLineRight)
+					.addGroup(layout.createParallelGroup()
+							.addComponent(blockLabel)
+							.addComponent(blockList)
+							.addGroup(layout.createSequentialGroup()
+									.addComponent(horizontalPositionTextField)
+									.addComponent(verticalPositionTextField))
+							.addComponent(positionBlockButton)
+							.addComponent(horizontalLineBlock)
+							.addComponent(moveBlockButton)
+							.addComponent(removeBlockButton))
 					
 					
 					);
+			
+			layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {moveBlockButton, positionBlockButton});
+			layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {moveBlockButton, removeBlockButton});
+			layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {moveBlockButton, removeLevelButton});
+			
+			
+			
+			layout.setVerticalGroup(
+					layout.createParallelGroup()
+					.addComponent(verticalLineRight)
+					.addComponent(verticalLineLeft)
+					.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup()
+							.addComponent(backButton)
+							.addComponent(usernameLabel))
+						.addComponent(errorMessage)
+						.addGroup(layout.createParallelGroup()
+							.addComponent(levelLabel)
+							.addComponent(blockAreaLabel)
+							.addComponent(blockLabel))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(levelList)
+								//.addComponent(playAreaList)
+								.addComponent(blockList))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(addLevelButton)
+								.addComponent(positionBlockButton))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(horizontalLineBlock)
+								.addComponent(horizontalLineLevel))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(removeLevelButton)
+								.addComponent(moveBlockButton))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(horizontalPositionTextField)
+								.addComponent(verticalPositionTextField))
+						.addComponent(removeBlockButton)
+						)
+					);
+			
+			//pack();
 			
 		}
 		

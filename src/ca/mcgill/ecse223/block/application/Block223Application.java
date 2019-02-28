@@ -5,12 +5,22 @@ import ca.mcgill.ecse223.block.model.Block223;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.UserRole;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
+import ca.mcgill.ecse223.block.view.EditLevel;
 
 public class Block223Application {
 
 	private static Block223 block223;
 	private static Game currentGame;
 	private static UserRole currentUserRole;
+	
+	public static void main(String[] args) {
+		// start UI
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new EditLevel().setVisible(true);
+            }
+        });
+	}
 
 	public static Block223 getBlock223() {
 		if(block223 == null) {
