@@ -2,10 +2,12 @@ package ca.mcgill.ecse223.block.view;
 
 import java.awt.Color;
 
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import ca.mcgill.ecse223.block.controller.InvalidInputException; 
 
@@ -114,14 +116,82 @@ public class GameSettingsPage  extends JFrame{
 		// I want to link all my text fields to the save button and all my labels to the textFields
 		
 		
+		GroupLayout layout = new GroupLayout(getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
+		layout.setHorizontalGroup(
+				layout.createParallelGroup()
+				//.addComponent(errorMessage) // see what it is 
+				.addComponent(gameNameLabel) 
+				.addComponent(nrOfLevelsLabel)
+				.addComponent(nrBlocksPerLevelLabel) 
+				.addComponent(paddleMinLengthLabel)
+				.addComponent(paddleMaxLengthLabel)
+				.addComponent(ballMinSpeedXLabel)
+				.addComponent(ballMinSpeedYLabel)
+				.addComponent(ballSpeedIncreaseFactorLabel)
+				.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup()		
+								.addComponent(gameNameField)
+								.addComponent(nrOfLevelsField)
+								.addComponent(nrBlocksPerLevelField)
+								.addComponent(paddleMinLengthField)
+								.addComponent(paddleMaxLengthField)
+								.addComponent(ballMinSpeedXField)
+								.addComponent(ballMinSpeedYField)
+								.addComponent(ballSpeedIncreaseFactorField)
+								.addComponent(saveButton)
+								.addComponent(editBlocksButton)
+								.addComponent(editLevelsButton)))
+				
+				);
+		
+		layout.setVerticalGroup(
+				layout.createSequentialGroup()
+				//.addComponent(errorMessage)
+				.addGroup(layout.createParallelGroup()
+				.addComponent(gameNameLabel)
+				.addComponent(gameNameField))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(nrOfLevelsLabel)
+						.addComponent(nrOfLevelsField))
+				.addGroup(layout.createParallelGroup()	
+						.addComponent(nrBlocksPerLevelLabel)
+						.addComponent(nrBlocksPerLevelField))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(paddleMinLengthLabel)
+						.addComponent(paddleMinLengthField))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(paddleMaxLengthLabel)
+						.addComponent(paddleMaxLengthField))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(ballMinSpeedXLabel)
+						.addComponent(ballMinSpeedXField))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(ballMinSpeedYLabel)
+						.addComponent(ballMinSpeedYField))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(ballSpeedIncreaseFactorLabel)
+						.addComponent(ballSpeedIncreaseFactorField))
+				);
+								
+						
+		
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {gameNameField, nrOfLevelsField,nrBlocksPerLevelField, paddleMinLengthField,paddleMaxLengthField, ballMinSpeedXField, ballMinSpeedYField,ballSpeedIncreaseFactorField});
+								
+				
+				
+		
+		
 		
 	}
 	
 
 	private void refreshData() {
 		// error
-		errorMessage.setText(error);
-		if (error == null || error.length() == 0) {
+		//errorMessage.setText(error);
+		//if (error == null || error.length() == 0) {
 		// populate page with data
 		
 		gameNameField.setText("");
@@ -135,21 +205,21 @@ public class GameSettingsPage  extends JFrame{
 		
 		}
 		
-		pack(); 
-	}
+		//pack(); 
+	
 	
 	
 	// step 5: 
 	
 	private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		// clear error message
-		error = null;
+	//	error = null;
 		// call the controller
 		try {
 			
 		BtmsController.updateGame(gameNameField.getText(), nrOfLevelsField.getText(), nrBlocksPerLevelField.getText(), ballMinSpeedXField.getText(), ballMinSpeedYField.getText(), ballSpeedIncreaseFactorField.getText(), paddleMinLengthField.getText(), paddleMaxLengthField.getText());
 		} catch (InvalidInputException e) {
-		error = e.getMessage();
+	//	error = e.getMessage();
 		}
 		// update visuals
 		refreshData();
@@ -160,22 +230,19 @@ public class GameSettingsPage  extends JFrame{
 	public static void createEditLevelsFrame() {
 		
 		
-		// copy paste the window of edit levels
+		
 	}
 	
 	public static void createEditBlocksFrame() { 
 		
-		// copy paste the window of edit blocks
+		
 	}
 	
 	 // should call createEditLevels frame
 	private void editLevelsButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		error = null; 
+	//	error = null; 
 		
-		try { 
-			
-			
-		}
+		
 	}
 	
 	// should call createEditBlocksFrame
