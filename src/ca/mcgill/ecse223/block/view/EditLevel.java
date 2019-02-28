@@ -44,6 +44,7 @@ public class EditLevel {
 		private JButton removeLevelButton;
 		
 		//block play area
+		private JLabel blockAreaLabel;
 		
 		//Blocks Available
 		private JLabel blockLabel;
@@ -82,6 +83,8 @@ public class EditLevel {
 			removeLevelButton = new JButton();
 			
 			//elements for block play area
+			blockAreaLabel = new JLabel();
+			blockAreaLabel.setText("Play Area");
 			
 			//elements for blocks available
 			blockLabel = new JLabel();
@@ -142,6 +145,8 @@ public class EditLevel {
 			layout.setAutoCreateGaps(true);
 			layout.setAutoCreateContainerGaps(true);
 			layout.setHorizontalGroup(
+					layout.createParallelGroup()
+					
 					
 					);
 			
