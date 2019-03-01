@@ -13,6 +13,8 @@ import ca.mcgill.ecse223.block.controller.InvalidInputException;
 
 public class GameSettingsPage  extends JFrame{
 	
+	private static final long serialVersionUID = -4426310869679315542L;
+	
 	// step 1: UI elements for game settings page need to add the error messages
 	// frame 
 	
@@ -215,14 +217,14 @@ public class GameSettingsPage  extends JFrame{
 		// clear error message
 	//	error = null;
 		// call the controller
-		try {
+		//try {
 			
-		BtmsController.updateGame(gameNameField.getText(), nrOfLevelsField.getText(), nrBlocksPerLevelField.getText(), ballMinSpeedXField.getText(), ballMinSpeedYField.getText(), ballSpeedIncreaseFactorField.getText(), paddleMinLengthField.getText(), paddleMaxLengthField.getText());
-		} catch (InvalidInputException e) {
+		//BtmsController.updateGame(gameNameField.getText(), nrOfLevelsField.getText(), nrBlocksPerLevelField.getText(), ballMinSpeedXField.getText(), ballMinSpeedYField.getText(), ballSpeedIncreaseFactorField.getText(), paddleMinLengthField.getText(), paddleMaxLengthField.getText());
+		//} catch (InvalidInputException e) {
 	//	error = e.getMessage();
-		}
+		//}
 		// update visuals
-		refreshData();
+		//refreshData();
 		}
 	
 	// method create frame 

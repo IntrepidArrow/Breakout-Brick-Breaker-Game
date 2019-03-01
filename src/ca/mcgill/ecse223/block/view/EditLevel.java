@@ -68,14 +68,18 @@ public class EditLevel extends JFrame {
 			
 			// elements for error message
 			errorMessage = new JLabel();
+			errorMessage.setText("error");
 			errorMessage.setForeground(Color.RED);
 			
 			//elements for levels
 			levelLabel = new JLabel();
 			levelLabel.setText("Levels");
-			levelList = new JComboBox<String>(new String[0]);
+			String[] levelListarray = {"level 1" , "level 2"};
+			levelList = new JComboBox<String>( levelListarray);
 			addLevelButton = new JButton();
+			addLevelButton.setText("Add Level");
 			removeLevelButton = new JButton();
+			removeLevelButton.setText("Remove Level");
 			
 			//elements for block play area
 			blockAreaLabel = new JLabel();
@@ -84,10 +88,14 @@ public class EditLevel extends JFrame {
 			//elements for blocks available
 			blockLabel = new JLabel();
 			blockLabel.setText("Levels");
-			blockList = new JComboBox<String> (new String[0]);
+			String[] blocklistarray = {"block1, red" , "block2, rblue"};
+			blockList = new JComboBox<String> (blocklistarray);
 			positionBlockButton = new JButton();
+			positionBlockButton.setText("Position Block");
 			moveBlockButton = new JButton();
+			moveBlockButton.setText("Move Block");
 			removeBlockButton = new JButton();
+			removeBlockButton.setText("Remove Block");
 			horizontalPositionTextField = new JTextField();
 			horizontalPositionTextField.setToolTipText("horizontal position of block");
 			verticalPositionTextField = new JTextField();
@@ -146,15 +154,14 @@ public class EditLevel extends JFrame {
 			layout.setAutoCreateContainerGaps(true);
 			layout.setHorizontalGroup(
 				layout.createParallelGroup()
-				.addComponent(backButton)
 				.addComponent(errorMessage)
-				.addComponent(usernameLabel)
 				.addGroup(layout.createSequentialGroup())
 					.addGroup(layout.createParallelGroup()
+						.addComponent(backButton)
 						.addComponent(levelLabel)
 						.addComponent(levelList)
 						.addComponent(addLevelButton)
-						.addComponent(horizontalLineLevel)
+						//.addComponent(horizontalLineLevel)
 						.addComponent(removeLevelButton))
 					.addComponent(verticalLineLeft)
 					.addGroup(layout.createParallelGroup()
@@ -163,6 +170,7 @@ public class EditLevel extends JFrame {
 						)
 					.addComponent(verticalLineRight)
 					.addGroup(layout.createParallelGroup()
+							.addComponent(usernameLabel)
 							.addComponent(blockLabel)
 							.addComponent(blockList)
 							.addGroup(layout.createSequentialGroup()
@@ -178,19 +186,22 @@ public class EditLevel extends JFrame {
 			
 			layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {moveBlockButton, positionBlockButton});
 			layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {moveBlockButton, removeBlockButton});
-			layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {moveBlockButton, removeLevelButton});
-			
+			layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {addLevelButton, removeLevelButton});
+			layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {addLevelButton, horizontalLineLevel});
+			layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {moveBlockButton, horizontalLineBlock});
 			
 			
 			layout.setVerticalGroup(
 					layout.createParallelGroup()
-					.addComponent(verticalLineRight)
-					.addComponent(verticalLineLeft)
+						/*
+						 * .addComponent(verticalLineRight) .addComponent(verticalLineLeft)
+						 */
+					.addComponent(errorMessage)
 					.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
 							.addComponent(backButton)
 							.addComponent(usernameLabel))
-						.addComponent(errorMessage)
+						
 						.addGroup(layout.createParallelGroup()
 							.addComponent(levelLabel)
 							.addComponent(blockAreaLabel)
@@ -203,8 +214,8 @@ public class EditLevel extends JFrame {
 								.addComponent(addLevelButton)
 								.addComponent(positionBlockButton))
 						.addGroup(layout.createParallelGroup()
-								.addComponent(horizontalLineBlock)
-								.addComponent(horizontalLineLevel))
+								.addComponent(horizontalLineBlock, 200, 200, 400)
+								.addComponent(horizontalLineLevel, 200, 200, 400))
 						.addGroup(layout.createParallelGroup()
 								.addComponent(removeLevelButton)
 								.addComponent(moveBlockButton))
