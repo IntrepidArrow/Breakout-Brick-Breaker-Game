@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 
@@ -19,12 +20,13 @@ import javax.swing.BoxLayout;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 public class LoginPage extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField usernameField;
-	private JTextField passwordField;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -61,17 +63,17 @@ public class LoginPage extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
             	try {
-					Block223Controller.login(usernameField.getText(), passwordField.getText());
+					Block223Controller.login(usernameField.getText(), Block223Controller.getSHA512(new String(passwordField.getPassword()), "223"));
+					//TODO ADD THE PLAYER OR DESIGN PAGE CODE ACCORDING TO CURRENT USER ROLE
+					//setVisible("false);
+					//Block223Application.getCurrentUserRole()
+					
 				} catch (InvalidInputException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.toString());
 				}
             	
-            	
-//                if(textField.getText().isEmpty())
-//                    JOptionPane.showMessageDialog(null, "Data Missing");
-//                else       
-//                JOptionPane.showMessageDialog(null, "Data Submitted");
             }
         });
 		
@@ -80,11 +82,6 @@ public class LoginPage extends JFrame {
 		contentPane.add(usernameField);
 		usernameField.setColumns(10);
 		
-		passwordField = new JTextField();
-		passwordField.setBounds(161, 126, 116, 22);
-		contentPane.add(passwordField);
-		passwordField.setColumns(10);
-		
 		JLabel lblNewLabel = new JLabel("Username:");
 		lblNewLabel.setBounds(52, 79, 63, 16);
 		contentPane.add(lblNewLabel);
@@ -92,6 +89,10 @@ public class LoginPage extends JFrame {
 		JLabel lblPlayerPassword = new JLabel("Password:");
 		lblPlayerPassword.setBounds(52, 129, 63, 16);
 		contentPane.add(lblPlayerPassword);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(161, 126, 116, 22);
+		contentPane.add(passwordField);
 	}
 	
 	

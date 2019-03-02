@@ -13,17 +13,7 @@ class User {
 //unique test;
    before constructor {
    	if(aUsername == null || aUsername.isEmpty()){
-   		for(UserRole r : allRoles) {
-   			aBlock223.removeRole(r);
-   		}
    	throw new RuntimeException("The username must be specified.");
-      
-   	}
-   	if(!setUsername(aUsername)){
-   		for(UserRole r : allRoles) {
-   			aBlock223.removeRole(r);
-   		}
-   	throw new RuntimeException("The passwords have to be different.");
       
    	}
    }

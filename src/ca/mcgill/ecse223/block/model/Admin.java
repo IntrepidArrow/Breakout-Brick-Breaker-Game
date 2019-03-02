@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 27 "../../../../../Block223Persistence.ump"
-// line 45 "../../../../../Block223.ump"
+// line 35 "../../../../../Block223.ump"
 public class Admin extends UserRole implements Serializable
 {
 

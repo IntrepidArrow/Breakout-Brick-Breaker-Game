@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 
 public class StartPage extends JFrame {
 
+	public static StartPage instance;
 	private JPanel contentPane;
 
 	/**
@@ -59,7 +60,7 @@ public class StartPage extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new LoginPage().setVisible(true);
+				new SignupPage().setVisible(true);
 			}
 		});
 		btnNewButton_1.setBounds(278, 179, 97, 25);

@@ -1,5 +1,8 @@
 package ca.mcgill.ecse223.block.controller;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -425,7 +428,7 @@ public class Block223Controller {
 		if(Block223Application.getCurrentUserRole()!= null) {
 			error += "Cannot register a new user while a user is logged in.";
 		}
-		if(playerPassword.equals(adminPassword)) {
+		if(playerPassword == adminPassword) {
 			error += "The passwords have to be different.";
 		}
 		if (error.length() > 0) {
@@ -434,11 +437,19 @@ public class Block223Controller {
 		
 		Block223 block223 = Block223Application.getBlock223();
 		Player player = new Player(playerPassword, block223);
-		User user = new User(username, block223, player);
+		User user = null;
+		try {
+			user = new User(username, block223, player);
+			System.out.println("created user with player");
+		} catch (Exception e) {
+			block223.removeRole(player);
+			throw new InvalidInputException(e.toString());
+
+		}
 		if(!(adminPassword == null || adminPassword.isEmpty())){
 			Admin admin = new Admin(adminPassword, block223);
 			user.addRole(admin);
-		
+			System.out.println("added admin role");
 		}
 		
 		Block223Persistence.save(block223);
@@ -447,7 +458,9 @@ public class Block223Controller {
 	}
 
 	public static void login(String username, String password) throws InvalidInputException {
+		
 		String error = "";
+		System.out.println("trying to login with "+username+"|"+password);
 		if(Block223Application.getCurrentUserRole()!= null) {
 			error += "Cannot register a new user while a user is logged in.";
 		}
@@ -465,14 +478,16 @@ public class Block223Controller {
 		List<UserRole> roles= user.getRoles();
 		for(UserRole r:roles) {
 			String rolePassword = r.getPassword();
-			if(rolePassword.equals(password)) {
+			System.out.println("role>"+rolePassword+"\ninput>"+password);
+			if(rolePassword.equals(password) ) {
 				Block223Application.setCurrentUserRole(r);
+				System.out.println("logged in as "+ (r instanceof Admin?"admin":"player"));
+				
 				return;
 			}
 		}
 		
-		throw new InvalidInputException("The username and password do not match.");
-		
+		throw new InvalidInputException("The username and password do not match..");
 		
 		
 	}
@@ -481,7 +496,29 @@ public class Block223Controller {
 		Block223Application.setCurrentUserRole(null);
 
 	}
-
+	
+	// ****************************
+	// Helper methods
+	// ****************************	
+	public static String getSHA512(String passwordToHash, String   salt){
+		String generatedPassword = null;
+		    try {
+		         MessageDigest md = MessageDigest.getInstance("SHA-512");
+		         md.update(salt.getBytes(StandardCharsets.UTF_8));
+		         byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
+		         StringBuilder sb = new StringBuilder();
+		         for(int i=0; i< bytes.length ;i++){
+		            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+		         }
+		         generatedPassword = sb.toString();
+		        } 
+		       catch (NoSuchAlgorithmException e){
+		        e.printStackTrace();
+		       }
+		    return generatedPassword;
+		}
+	
+	
 	// ****************************
 	// Query methods
 	// ****************************

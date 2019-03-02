@@ -14,11 +14,21 @@ public class Block223Application {
 	private static Game currentGame;
 	private static UserRole currentUserRole;
 	
+    private static StartPage instance;
+
+    public static StartPage getStartInstance() {
+        if(StartPage.instance == null)
+        	StartPage.instance = new StartPage();
+
+        return StartPage.instance;
+    }
+	
 	public static void main(String[] args) {
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StartPage().setVisible(true);
+                StartPage newStart=getStartInstance();
+                newStart.setVisible(true);
             }
         });
 	}
