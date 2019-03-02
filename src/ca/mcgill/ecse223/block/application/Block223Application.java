@@ -17,7 +17,7 @@ public class Block223Application {
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EditLevel().setVisible(true);
+                new EditLevel().frame.setVisible(true);
             }
         });
 	}
