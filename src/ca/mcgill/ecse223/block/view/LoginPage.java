@@ -99,7 +99,7 @@ public class LoginPage extends JFrame {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				Block223Application.getStartInstance().setVisible(true);
+				StartPage.getStartInstance().setVisible(true);
 			}
 		});
 		btnBack.setBounds(0, 0, 71, 25);

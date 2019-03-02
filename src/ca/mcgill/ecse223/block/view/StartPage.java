@@ -19,9 +19,17 @@ import javax.swing.SwingConstants;
 
 public class StartPage extends JFrame {
 
-	public static StartPage instance;
+	private static StartPage instance;
 	private JPanel contentPane;
+	
+	
+    public static StartPage getStartInstance() {
+        if(StartPage.instance == null)
+        	StartPage.instance = new StartPage();
 
+        return StartPage.instance;
+    }
+	
 	/**
 	 * Launch the application.
 	 */

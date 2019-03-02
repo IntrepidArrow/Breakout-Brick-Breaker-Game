@@ -73,7 +73,7 @@ public class SignupPage extends JFrame {
 							Block223Controller.getSHA512(new String(adminPasswordField.getPassword()), "223")
 							);
 					setVisible(false);
-					Block223Application.getStartInstance().setVisible(true);
+					StartPage.getStartInstance().setVisible(true);
 				} catch (InvalidInputException e1) {
 					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null, e1.toString());
@@ -135,7 +135,7 @@ public class SignupPage extends JFrame {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				Block223Application.getStartInstance().setVisible(true);
+				StartPage.getStartInstance().setVisible(true);
 			}
 		});
 		button_1.setBounds(0, 0, 71, 25);
