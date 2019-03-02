@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import ca.mcgill.ecse223.block.application.Block223Application;
+import ca.mcgill.ecse223.block.persistence.Block223Persistence;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -76,5 +80,15 @@ public class StartPage extends JFrame {
 		lblNewUser.setFont(new Font("Segoe UI Light", Font.PLAIN, 16));
 		lblNewUser.setBounds(278, 145, 97, 31);
 		contentPane.add(lblNewUser);
+		
+		JButton btnResetPersistence = new JButton("reset persistence");
+		btnResetPersistence.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Block223Persistence.reset();
+			}
+		});
+		btnResetPersistence.setFont(new Font("Consolas", Font.PLAIN, 11));
+		btnResetPersistence.setBounds(0, 228, 146, 25);
+		contentPane.add(btnResetPersistence);
 	}
 }

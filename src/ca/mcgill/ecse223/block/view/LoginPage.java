@@ -27,6 +27,7 @@ public class LoginPage extends JFrame {
 	private JPanel contentPane;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
+	private JButton btnBack;
 
 	/**
 	 * Launch the application.
@@ -50,7 +51,7 @@ public class LoginPage extends JFrame {
 	public LoginPage() {
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(500, 300, 383, 328);
+		setBounds(500, 300, 353, 328);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -93,6 +94,16 @@ public class LoginPage extends JFrame {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(161, 126, 116, 22);
 		contentPane.add(passwordField);
+		
+		btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				Block223Application.getStartInstance().setVisible(true);
+			}
+		});
+		btnBack.setBounds(0, 0, 71, 25);
+		contentPane.add(btnBack);
 	}
 	
 	

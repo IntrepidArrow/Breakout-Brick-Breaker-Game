@@ -32,6 +32,7 @@ public class SignupPage extends JFrame {
 	private JPasswordField adminPasswordField;
 	private JLabel label;
 	private JLabel lblOptional;
+	private JButton button_1;
 
 	/**
 	 * Launch the application.
@@ -129,5 +130,15 @@ public class SignupPage extends JFrame {
 		lblOptional.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblOptional.setBounds(151, 117, 116, 16);
 		contentPane.add(lblOptional);
+		
+		button_1 = new JButton("Back");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				Block223Application.getStartInstance().setVisible(true);
+			}
+		});
+		button_1.setBounds(0, 0, 71, 25);
+		contentPane.add(button_1);
 	}
 }

@@ -434,13 +434,12 @@ public class Block223Controller {
 		if (error.length() > 0) {
 			throw new InvalidInputException(error.trim());
 		}
-		
+
 		Block223 block223 = Block223Application.getBlock223();
 		Player player = new Player(playerPassword, block223);
 		User user = null;
 		try {
 			user = new User(username, block223, player);
-			System.out.println("created user with player");
 		} catch (Exception e) {
 			block223.removeRole(player);
 			throw new InvalidInputException(e.toString());
@@ -449,25 +448,22 @@ public class Block223Controller {
 		if(!(adminPassword == null || adminPassword.isEmpty())){
 			Admin admin = new Admin(adminPassword, block223);
 			user.addRole(admin);
-			System.out.println("added admin role");
 		}
-		
 		Block223Persistence.save(block223);
-	
 	
 	}
 
 	public static void login(String username, String password) throws InvalidInputException {
 		
 		String error = "";
-		System.out.println("trying to login with "+username+"|"+password);
+		//System.out.println("trying to login with "+username+"|"+password);
 		if(Block223Application.getCurrentUserRole()!= null) {
 			error += "Cannot register a new user while a user is logged in.";
 		}
 		
-		//added first according to prof
 		Block223 block223 = Block223Application.resetBlock223();
 		User user=User.getWithUsername(username);
+		System.out.println("user->"+user);
 		if(user==null) {
 			error += "The username and password do not match.";
 		}
@@ -478,7 +474,7 @@ public class Block223Controller {
 		List<UserRole> roles= user.getRoles();
 		for(UserRole r:roles) {
 			String rolePassword = r.getPassword();
-			System.out.println("role>"+rolePassword+"\ninput>"+password);
+			//System.out.println("role>"+rolePassword+"\ninput>"+password);
 			if(rolePassword.equals(password) ) {
 				Block223Application.setCurrentUserRole(r);
 				System.out.println("logged in as "+ (r instanceof Admin?"admin":"player"));

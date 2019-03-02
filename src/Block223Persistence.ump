@@ -17,11 +17,17 @@ class User {
   private static final long serialVersionUID = -2683563616927798191L;
   
   public static void reinitializeUniqueUsername(List<User> users) {
-    Map<String, User> usersByUsername = new HashMap<String, User>();
+    Map<String, User> tmpUsersByUsername = new HashMap<String, User>();
     for (User u : users) {
-      usersByUsername.put(u.getUsername(), u);
+      tmpUsersByUsername.put(u.getUsername(), u);
     }
+    User.usersByUsername=tmpUsersByUsername;
   }
+}
+class UserRole {
+ depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -2683549616927790862L;
 }
 
 class Admin {

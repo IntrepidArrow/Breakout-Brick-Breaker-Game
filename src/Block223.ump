@@ -6,17 +6,17 @@ class Block223 {
    1 <@>- * User users;
    1 <@>- * UserRole roles;
    1 <@>- * Game games;
+
 }
 
 class User {
    unique username;
 //unique test;
-   before constructor {
-   	if(aUsername == null || aUsername.isEmpty()){
-   	throw new RuntimeException("The username must be specified.");
-      
-   	}
-   }
+//   before constructor {
+//   	if(aUsername == null || aUsername.isEmpty()){
+//   	throw new RuntimeException("The username must be specified.");    
+//   	}
+//   }
 	
    1 -> 1..2 UserRole roles;
 	
