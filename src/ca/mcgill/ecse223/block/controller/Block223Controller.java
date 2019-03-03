@@ -27,20 +27,14 @@ public class Block223Controller {
 	// ****************************
 
 	public static void createGame(String name) throws InvalidInputException {
-		String error = "";
+		UserRole admin = Block223Application.getCurrentUserRole();
+
+		if (!(admin instanceof Admin))
+			throw new InvalidInputException("Admin privileges are required to create a game.");
 
 		Block223 block223 = Block223Application.getBlock223();
 
-		UserRole currentRole = Block223Application.getCurrentUserRole();
-
-		if (!(currentRole instanceof Admin)) {
-			error += "Admin privileges are required to create a game.";
-		}
-
-		Game game = new Game(name, 1, (Admin) currentRole, 1, 1, 1, 10, 10, block223);
-
-		if (error.length() > 0)
-			throw new InvalidInputException(error.trim());
+		new Game(name, 1, (Admin) admin, 1, 1, 1, 10, 10, block223);
 	}
 
 	public static void setGameDetails(int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
@@ -151,6 +145,20 @@ public class Block223Controller {
 	}
 
 	public static void deleteGame(String name) throws InvalidInputException {
+		String error = "";
+
+		Block223 block223 = Block223Application.getBlock223();
+
+		UserRole admin = Block223Application.getCurrentUserRole();
+
+		if (!(admin instanceof Admin)) {
+			error += "Admin privileges are required to create a game.";
+		}
+
+		Game game = new Game(name, 1, (Admin) admin, 1, 1, 1, 10, 10, block223);
+
+		if (error.length() > 0)
+			throw new InvalidInputException(error.trim());
 	}
 
 	public static void selectGame(String name) throws InvalidInputException {
@@ -215,7 +223,7 @@ public class Block223Controller {
 		if (Block223Application.getCurrentGame() == null) { // if the current game is not set
 			error += "A game must be selected to add a block. ";
 		}
-		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) { // if current
+		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {// if current
 																											// user role
 																											// is not
 																											// the admin
@@ -515,6 +523,7 @@ public class Block223Controller {
 	// ****************************
 	// Helper methods
 	// ****************************
+
 	public static String getSHA512(String passwordToHash, String salt) {
 		String generatedPassword = null;
 		try {
@@ -535,17 +544,19 @@ public class Block223Controller {
 	// ****************************
 	// Query methods
 	// ****************************
+
 	public static List<TOGame> getDesignableGames() throws InvalidInputException {
-		// Check if this is the right way to throw this invalid input exception
-		if (!(Block223Application.getCurrentUserRole() instanceof Admin)) { // if the current user role of the game is
-																			// not set to admin
-			throw new InvalidInputException("Admin privileges are required to access game information");
-		}
-		// Method body
-		Block223 block223 = Block223Application.getBlock223();
+
 		UserRole admin = Block223Application.getCurrentUserRole();
+
+		if (!(admin instanceof Admin)) {
+			throw new InvalidInputException("Admin privileges are required to access game information.");
+		}
+
+		Block223 block223 = Block223Application.getBlock223();
 		List<TOGame> result = new ArrayList<>();
 		List<Game> games = block223.getGames();
+
 		for (Game game : games) {
 			Admin gameAdmin = game.getAdmin();
 
