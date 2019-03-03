@@ -12,8 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.JFormattedTextField;
 import java.awt.Font;
-import java.awt.Canvas;
-import java.awt.Panel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
