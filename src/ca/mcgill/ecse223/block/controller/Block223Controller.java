@@ -34,6 +34,12 @@ public class Block223Controller {
 
 		Block223 block223 = Block223Application.getBlock223();
 
+		if (name == null || name.length() == 0)
+			throw new InvalidInputException("The name of a game must be specified.");
+
+		if (block223.findGame(name) != null)
+			throw new InvalidInputException("The name of a game must be unique.");
+
 		new Game(name, 1, (Admin) admin, 1, 1, 1, 10, 10, block223);
 	}
 
@@ -145,9 +151,8 @@ public class Block223Controller {
 	}
 
 	public static void deleteGame(String name) throws InvalidInputException {
-		String error = "";
 
-		Block223 block223 = Block223Application.getBlock223();
+		Game game = Game.getWithName(name);
 
 		UserRole admin = Block223Application.getCurrentUserRole();
 
