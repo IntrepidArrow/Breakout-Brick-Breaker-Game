@@ -277,9 +277,6 @@ public class GameSettingsPage extends JFrame{
 	}
 	private void editBlocksBtnActionPerformed(java.awt.event.ActionEvent evt) {
 		gameSettingsFrame.dispose(); 
-		// create a new instance of edit blocks frame and make it visible 
-		// EditBlocks editBlocks = new EditBlocks(); 
-				// editBlocks.setVisible(true); 
-		
+		new EditBlocksPage();
 	}
 }

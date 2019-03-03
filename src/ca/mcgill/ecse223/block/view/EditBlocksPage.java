@@ -57,6 +57,7 @@ public class EditBlocksPage {
 		frmGameBlockSettings.setTitle("Game Block Settings");
 		frmGameBlockSettings.setBounds(100, 100, 476, 361);
 		frmGameBlockSettings.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmGameBlockSettings.setVisible(true);
 		
 		JButton btnBack = new JButton("Back");
 		
@@ -66,7 +67,7 @@ public class EditBlocksPage {
 		btnCreateNewBlock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO: Implement action to add new block to the game
-				frmGameBlockSettings.setVisible(false);
+				addBlockWindowActionPerformed(arg0);
 			}
 		});
 		
@@ -161,5 +162,10 @@ public class EditBlocksPage {
 					.addContainerGap(40, Short.MAX_VALUE))
 		);
 		frmGameBlockSettings.getContentPane().setLayout(groupLayout);
+	}
+	
+	private void addBlockWindowActionPerformed(ActionEvent evt) {
+		frmGameBlockSettings.dispose();
+		new AddBlockPage();
 	}
 }
