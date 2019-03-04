@@ -33,6 +33,11 @@ public class User implements Serializable
 
   public User(String aUsername, Block223 aBlock223, UserRole... allRoles)
   {
+    // line 22 "../../../../../Block223.ump"
+    if(aUsername == null || aUsername.isEmpty()){
+       	throw new RuntimeException("The username must be specified.");    
+       	}
+    // END OF UMPLE BEFORE INJECTION
     if (!setUsername(aUsername))
     {
       throw new RuntimeException("Cannot create due to duplicate username");
@@ -91,14 +96,6 @@ public class User implements Serializable
     return aRole;
   }
 
-  /**
-   * unique test;
-   * before constructor {
-   * if(aUsername == null || aUsername.isEmpty()){
-   * throw new RuntimeException("The username must be specified.");
-   * }
-   * }
-   */
   public List<UserRole> getRoles()
   {
     List<UserRole> newRoles = Collections.unmodifiableList(roles);

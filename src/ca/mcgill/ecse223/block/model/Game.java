@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 45 "../../../../../Block223Persistence.ump"
-// line 50 "../../../../../Block223.ump"
+// line 49 "../../../../../Block223.ump"
 public class Game implements Serializable
 {
 
@@ -610,7 +610,7 @@ public class Game implements Serializable
     }
   }
 
-  // line 66 "../../../../../Block223.ump"
+  // line 65 "../../../../../Block223.ump"
    public Block findBlock(int id){
     Block foundBlock = null;
 	  List<Block> blocks = this.getBlocks();
@@ -622,13 +622,13 @@ public class Game implements Serializable
 	  return foundBlock;
   }
 
-  // line 76 "../../../../../Block223.ump"
+  // line 75 "../../../../../Block223.ump"
    public int getMaxNumberHorizontalBlocks(){
     int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING , (Block.SIZE + COLUMNS_PADDING) );
 	  return maxNbr;
   }
 
-  // line 80 "../../../../../Block223.ump"
+  // line 79 "../../../../../Block223.ump"
    public int getMaxNumberVerticalBlocks(){
     int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - WALL_PADDING - 30 - 5 - 10 , (Block.SIZE + ROW_PADDING) ); 
 	  return maxNbr;

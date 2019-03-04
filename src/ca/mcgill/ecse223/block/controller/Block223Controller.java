@@ -442,7 +442,7 @@ public class Block223Controller {
 		UserRole currentRole = Block223Application.getCurrentUserRole();
 
 		if (!(currentRole instanceof Admin)) {
-			error += "Admin privileges are required to access game information. ";
+			error += "Admin privileges are required to save a game.";
 		} else if (currentRole instanceof Admin) {
 			Admin currentAdmin = (Admin) currentRole;
 			if (!currentAdmin.getGames().contains(Block223Application.getCurrentGame())) {
@@ -460,9 +460,10 @@ public class Block223Controller {
 		Block223 block223 = Block223Application.getBlock223();
 		try {
 			Block223Persistence.save(block223);
-		} catch (RuntimeException e) {
-			throw new InvalidInputException("An error has occured while saving the game.");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 
 		return;
 
@@ -484,9 +485,12 @@ public class Block223Controller {
 		Block223 block223 = Block223Application.getBlock223();
 		Player player = new Player(playerPassword, block223);
 		User user = null;
+		
+		
+		
 		try {
 			user = new User(username, block223, player);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			block223.removeRole(player);
 			throw new InvalidInputException(e.toString());
 

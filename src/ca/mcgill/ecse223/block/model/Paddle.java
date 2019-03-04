@@ -5,9 +5,8 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 89 "../../../../../Block223Persistence.ump"
-// line 172 "../../../../../Block223.ump"
-
+// line 95 "../../../../../Block223Persistence.ump"
+// line 168 "../../../../../Block223.ump"
 public class Paddle implements Serializable
 {
 
