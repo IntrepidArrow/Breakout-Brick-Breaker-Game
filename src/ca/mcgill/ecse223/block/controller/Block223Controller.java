@@ -271,6 +271,34 @@ public class Block223Controller {
 	}
 
 	public static void updateBlock(int id, int red, int green, int blue, int points) throws InvalidInputException {
+		String error = "";
+
+		if (!(Block223Application.getCurrentUserRole() instanceof Admin)) { // if current user role is not set to Admin
+			error += "Admin privileges are required to add a block. ";
+		}
+		if (Block223Application.getCurrentGame() == null) { // if the current game is not set
+			error += "A game must be selected to add a block. ";
+		}
+		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
+			error += "Only the admin who created the game can add a block. ";
+		}
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+		Game game = Block223Application.getCurrentGame();
+		Block updatedBlock = game.findBlock(id);
+		if(updatedBlock == null) {
+			throw new InvalidInputException("The block does not exist.");
+		}
+		try {
+			updatedBlock.setRed(red);
+			updatedBlock.setGreen(green);
+			updatedBlock.setBlue(blue);
+			updatedBlock.setPoints(points);
+
+		} catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
 	}
 
 	public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition)
