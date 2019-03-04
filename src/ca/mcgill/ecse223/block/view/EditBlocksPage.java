@@ -120,6 +120,7 @@ public class EditBlocksPage {
 
 					//update block controller call
 					Block223Controller.updateBlock(blockToUpdate.getId(), newRedVal, newGreenVal, newBlueVal, newPointsVal);
+					refreshBlockData();
 				} catch (InvalidInputException m) {
 					errorMessageToUse.setText(m.getMessage());
 				} catch (NumberFormatException m) {

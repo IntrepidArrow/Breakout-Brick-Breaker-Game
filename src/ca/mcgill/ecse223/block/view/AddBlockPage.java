@@ -31,7 +31,6 @@ public class AddBlockPage {
 	private JTextField pointsValue;
 
 	//Local variables for use
-	private String error = null;
 	private JLabel errorMessage = null;
 
 	/**
@@ -117,6 +116,9 @@ public class AddBlockPage {
 					blueVal = Integer.parseInt(blueValue.getText());
 					pointsVal = Integer.parseInt(pointsValue.getText());
 					Block223Controller.addBlock(redVal, greenVal, blueVal, pointsVal);
+					addBlockWindow.dispose();
+					new EditBlocksPage();
+					
 				} catch (NumberFormatException e) {
 					errorMessage.setText("All fields must have numerical values");
 				} catch (InvalidInputException e) {
@@ -216,47 +218,5 @@ public class AddBlockPage {
 					.addContainerGap(32, Short.MAX_VALUE))
 		);
 		addBlockWindow.getContentPane().setLayout(groupLayout);
-	}
-
-	private void createBlockButtonActionPerformed(ActionEvent evt) {
-		//empty error message
-		error = "";
-
-		//converting entered data
-		int redVal = 0;
-		try {
-			redVal = Integer.parseInt(redValue.getText());
-		} catch (NumberFormatException e) {
-			error = "Entered value for Red color needs to be a numerical value.";
-		}
-		int greenVal = 0;
-		try {
-			greenVal = Integer.parseInt(greenValue.getText());
-		} catch (NumberFormatException e) {
-			error = "Entered value for Green color needs to be a numerical value.";
-		}
-		int blueVal = 0;
-		try {
-			blueVal = Integer.parseInt(blueValue.getText());
-		} catch (NumberFormatException e) {
-			error = "Entered value for Blue color needs to be a numerical value.";
-		}
-		int pointsVal = 0;
-		try {
-			pointsVal = Integer.parseInt(pointsValue.getText());
-		} catch (NumberFormatException e) {
-			error = "Entered value for block points needs to be a numerical value.";
-		}
-		error.trim();
-
-
-		if(error.length() == 0) {
-			//Calling block223 constructor method 
-			try {
-				Block223Controller.addBlock(redVal, greenVal, blueVal, pointsVal);
-			} catch (InvalidInputException e) {
-				JOptionPane.showMessageDialog(null, e.toString());
-			}
-		}	
 	}
 }
