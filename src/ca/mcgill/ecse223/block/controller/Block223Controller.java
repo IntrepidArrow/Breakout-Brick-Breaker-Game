@@ -458,7 +458,7 @@ public class Block223Controller {
 
 		Block223 block223 = Block223Application.resetBlock223();
 		User user = User.getWithUsername(username);
-		System.out.println("user->" + user);
+		//System.out.println("user->" + user);
 		if (user == null) {
 			error += "The username and password do not match.";
 		}

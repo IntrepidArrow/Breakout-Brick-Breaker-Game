@@ -82,6 +82,12 @@ public class GameSettingsPage extends JFrame{
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					Block223Controller.saveGame();
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				//saveBtnActionPerformed(evt);
 			}
 		});
