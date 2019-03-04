@@ -235,9 +235,7 @@ public class GameSettingsPage extends JFrame{
 			} catch (InvalidInputException e) {
 			error = e.getMessage();
 			}
-		
-		
-		
+
 		gameNameField.setText(game.getName()); 
 		nrLevelsField.setText(Integer.toString(game.getNrLevels()));
 		nrBlocksPerLevelField.setText(Integer.toString(game.getNrBlocksPerLevel())); 
@@ -273,11 +271,9 @@ public class GameSettingsPage extends JFrame{
 		
 		
 	}
+
 	private void editBlocksBtnActionPerformed(java.awt.event.ActionEvent evt) {
-		dispose(); 
-		// create a new instance of edit blocks frame and make it visible 
-		// EditBlocks editBlocks = new EditBlocks(); 
-				// editBlocks.setVisible(true); 
-		
+		dispose();
+		new EditBlocksPage();
 	}
 }

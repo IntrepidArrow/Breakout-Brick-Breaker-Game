@@ -207,12 +207,7 @@ public class Block223Controller {
 		if (Block223Application.getCurrentGame() == null) { // if the current game is not set
 			error += "A game must be selected to add a block. ";
 		}
-		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {// if current
-																											// user role
-																											// is not
-																											// the admin
-																											// of the
-																											// game
+		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
 			error += "Only the admin who created the game can add a block. ";
 		}
 		for (Block block : Block223Application.getCurrentGame().getBlocks()) { // Another block exists in the current
@@ -227,22 +222,11 @@ public class Block223Controller {
 
 		Game game = Block223Application.getCurrentGame();
 		try {
-			game.addBlock(red, green, blue, points);
-			Block223Persistence.save(Block223Application.getBlock223());
+			System.out.println("Hey there 1");
+			Block block = new Block(red, green, blue, points, game);
+			System.out.println("Hey there 2");
 		} catch (RuntimeException e) {
-			if (error.equals("Cannot set red color due to invalid input")) {
-				error = "Red must be between 0 and 255.";
-			}
-			if (error.equals("Cannot set green color due to invalid input")) {
-				error = "Green must be between 0 and 255.";
-			}
-			if (error.equals("Cannot set blue color due to invalid input")) {
-				error = "Blue must be between 0 and 255.";
-			}
-			if (error.equals("Cannot set points value due to invalid input")) {
-				error = "Points must be beween 1 and 1000.";
-			}
-			throw new InvalidInputException(error);
+			throw new InvalidInputException(e.getMessage());
 		}
 	}
 
