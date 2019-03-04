@@ -46,25 +46,6 @@ public class AdminHomePage extends JFrame {
 	private JButton createButton;
 	private JButton deleteButton;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AdminHomePage frame = new AdminHomePage("hank");
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public AdminHomePage(String userName) {
 		this.userName = userName;
 		initComponents();
@@ -89,6 +70,14 @@ public class AdminHomePage extends JFrame {
 
 		logoutButton = new JButton("Logout");
 		logoutButton.setBounds(1430, 10, 140, 40);
+		logoutButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Block223Controller.logout();
+				setVisible(false);
+				new StartPage().setVisible(true);
+			}
+		});
 		contentPane.add(logoutButton);
 
 		titleLabel = new JLabel("My Games");
@@ -169,11 +158,9 @@ public class AdminHomePage extends JFrame {
 			e.printStackTrace();
 		}
 
-		for (TOGame game : designableGames) {
+		for (TOGame game : designableGames)
 			gameNames.add(game.getName());
-		}
 
 		gameList.setListData(gameNames.toArray());
-
 	}
 }
