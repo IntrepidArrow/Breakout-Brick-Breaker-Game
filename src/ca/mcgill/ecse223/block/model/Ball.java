@@ -5,10 +5,8 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-
-// line 83 "../../../../../Block223Persistence.ump"
-// line 165 "../../../../../Block223.ump"
-
+// line 89 "../../../../../Block223Persistence.ump"
+// line 161 "../../../../../Block223.ump"
 public class Ball implements Serializable
 {
 

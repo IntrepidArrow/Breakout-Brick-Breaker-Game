@@ -71,4 +71,4 @@ public class Block223Application {
 		// a getCurrentGame() method that return the current game.
 		return currentGame;
 	}
-
+}

@@ -52,9 +52,10 @@ public class StartPage extends JFrame {
 	 * Create the frame.
 	 */
 	public StartPage() {
+		setResizable(false);
 		setTitle("Block223 Launcher");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(500, 300, 450, 300);
+		setBounds(500, 300, 450, 290);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

@@ -54,15 +54,16 @@ public class SignupPage extends JFrame {
 	 * Create the frame.
 	 */
 	public SignupPage() {
+		setResizable(false);
 		setTitle("Sign Up");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(500, 300, 353, 328);
+		setBounds(500, 300, 324, 317);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton button = new JButton("Login");
+		JButton button = new JButton("Sign Up");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
