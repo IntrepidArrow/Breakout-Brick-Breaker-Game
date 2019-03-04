@@ -489,7 +489,18 @@ public class Block223Controller {
 	// ****************************
 	// Helper methods
 	// ****************************
-
+	public static boolean adminOwnsGame(Admin admin,String gameName) {
+		List<Game> gList=admin.getGames();
+		for(Game g:gList) {
+			if(g.getName()==gameName) {
+				return true;
+			}
+		}
+		
+		return false;
+		
+	}
+	
 	public static void selectGame(String name) throws InvalidInputException {
 		String error = "";
 
@@ -498,13 +509,14 @@ public class Block223Controller {
 			error += "Admin privileges are required to position a block. ";
 		} else if (currentRole instanceof Admin) {
 			Admin currentAdmin = (Admin) currentRole;
-			if (!currentAdmin.getGames().contains(Block223Application.getCurrentGame())) {
+			if (!adminOwnsGame(currentAdmin,name)) {
 				error += "Only the admin who created the game can position a block. ";
 			}
 		}
+		Block223 block223 = Block223Application.getBlock223();
 
-		Game game = Game.getWithName(name);
-		if (Block223Application.getCurrentGame() == null) {
+		Game selectedGame =	block223.findGame(name);
+		if (selectedGame == null) {
 			error += "A game with name " + name + " does not exist.";
 		}
 
@@ -512,7 +524,7 @@ public class Block223Controller {
 			throw new InvalidInputException(error.trim());
 		}
 
-		Block223Application.setCurrentGame(game);
+		Block223Application.setCurrentGame(selectedGame);
 	}
 
 	public static String getSHA512(String passwordToHash, String salt) {
