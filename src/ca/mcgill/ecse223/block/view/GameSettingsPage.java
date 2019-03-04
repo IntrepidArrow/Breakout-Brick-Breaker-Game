@@ -63,6 +63,7 @@ public class GameSettingsPage extends JFrame{
 		gameSettingsFrame = new JFrame();
 		gameSettingsFrame.setBounds(100, 100, 548, 601);
 		gameSettingsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
 		
 		JLabel gameNameLabel = new JLabel("Game Name:");
 		
