@@ -32,7 +32,7 @@ public class Block223Application {
 	public static Block223 getBlock223() {
 		if(block223 == null) {
 			//load model
-			System.out.println("loading model");
+//			System.out.println("loading model");
 			block223 = Block223Persistence.load();
 		}
 		//will directly return class variable if it is not empty 
@@ -43,9 +43,8 @@ public class Block223Application {
 		// TODO implement this method,
 		// a resetBlock223() method that forces a load from the file and returns the
 		// root block223 object,
-		System.out.println("reseting model");
-		
-
+//		System.out.println("reseting model");
+	
 		block223 = Block223Persistence.load();
 
 		return block223;

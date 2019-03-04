@@ -79,7 +79,7 @@ public class EditBlocksPage {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frmGameBlockSettings.dispose();
-				new GameSettingsPage();
+				new GameSettingsPage().setVisible(true);
 			}
 		});
 
@@ -115,15 +115,15 @@ public class EditBlocksPage {
 				try {
 					int newRedVal = Integer.parseInt(redValue.getText());
 					int newGreenVal = Integer.parseInt(greenValue.getText());
-					int newBlueVal = Integer.parseInt(greenValue.getText());
+					int newBlueVal = Integer.parseInt(blueValue.getText());
 					int newPointsVal = Integer.parseInt(pointsValue.getText());
 
 					//update block controller call
 					Block223Controller.updateBlock(blockToUpdate.getId(), newRedVal, newGreenVal, newBlueVal, newPointsVal);
 					refreshBlockData();
-				} catch (InvalidInputException m) {
-					errorMessageToUse.setText(m.getMessage());
 				} catch (NumberFormatException m) {
+					errorMessageToUse.setText(m.getMessage());
+				} catch (InvalidInputException m) {
 					errorMessageToUse.setText(m.getMessage());
 				}
 
