@@ -237,9 +237,7 @@ public class GameSettingsPage extends JFrame{
 			} catch (InvalidInputException e) {
 			error = e.getMessage();
 			}
-		
-		
-		
+
 		gameNameField.setText(game.getName()); 
 		nrLevelsField.setText(Integer.toString(game.getNrLevels()));
 		nrBlocksPerLevelField.setText(Integer.toString(game.getNrBlocksPerLevel())); 
@@ -275,8 +273,9 @@ public class GameSettingsPage extends JFrame{
 		
 		
 	}
+
 	private void editBlocksBtnActionPerformed(java.awt.event.ActionEvent evt) {
-		gameSettingsFrame.dispose(); 
+		dispose();
 		new EditBlocksPage();
 	}
 }
