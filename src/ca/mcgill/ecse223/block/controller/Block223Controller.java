@@ -47,7 +47,6 @@ public class Block223Controller {
 			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
 
 		String error = "";
-
 		UserRole currentRole = Block223Application.getCurrentUserRole();
 		if (!(currentRole instanceof Admin)) {
 			error += "Admin privileges are required to position a block. ";
@@ -144,9 +143,10 @@ public class Block223Controller {
 				Level level = game.getLevel(game.getLevels().size() - 1);
 				level.delete();
 			}
-		} else {
-			return;
 		}
+
+		Block223Application.setCurrentGame(game);
+		return;
 
 	}
 
@@ -173,7 +173,6 @@ public class Block223Controller {
 
 	public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
 			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
-
 		String error = "";
 		UserRole currentRole = Block223Application.getCurrentUserRole();
 		if (!(currentRole instanceof Admin)) {
@@ -192,8 +191,13 @@ public class Block223Controller {
 		}
 
 		// TODO check if this is correct '
-		Block223Controller.setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
-				ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
+		try {
+			setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
+					ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -459,7 +463,6 @@ public class Block223Controller {
 
 		Block223 block223 = Block223Application.resetBlock223();
 		User user = User.getWithUsername(username);
-		//System.out.println("user->" + user);
 		if (user == null) {
 			error += "The username and password do not match.";
 		}

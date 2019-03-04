@@ -82,13 +82,7 @@ public class GameSettingsPage extends JFrame{
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				try {
-					Block223Controller.saveGame();
-				} catch (InvalidInputException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				//saveBtnActionPerformed(evt);
+				saveBtnActionPerformed(evt);
 			}
 		});
 		btnSave.setForeground(Color.BLACK);
@@ -221,13 +215,13 @@ public class GameSettingsPage extends JFrame{
 					.addContainerGap(39, Short.MAX_VALUE))
 		);
 		getContentPane().setLayout(groupLayout);
+		refreshData();
 	}
 	
 	private void refreshData() {
 		//errorMessage.setText(error);
 		if (error == null || error.length() == 0) {
 		// populate page with data
-		
 		gameNameField.setText("");
 		nrLevelsField.setText("");
 		nrBlocksPerLevelField.setText("");
@@ -244,7 +238,7 @@ public class GameSettingsPage extends JFrame{
 			}
 
 		gameNameField.setText(game.getName()); 
-		nrLevelsField.setText(Integer.toString(game.getNrLevels()));
+		nrLevelsField.setText(Integer.toString(Math.max(game.getNrLevels(),1)));
 		nrBlocksPerLevelField.setText(Integer.toString(game.getNrBlocksPerLevel())); 
 		paddleMinLengthField.setText(Integer.toString(game.getMinPaddleLength())); 
 		paddleMaxLengthField.setText(Integer.toString(game.getMaxPaddleLength())); 
@@ -262,7 +256,12 @@ public class GameSettingsPage extends JFrame{
 		try {
 
 			
-		Block223Controller.updateGame(gameNameField.getText(), Integer.parseInt(nrLevelsField.getText()), Integer.parseInt(nrBlocksPerLevelField.getText()), Integer.parseInt(ballMinSpeedXField.getText()), Integer.parseInt(ballMinSpeedYField.getText()), Double.parseDouble(ballSpeedIncreaseFactorField.getText()), Integer.parseInt(paddleMaxLengthField.getText()), Integer.parseInt(paddleMinLengthField.getText()));
+		Block223Controller.updateGame(
+				gameNameField.getText(), Integer.parseInt(nrLevelsField.getText()), Integer.parseInt(nrBlocksPerLevelField.getText()),
+				Integer.parseInt(ballMinSpeedXField.getText()), Integer.parseInt(ballMinSpeedYField.getText()),
+				Double.parseDouble(ballSpeedIncreaseFactorField.getText()), Integer.parseInt(paddleMaxLengthField.getText()),
+				Integer.parseInt(paddleMinLengthField.getText()));
+		Block223Controller.saveGame();
 		} catch (InvalidInputException e) {
 		error = e.getMessage();
 		}
