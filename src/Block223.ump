@@ -6,27 +6,24 @@ class Block223 {
    1 <@>- * User users;
    1 <@>- * UserRole roles;
    1 <@>- * Game games;
+   public Game findGame(String name) {
+	  List<Game> games = this.getGames();
+	  for (Game game : games) {
+		  if (game.getName() == name)
+			return game;
+	  }
+	  return null;
+  }
 }
 
 class User {
    unique username;
 //unique test;
-   before constructor {
-   	if(aUsername == null || aUsername.isEmpty()){
-   		for(UserRole r : allRoles) {
-   			aBlock223.removeRole(r);
-   		}
-   	throw new RuntimeException("The username must be specified.");
-      
-   	}
-   	if(!setUsername(aUsername)){
-   		for(UserRole r : allRoles) {
-   			aBlock223.removeRole(r);
-   		}
-   	throw new RuntimeException("The passwords have to be different.");
-      
-   	}
-   }
+//   before constructor {
+//   	if(aUsername == null || aUsername.isEmpty()){
+//   	throw new RuntimeException("The username must be specified.");    
+//   	}
+//   }
 	
    1 -> 1..2 UserRole roles;
 	
@@ -96,25 +93,25 @@ class Block {
    Integer red;
    before constructor, setRed {
    	if((aRed < 0) || (aRed > 255)){
-   		throw new RuntimeException("Cannot set red color due to invalid input");
+   		throw new RuntimeException("Red must be between 0 and 255.");
    	}
    }
    Integer green;
       before constructor, setGreen {
    	if((aGreen < 0) || (aGreen > 255)){
-   		throw new RuntimeException("Cannot set green color due to invalid input");
+   		throw new RuntimeException("Green must be between 0 and 255.");
    	}
    }
    Integer blue;
       before constructor, setBlue {
    	if((aBlue < 0) || (aBlue > 255)){
-   		throw new RuntimeException("Cannot set blue color due to invalid input");
+   		throw new RuntimeException("Blue must be between 0 and 255.");
    	}
    }
    Integer points;
       before constructor, setPoints {
    	if((aPoints < 1) || (aPoints > 1000)){
-   		throw new RuntimeException("Cannot set points value due to invalid input");
+   		throw new RuntimeException("Points must be between 1 and 1000.");
    	}
    }
 }

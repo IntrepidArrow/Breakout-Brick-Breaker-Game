@@ -6,7 +6,12 @@ public class Block223Persistence {
 	private static String filename = "data.block";
 
 	public static void save(Block223 block223) {
+		PersistenceObjectStream.setFilename(filename);
 		PersistenceObjectStream.serialize(block223);
+	}
+	public static void reset() {
+		PersistenceObjectStream.setFilename(filename);
+		PersistenceObjectStream.serialize(null);
 	}
 
 	public static Block223 load() {
@@ -15,9 +20,10 @@ public class Block223Persistence {
 		// model cannot be loaded - create empty BTMS
 		if (block223 == null) {
 			block223 = new Block223();
+			System.out.println("nothing found");
 		} else {
 			// TODO: define reinitialize
-			//block223.reinitialize();
+			block223.reinitialize();
 		}
 		return block223;
 	}

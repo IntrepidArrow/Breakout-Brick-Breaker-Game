@@ -34,6 +34,7 @@ public class PersistenceObjectStream {
 			fileIn.close();
 		} catch (Exception e) {
 			o = null;
+			System.out.println("deserialization error:\n"+e.toString());
 		}
 		return o;
 	}
