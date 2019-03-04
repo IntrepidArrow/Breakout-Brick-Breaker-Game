@@ -170,31 +170,6 @@ public class Block223Controller {
 		game.delete();
 	}
 
-	public static void selectGame(String name) throws InvalidInputException {
-		String error = "";
-
-		UserRole currentRole = Block223Application.getCurrentUserRole();
-		if (!(currentRole instanceof Admin)) {
-			error += "Admin privileges are required to position a block. ";
-		} else if (currentRole instanceof Admin) {
-			Admin currentAdmin = (Admin) currentRole;
-			if (!currentAdmin.getGames().contains(Block223Application.getCurrentGame())) {
-				error += "Only the admin who created the game can position a block. ";
-			}
-		}
-
-		Game game = Game.getWithName(name);
-		if (Block223Application.getCurrentGame() == null) {
-			error += "A game with name " + name + " does not exist.";
-		}
-
-		if (error.length() > 0) {
-			throw new InvalidInputException(error.trim());
-		}
-
-		Block223Application.setCurrentGame(game);
-	}
-
 	public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
 			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
 
@@ -477,7 +452,6 @@ public class Block223Controller {
 	public static void login(String username, String password) throws InvalidInputException {
 
 		String error = "";
-		// System.out.println("trying to login with "+username+"|"+password);
 		if (Block223Application.getCurrentUserRole() != null) {
 			error += "Cannot register a new user while a user is logged in.";
 		}
@@ -495,7 +469,6 @@ public class Block223Controller {
 		List<UserRole> roles = user.getRoles();
 		for (UserRole r : roles) {
 			String rolePassword = r.getPassword();
-			// System.out.println("role>"+rolePassword+"\ninput>"+password);
 			if (rolePassword.equals(password)) {
 				Block223Application.setCurrentUserRole(r);
 				System.out.println("logged in as " + (r instanceof Admin ? "admin" : "player"));
@@ -516,6 +489,31 @@ public class Block223Controller {
 	// ****************************
 	// Helper methods
 	// ****************************
+
+	public static void selectGame(String name) throws InvalidInputException {
+		String error = "";
+
+		UserRole currentRole = Block223Application.getCurrentUserRole();
+		if (!(currentRole instanceof Admin)) {
+			error += "Admin privileges are required to position a block. ";
+		} else if (currentRole instanceof Admin) {
+			Admin currentAdmin = (Admin) currentRole;
+			if (!currentAdmin.getGames().contains(Block223Application.getCurrentGame())) {
+				error += "Only the admin who created the game can position a block. ";
+			}
+		}
+
+		Game game = Game.getWithName(name);
+		if (Block223Application.getCurrentGame() == null) {
+			error += "A game with name " + name + " does not exist.";
+		}
+
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+
+		Block223Application.setCurrentGame(game);
+	}
 
 	public static String getSHA512(String passwordToHash, String salt) {
 		String generatedPassword = null;

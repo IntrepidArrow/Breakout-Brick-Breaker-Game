@@ -23,8 +23,7 @@ import java.awt.Color;
 public class GameSettingsPage extends JFrame{
 	
 	private static final long serialVersionUID = -4426310869335015542L;
-	// initialize the frame and text fields
-	private JFrame gameSettingsFrame;
+	// initialize text fields
 	
 	private JTextField ballSpeedIncreaseFactorField;
 	private JTextField ballMinSpeedYField;
@@ -40,7 +39,7 @@ public class GameSettingsPage extends JFrame{
 			public void run() {
 				try {
 					GameSettingsPage window = new GameSettingsPage();
-					window.gameSettingsFrame.setVisible(true);
+					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -60,10 +59,9 @@ public class GameSettingsPage extends JFrame{
 	 * Initialize the contents of the gameSettingsFrame.
 	 */
 	private void initComponent() {
-		gameSettingsFrame = new JFrame();
-		gameSettingsFrame.setBounds(100, 100, 548, 601);
-		gameSettingsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
+
+		setBounds(100, 100, 548, 601);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel gameNameLabel = new JLabel("Game Name:");
 		
@@ -132,7 +130,7 @@ public class GameSettingsPage extends JFrame{
 		JLabel lblGameSettingsPage = new JLabel("Game Settings Page");
 		lblGameSettingsPage.setForeground(Color.BLACK);
 		lblGameSettingsPage.setFont(new Font("Lucida Grande", Font.PLAIN, 22));
-		GroupLayout groupLayout = new GroupLayout(gameSettingsFrame.getContentPane());
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -216,7 +214,7 @@ public class GameSettingsPage extends JFrame{
 					.addComponent(btnEditBlocks)
 					.addContainerGap(39, Short.MAX_VALUE))
 		);
-		gameSettingsFrame.getContentPane().setLayout(groupLayout);
+		getContentPane().setLayout(groupLayout);
 	}
 	
 	private void refreshData() {
@@ -238,9 +236,7 @@ public class GameSettingsPage extends JFrame{
 			} catch (InvalidInputException e) {
 			error = e.getMessage();
 			}
-		
-		
-		
+
 		gameNameField.setText(game.getName()); 
 		nrLevelsField.setText(Integer.toString(game.getNrLevels()));
 		nrBlocksPerLevelField.setText(Integer.toString(game.getNrBlocksPerLevel())); 
@@ -269,15 +265,16 @@ public class GameSettingsPage extends JFrame{
 		}
 	
 	private void editLevelsBtnActionPerformed(java.awt.event.ActionEvent evt) {
-		gameSettingsFrame.dispose();
+		dispose();
 		// create a new instance of edit levels frame and make it visible 
 		// EditLevels editLevels = EditLevels(); 
 		// editLevels.setVisible(true); 
 		
 		
 	}
+
 	private void editBlocksBtnActionPerformed(java.awt.event.ActionEvent evt) {
-		gameSettingsFrame.dispose(); 
+		dispose();
 		new EditBlocksPage();
 	}
 }
