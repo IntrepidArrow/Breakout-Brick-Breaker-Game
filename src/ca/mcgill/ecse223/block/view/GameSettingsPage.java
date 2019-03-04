@@ -21,7 +21,9 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class GameSettingsPage extends JFrame{
-
+	
+	private static final long serialVersionUID = -4426310869335015542L;
+	// initialize the frame and text fields
 	private JFrame gameSettingsFrame;
 	
 	private JTextField ballSpeedIncreaseFactorField;
@@ -46,8 +48,9 @@ public class GameSettingsPage extends JFrame{
 		});
 	}
 
+	
 	/**
-	 * Create the application.
+	 * Creates the frame.
 	 */
 	public GameSettingsPage() {
 		initComponent();
@@ -64,7 +67,7 @@ public class GameSettingsPage extends JFrame{
 		JLabel gameNameLabel = new JLabel("Game Name:");
 		
 		JLabel nrLevelsLabel= new JLabel("Number Of Levels:");
-		
+	
 		JLabel nrBlocksPerLevelLabel = new JLabel("Number of blocks per level:");
 		
 		JLabel paddleMinLengthLabel = new JLabel("Paddle min Length: ");
@@ -92,6 +95,7 @@ public class GameSettingsPage extends JFrame{
 				editLevelsBtnActionPerformed(evt);
 			}
 		});
+		
 		
 		JButton btnEditBlocks = new JButton("Edit Blocks");
 		btnEditBlocks.addActionListener(new java.awt.event.ActionListener() {
@@ -233,7 +237,7 @@ public class GameSettingsPage extends JFrame{
 			} catch (InvalidInputException e) {
 			error = e.getMessage();
 			}
-				
+
 		gameNameField.setText(game.getName()); 
 		nrLevelsField.setText(Integer.toString(game.getNrLevels()));
 		nrBlocksPerLevelField.setText(Integer.toString(game.getNrBlocksPerLevel())); 
@@ -242,8 +246,6 @@ public class GameSettingsPage extends JFrame{
 		ballMinSpeedXField.setText(Integer.toString(game.getMinBallSpeedX()));
 		ballMinSpeedYField.setText(Integer.toString(game.getMinBallSpeedY())); 
 		ballSpeedIncreaseFactorField.setText(Double.toString(game.getBallSpeedIncreaseFactor()));
-		
-		
 		
 	}
 	}
@@ -259,13 +261,17 @@ public class GameSettingsPage extends JFrame{
 		} catch (InvalidInputException e) {
 		error = e.getMessage();
 		}
-		// update visuals
-		//refreshData();
+		// update visuals right after the changes 
+		refreshData();
 		}
 	
 	private void editLevelsBtnActionPerformed(java.awt.event.ActionEvent evt) {
 		gameSettingsFrame.dispose();
 		// create a new instance of edit levels frame and make it visible 
+		// EditLevels editLevels = EditLevels(); 
+		// editLevels.setVisible(true); 
+		
+		
 	}
 
 	private void editBlocksBtnActionPerformed(java.awt.event.ActionEvent evt) {
