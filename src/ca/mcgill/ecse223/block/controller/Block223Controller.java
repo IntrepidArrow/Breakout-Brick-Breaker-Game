@@ -726,7 +726,7 @@ public class Block223Controller {
 		return to;
 	}
 
-	public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
+	public static List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
 
 		String error = "";
 		UserRole currentRole = Block223Application.getCurrentUserRole();

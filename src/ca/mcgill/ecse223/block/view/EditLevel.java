@@ -1,186 +1,418 @@
 package ca.mcgill.ecse223.block.view;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.Properties;
-
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-
-
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.BevelBorder;
+import ca.mcgill.ecse223.block.controller.Block223Controller;
+import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOBlock;
 import ca.mcgill.ecse223.block.controller.TOGridCell;
 
-public class EditLevel {
-	
+public class EditLevel extends JFrame {
+
 	private static final long serialVersionUID = -4426310869376315542L;
-	
-		// UI elements
-		private JLabel errorMessage;
-		private JButton backButton;
-		private JButton logoutButton;
-		private JLabel usernameLabel;
+
+	// UI elements
+	public JFrame frame;
+	private JLabel errorMessage;
+	private JButton backButton;
+	private JButton logoutButton;
+	private JLabel usernameLabel;
+
+	// Levels
+	private JLabel levelLabel;
+	private JComboBox<String> levelList; // maybe change to a table later
+	private JButton addLevelBtn;
+	private JButton removeLevelBtn;
+
+	//block play area
+	private JLabel blockConfigurationLbl;
+	private JPanel areaPanel; 
+	private PlayAreaVisualizer playAreaVisualizer;
+	private JComboBox<String> blockAreaList;
+
+	//Blocks Available
+	private JLabel lblBlocksAvailable;
+	private JComboBox<String> blockList; // maybe change to a table later
+	private JButton btnPositionNewBlock;
+	private JButton btnMoveBlock;
+	private JButton btnRemoveBlock;
+	private JLabel lblHorizontal;
+	private JTextField txtHorizontal;
+	private JLabel lblVertical;
+	private JTextField txtVertical;
+
+	//Data elements
+	private String error = null;
+	//levels
+	private HashMap<Integer, Integer> levels;
+	//blocks
+	private HashMap<Integer, TOBlock> blocksAvailable;
+	//play area
+	private HashMap<Integer, TOGridCell> blocksInArea;
+
+	public EditLevel() {
+		initComponents();
+		refreshData();
+		//refreshPlayAreaVisualizer();
+	}
+
+
+	private void initComponents() {
+
+
+		frame = new JFrame();
+		frame.setBounds(100, 100, 841, 629);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// elements for frame
+		backButton = new JButton("Back");
+		errorMessage = new JLabel("error");
+		errorMessage.setForeground(Color.RED);
+
+		// elements for levels			
+		levelLabel = new JLabel("Levels");
+		levelList = new JComboBox();
+		levelList.setMaximumRowCount(99);
 		
-		// Levels
-		private JLabel levelLabel;
-		private JComboBox<String> levelList; // maybe change to a table later
-		private JButton addLevelButton;
-		private JButton removeLevelButton;
+		  levelList.addActionListener(new java.awt.event.ActionListener() { public void
+		  actionPerformed(java.awt.event.ActionEvent evt) {
+			  if(levelList.getSelectedIndex() != 0 & levelList.getSelectedIndex() != -1)
+		  refreshPlayAreaVisualizer(); 
+		  } 
+		  }
+		  );
+		 
+		addLevelBtn = new JButton("Add Level");
+		addLevelBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				addLevelButtonActionPerformed(evt);
+			}
+		});
+
+		removeLevelBtn = new JButton("Remove Level ");
+		removeLevelBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				removeLevelButtonActionPerformed(evt);
+			}
+		});
+
+		// elements for play area
 		
-		//block play area
-		private JLabel blockAreaLabel;
+		blockConfigurationLbl = new JLabel("Block configuration");
+		blockAreaList = new JComboBox();
 		
-		//Blocks Available
-		private JLabel blockLabel;
-		private JComboBox<String> blockList; // maybe change to a table later
-		private JButton positionBlockButton;
-		private JButton moveBlockButton;
-		private JButton removeBlockButton;
-		private JTextField horizontalPositionTextField;
-		private JTextField verticalPositionTextField;
-		
-		//Data elements
-		private String error = null;
-		//levels
-		private HashMap<Integer, Integer> levels;
-		//blocks
-		private HashMap<Integer, TOBlock> blocksAvailable;
-		private HashMap<Integer, TOGridCell> blocksInArea;
-		
-		/** Creates new form BtmsPage */
-		public EditLevel() {
-			initComponents();
-			refreshData();
-		}
-		
-		
-		private void initComponents() {
-			// elements for error message
-			errorMessage = new JLabel();
-			errorMessage.setForeground(Color.RED);
-			
-			//elements for levels
-			levelLabel = new JLabel();
-			levelLabel.setText("Levels");
-			levelList = new JComboBox<String>(new String[0]);
-			addLevelButton = new JButton();
-			removeLevelButton = new JButton();
-			
-			//elements for block play area
-			blockAreaLabel = new JLabel();
-			blockAreaLabel.setText("Play Area");
-			
-			//elements for blocks available
-			blockLabel = new JLabel();
-			blockLabel.setText("Levels");
-			blockList = new JComboBox<String> (new String[0]);
-			positionBlockButton = new JButton();
-			moveBlockButton = new JButton();
-			removeBlockButton = new JButton();
-			horizontalPositionTextField = new JTextField();
-			verticalPositionTextField = new JTextField();
-			
-			
+
 		/*
-		 * // global settings setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		 * setTitle("Block223 Group29 Game");
+		 * playAreaVisualizer = new PlayAreaVisualizer();
+		 * playAreaVisualizer.setMinimumSize(new Dimension(390, 390));
 		 */
-			
-			//listeners for levels
-			addLevelButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					addLevelButtonActionPerformed(evt);
-				}
-			});
-			
-			removeLevelButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					removeLevelButtonActionPerformed(evt);
-				}
-			});
-			
-			//listeners for blocks available
-			positionBlockButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					positionBlockButtonActionPerformed(evt);
-				}
-			});
-			
-			moveBlockButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					moveBlockButtonActionPerformed(evt);
-				}
-			});
-			
-			removeBlockButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					removeBlockButtonActionPerformed(evt);
-				}
-			});
-			
-			// horizontal line elements
-			JSeparator verticalLineLeft = new JSeparator();
-			JSeparator verticalLineRight = new JSeparator();
-			
-			// layout
-			// layout
-			GroupLayout layout = new GroupLayout(getContentPane());
-			getContentPane().setLayout(layout);
-			layout.setAutoCreateGaps(true);
-			layout.setAutoCreateContainerGaps(true);
-			layout.setHorizontalGroup(
-					layout.createParallelGroup()
-					
-					
-					);
-			
+
+		areaPanel = new JPanel();
+		areaPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		areaPanel.setBackground(Color.LIGHT_GRAY);
+
+		// elements for blocks available
+		lblBlocksAvailable = new JLabel("Blocks Available");
+
+		blockList = new JComboBox();
+
+		btnPositionNewBlock = new JButton("Position New Block");
+		btnPositionNewBlock.addActionListener(new ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				positionBlockButtonActionPerformed(evt);
+			}
+		});
+
+		btnMoveBlock = new JButton("Move Block");
+		btnMoveBlock.addActionListener(new ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				moveBlockButtonActionPerformed(evt);
+			}
+		});
+
+		btnRemoveBlock = new JButton("Remove Block");
+		btnRemoveBlock.addActionListener(new ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				removeBlockButtonActionPerformed(evt);
+			}
+		});
+
+		txtHorizontal = new JTextField();
+		txtHorizontal.setToolTipText("Horizontal");
+		txtHorizontal.setFont(new Font("American Typewriter", Font.PLAIN, 13));
+		txtHorizontal.setColumns(10);
+		lblHorizontal = new JLabel("Horizontal");
+
+		txtVertical = new JTextField();
+		txtVertical.setToolTipText("Vertical");
+		txtVertical.setFont(new Font("American Typewriter", Font.PLAIN, 13));
+		txtVertical.setColumns(10);
+		lblVertical = new JLabel("Vertical");
+
+
+
+		// layout
+		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		groupLayout.setHorizontalGroup(
+				groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addGroup(groupLayout.createSequentialGroup()
+														.addGap(12)
+														.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+																.addComponent(addLevelBtn, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+																.addComponent(removeLevelBtn, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 115, Short.MAX_VALUE)))
+												.addGroup(groupLayout.createSequentialGroup()
+														.addGap(39)
+														.addComponent(levelLabel))
+												.addGroup(groupLayout.createSequentialGroup()
+														.addGap(22)
+														.addComponent(levelList, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)))
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+												.addGroup(groupLayout.createSequentialGroup()
+														.addGap(194)
+														.addComponent(blockConfigurationLbl)
+														.addGap(263)
+														.addComponent(lblBlocksAvailable))
+												.addGroup(groupLayout.createSequentialGroup()
+														.addGap(53)
+														//.addComponent(playAreaVisualizer, GroupLayout.PREFERRED_SIZE, 428, GroupLayout.PREFERRED_SIZE)
+														.addComponent(blockAreaList)
+														.addPreferredGap(ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+														.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+																.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+																		.addComponent(blockList, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+																		.addComponent(btnPositionNewBlock))
+																.addGroup(groupLayout.createSequentialGroup()
+																		.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+																				.addComponent(btnRemoveBlock)
+																				.addComponent(btnMoveBlock))
+																		.addGap(24))
+																.addGroup(groupLayout.createSequentialGroup()
+																		.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+																				.addComponent(lblHorizontal)
+																				.addGroup(groupLayout.createSequentialGroup()
+																						.addGap(6)
+																						.addComponent(lblVertical)))
+																		.addPreferredGap(ComponentPlacement.RELATED)
+																		.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+																				.addComponent(txtHorizontal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																				.addComponent(txtVertical, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+																		.addGap(11))))))
+								.addGroup(groupLayout.createSequentialGroup()
+										.addContainerGap()
+										.addComponent(backButton)
+										.addGap(257)
+										.addComponent(errorMessage)))
+						.addContainerGap(14, Short.MAX_VALUE))
+				);
+		groupLayout.setVerticalGroup(
+				groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+						.addContainerGap()
+						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(backButton)
+								.addComponent(errorMessage))
+						.addGap(36)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(levelLabel)
+								.addComponent(blockConfigurationLbl)
+								.addComponent(lblBlocksAvailable))
+						.addGap(18)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+										.addGap(26)
+										.addComponent(levelList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addGap(245)
+										.addComponent(addLevelBtn)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(removeLevelBtn))
+								.addComponent(blockAreaList)
+								.addGroup(groupLayout.createSequentialGroup()
+										.addComponent(blockList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addGap(41)
+										.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+												.addComponent(txtHorizontal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblHorizontal))
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+												.addComponent(txtVertical, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblVertical))
+										.addGap(32)
+										.addComponent(btnPositionNewBlock)
+										.addGap(18)
+										.addComponent(btnMoveBlock)
+										.addGap(79)
+										.addComponent(btnRemoveBlock)))
+						.addGap(85))
+				);
+		GroupLayout gl_panel = new GroupLayout(areaPanel);
+		gl_panel.setHorizontalGroup(
+				gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 339, Short.MAX_VALUE)
+				);
+		gl_panel.setVerticalGroup(
+				gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 375, Short.MAX_VALUE)
+				);
+		areaPanel.setLayout(gl_panel);
+		frame.getContentPane().setLayout(groupLayout);
+
+
+		pack();
+
+	}
+
+	private void refreshData() {
+		
+		
+		errorMessage.setText(error);
+		if (error == null || error.length() == 0) {
+		Integer index = 0;
+
+		// levels
+		levels = new HashMap<Integer, Integer>();
+		levelList.removeAllItems();
+		levelList.addItem("No Level selected");
+		index = 0;
+		int nrLevels;
+		try {
+			nrLevels = Block223Controller.getCurrentDesignableGame().getNrLevels();
+			for (int i = 0 ; i < nrLevels - 1   ; i++) {
+				levels.put(i,i+1);
+				levelList.addItem("Level " + (i + 1));
+				index++;
+			};
+			levelList.setSelectedIndex(-1);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			error = e.getMessage();
+			e.printStackTrace();
 		}
 		
-		private void refreshData() {
-		}
+		//block area
 		
-		// add level button
-		private void addLevelButtonActionPerformed(java.awt.event.ActionEvent evt) {
 			
-		}
+			  blocksInArea = new HashMap<Integer, TOGridCell>();
+			  blockAreaList.removeAllItems(); blockAreaList.addItem("No cell selected");
+			  int level = levelList.getSelectedIndex(); index = 0; try { for (TOGridCell
+			  gridCell : Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level))
+			  { blocksInArea.put(index, gridCell); blockList.addItem("#" + gridCell.getId()
+			  + ", Points: " + gridCell.getPoints() + ", Color: " + gridCell.getRed());
+			  index++; } } catch (InvalidInputException e) { // TODO Auto-generated catch block 
+			  error = e.getMessage(); e.printStackTrace(); };
+			  
+			  blockAreaList.setSelectedIndex(-1);
+			 
+
 		
-		// remove level button
-		private void removeLevelButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		
+		
+
+		// blocks available
+		blocksAvailable = new HashMap<Integer,TOBlock>();
+		blockList.removeAllItems();
+		blockList.addItem("No block selected");
+		index = 0;
+		try {
+			for (TOBlock block : Block223Controller.getBlocksOfCurrentDesignableGame()) {
+				blocksAvailable.put(index, block);
+				blockList.addItem("#" + block.getId() + ", Points: " + block.getPoints() + ", Color: " + block.getRed());
+				index++;
+			}
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			error = e.getMessage();
+			e.printStackTrace();
+		};
+		blockList.setSelectedIndex(-1);
+	}
+	}
+
+	
+	  private void refreshPlayAreaVisualizer() {
+	  //playAreaVisualizer.setLevel(levelList.getSelectedIndex()); 
+		  int index = 0;
+		  blocksInArea = new HashMap<Integer, TOGridCell>();
+			blockAreaList.removeAllItems(); 
+			blockAreaList.addItem("No cell selected");
+			int level = levelList.getSelectedIndex(); 
+			index = 0; 
+			try { 
+				for (TOGridCell
+					gridCell : Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level))
+			{ 
+					blocksInArea.put(index, gridCell); 
+					blockList.addItem("#" + gridCell.getId()
+			+ ", Points: " + gridCell.getPoints() + ", Color: " + gridCell.getRed());
+			index++; 
+			} 
+			}
+			catch (InvalidInputException e) { // TODO Auto-generated catch block
+				error = e.getMessage(); e.printStackTrace(); 
+				};
 			
+			blockAreaList.setSelectedIndex(-1);
+		  }
+	 
+
+	// add level button
+	private void addLevelButtonActionPerformed(java.awt.event.ActionEvent evt) {
+
+	}
+
+	// remove level button
+	private void removeLevelButtonActionPerformed(java.awt.event.ActionEvent evt) {
+
+	}
+
+	//position block button
+	private void positionBlockButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		int selectedLevel = levelList.getSelectedIndex();
+		TOBlock selectedBlock = blocksAvailable.get(blockList.getSelectedIndex());
+		int x = Integer.parseInt(txtHorizontal.getText());
+		int y = Integer.parseInt(txtVertical.getText());
+		
+		try {
+			Block223Controller.positionBlock(selectedBlock.getId(), selectedLevel, x , y);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			error = e.getMessage();
+			e.printStackTrace();
 		}
-		
-		//position block button
-		private void positionBlockButtonActionPerformed(java.awt.event.ActionEvent evt) {
-			
-		}
-		
-		//move block button
-		private void moveBlockButtonActionPerformed(java.awt.event.ActionEvent evt) {
-			
-		}
-		
-		//remove block button
-		private void removeBlockButtonActionPerformed(java.awt.event.ActionEvent evt) {
-			
-		}
-		
-		
-		}
-		
+		refreshData();
+		refreshPlayAreaVisualizer();
+	}
+
+	//move block button
+	private void moveBlockButtonActionPerformed(java.awt.event.ActionEvent evt) {
+
+	}
+
+	//remove block button
+	private void removeBlockButtonActionPerformed(java.awt.event.ActionEvent evt) {
+
+	}
+
+
+}
+
 

@@ -12,6 +12,9 @@ import javax.swing.SwingConstants;
 
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 
+
+
+
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
@@ -33,6 +36,7 @@ public class GameSettingsPage extends JFrame{
 	private JTextField ballMinSpeedYField;
 	private JTextField ballMinSpeedXField;
 	private JTextField paddleMaxLengthField;
+
 	private JTextField paddleMinLengthField;
 	private JTextField nrBlocksPerLevelField;
 	private JTextField nrLevelsField;
@@ -276,6 +280,7 @@ public class GameSettingsPage extends JFrame{
 
 		error = null;
 		// call the controller
+
 		try {
 
 
@@ -290,6 +295,7 @@ public class GameSettingsPage extends JFrame{
 		}
 		// update visuals right after the changes 
 		refreshData();
+
 	}
 
 	private void editLevelsBtnActionPerformed(java.awt.event.ActionEvent evt) {

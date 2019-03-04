@@ -72,4 +72,3 @@ public class Block223Application {
 		return currentGame;
 	}
 
-}
