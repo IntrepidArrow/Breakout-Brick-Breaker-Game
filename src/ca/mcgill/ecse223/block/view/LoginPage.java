@@ -1,6 +1,7 @@
 package ca.mcgill.ecse223.block.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import ca.mcgill.ecse223.block.model.UserRole;
 
 import javax.swing.JButton;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -59,6 +61,10 @@ public class LoginPage extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+
+		//Code to open window in center of the screen, despite dimensions of the monitor application is run on
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(52, 211, 225, 25);

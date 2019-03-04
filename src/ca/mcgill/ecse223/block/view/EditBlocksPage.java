@@ -22,12 +22,15 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import javax.swing.DropMode;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
+
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Color;
+import java.awt.Dimension;
 
 public class EditBlocksPage {
 
@@ -74,6 +77,10 @@ public class EditBlocksPage {
 		frmGameBlockSettings.setBounds(100, 100, 572, 374);
 		frmGameBlockSettings.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmGameBlockSettings.setVisible(true);
+
+		//Code to open window in center of the screen, despite dimensions of the monitor application is run on
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		frmGameBlockSettings.setLocation(dim.width/2-frmGameBlockSettings.getSize().width/2, dim.height/2-this.frmGameBlockSettings.getHeight()/2);
 
 		JButton btnBack = new JButton("Back");	//take back to game settings page
 		btnBack.addActionListener(new ActionListener() {
@@ -226,7 +233,7 @@ public class EditBlocksPage {
 				}
 			}
 		});
-		
+
 		JButton btnColorpicker = new JButton("colorPicker");
 		btnColorpicker.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -235,102 +242,102 @@ public class EditBlocksPage {
 		});
 		GroupLayout groupLayout = new GroupLayout(frmGameBlockSettings.getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+				groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addContainerGap()
+						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(selectBlockComboBox, GroupLayout.PREFERRED_SIZE, 269, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnColorpicker))
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addGroup(groupLayout.createSequentialGroup()
+														.addComponent(selectBlockComboBox, GroupLayout.PREFERRED_SIZE, 269, GroupLayout.PREFERRED_SIZE)
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addComponent(btnColorpicker))
+												.addGroup(groupLayout.createSequentialGroup()
+														.addComponent(frmtdtxtfldGameBlockList)
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addComponent(frmtdtxtfldpleaseSelectA))
+												.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+														.addGroup(groupLayout.createSequentialGroup()
+																.addComponent(btnBack)
+																.addGap(18)
+																.addComponent(errorMessageToUse, GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+																.addGap(18)
+																.addComponent(btnLogout))
+														.addComponent(btnCreateNewBlock, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE))
+												.addComponent(frmtdtxtfldBlockSettings))
+										.addGap(12))
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(frmtdtxtfldGameBlockList)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(frmtdtxtfldpleaseSelectA))
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(btnBack)
-										.addGap(18)
-										.addComponent(errorMessageToUse, GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
-										.addGap(18)
-										.addComponent(btnLogout))
-									.addComponent(btnCreateNewBlock, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE))
-								.addComponent(frmtdtxtfldBlockSettings))
-							.addGap(12))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(lblRed, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-											.addGap(18)
-											.addComponent(redValue, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-											.addGap(18)
-											.addComponent(lblGreen, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(greenValue, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-											.addGap(18)
-											.addComponent(lblBlue, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(blueValue, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-											.addGap(18)
-											.addComponent(lblPoints, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(pointsValue, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))
 										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-											.addComponent(btnDeleteBlock, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
-											.addComponent(btnUpdateBlock, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)))
-									.addGap(2))
-								.addComponent(btnSaveChanges))
-							.addContainerGap())))
-		);
+												.addGroup(groupLayout.createSequentialGroup()
+														.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+																.addGroup(groupLayout.createSequentialGroup()
+																		.addComponent(lblRed, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+																		.addGap(18)
+																		.addComponent(redValue, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+																		.addGap(18)
+																		.addComponent(lblGreen, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(ComponentPlacement.RELATED)
+																		.addComponent(greenValue, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+																		.addGap(18)
+																		.addComponent(lblBlue, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(ComponentPlacement.UNRELATED)
+																		.addComponent(blueValue, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+																		.addGap(18)
+																		.addComponent(lblPoints, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(ComponentPlacement.RELATED)
+																		.addComponent(pointsValue, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))
+																.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+																		.addComponent(btnDeleteBlock, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
+																		.addComponent(btnUpdateBlock, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)))
+														.addGap(2))
+												.addComponent(btnSaveChanges))
+										.addContainerGap())))
+				);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+				groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnBack)
-						.addComponent(btnLogout)
-						.addComponent(errorMessageToUse))
-					.addGap(16)
-					.addComponent(frmtdtxtfldBlockSettings)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnCreateNewBlock)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(frmtdtxtfldGameBlockList)
-						.addComponent(frmtdtxtfldpleaseSelectA))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(selectBlockComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnColorpicker)))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblRed)
-						.addComponent(lblGreen)
-						.addComponent(greenValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBlue)
-						.addComponent(blueValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblPoints)
-						.addComponent(pointsValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(redValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(btnUpdateBlock)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnDeleteBlock)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnSaveChanges)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+								.addComponent(btnBack)
+								.addComponent(btnLogout)
+								.addComponent(errorMessageToUse))
+						.addGap(16)
+						.addComponent(frmtdtxtfldBlockSettings)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnCreateNewBlock)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(frmtdtxtfldGameBlockList)
+								.addComponent(frmtdtxtfldpleaseSelectA))
+						.addGap(18)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(selectBlockComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnColorpicker)))
+						.addGap(18)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblRed)
+								.addComponent(lblGreen)
+								.addComponent(greenValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblBlue)
+								.addComponent(blueValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblPoints)
+								.addComponent(pointsValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(redValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
+						.addComponent(btnUpdateBlock)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnDeleteBlock)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnSaveChanges)
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				);
 		frmGameBlockSettings.getContentPane().setLayout(groupLayout);
 	}
-	
+
 	private void refreshBlockData() {
 		Integer index = 0;
 		redValue.setText("");

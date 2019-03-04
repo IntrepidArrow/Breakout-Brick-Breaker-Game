@@ -1,6 +1,7 @@
 package ca.mcgill.ecse223.block.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -23,6 +24,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -55,8 +57,10 @@ public class AdminHomePage extends JFrame {
 	public void initComponents() {
 
 		setTitle("Admin Home Page");
-		setBounds(100, 100, 1600, 900);
+		setBounds(100, 100, 1003, 676);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -65,11 +69,11 @@ public class AdminHomePage extends JFrame {
 		setContentPane(contentPane);
 
 		userLabel = new JLabel("Hi, " + userName);
-		userLabel.setBounds(1250, 10, 200, 40);
+		userLabel.setBounds(746, 10, 83, 40);
 		contentPane.add(userLabel);
 
 		logoutButton = new JButton("Logout");
-		logoutButton.setBounds(1430, 10, 140, 40);
+		logoutButton.setBounds(839, 10, 140, 40);
 		logoutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -82,11 +86,11 @@ public class AdminHomePage extends JFrame {
 
 		titleLabel = new JLabel("My Games");
 		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
-		titleLabel.setBounds(700, 50, 210, 100);
+		titleLabel.setBounds(351, 10, 210, 100);
 		contentPane.add(titleLabel);
 
 		gameList = new JList();
-		gameList.setBounds(400, 150, 600, 500);
+		gameList.setBounds(145, 108, 600, 500);
 		gameList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 				JList list = (JList) evt.getSource();
@@ -104,7 +108,7 @@ public class AdminHomePage extends JFrame {
 		contentPane.add(gameList);
 
 		createButton = new JButton("Create");
-		createButton.setBounds(1005, 160, 140, 40);
+		createButton.setBounds(755, 108, 140, 40);
 		createButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -123,7 +127,7 @@ public class AdminHomePage extends JFrame {
 		contentPane.add(createButton);
 
 		deleteButton = new JButton("Delete");
-		deleteButton.setBounds(1005, 210, 140, 40);
+		deleteButton.setBounds(755, 159, 140, 40);
 		deleteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
