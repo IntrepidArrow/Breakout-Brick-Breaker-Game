@@ -475,7 +475,7 @@ public class Block223Controller {
 		if (Block223Application.getCurrentUserRole() != null) {
 			error += "Cannot register a new user while a user is logged in.";
 		}
-		if (playerPassword == adminPassword) {
+		if (playerPassword.equals(adminPassword)) {
 			error += "The passwords have to be different.";
 		}
 		if (error.length() > 0) {
