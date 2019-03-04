@@ -227,15 +227,13 @@ public class GameSettingsPage extends JFrame{
 		ballMinSpeedXField.setText("");
 		ballMinSpeedYField.setText("");
 		ballSpeedIncreaseFactorField.setText("");
-		TOGame game;
+		TOGame game = null;
 		try {
 			 game = Block223Controller.getCurrentDesignableGame();
 			} catch (InvalidInputException e) {
 			error = e.getMessage();
 			}
-		
-		// see why it doesn't work
-		
+				
 		gameNameField.setText(game.getName()); 
 		nrLevelsField.setText(Integer.toString(game.getNrLevels()));
 		nrBlocksPerLevelField.setText(Integer.toString(game.getNrBlocksPerLevel())); 
@@ -269,9 +267,9 @@ public class GameSettingsPage extends JFrame{
 		gameSettingsFrame.dispose();
 		// create a new instance of edit levels frame and make it visible 
 	}
+
 	private void editBlocksBtnActionPerformed(java.awt.event.ActionEvent evt) {
-		gameSettingsFrame.dispose(); 
-		// create a new instance of edit blocks frame and make it visible 
-		
+		dispose();
+		new EditBlocksPage();
 	}
 }
