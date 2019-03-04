@@ -168,6 +168,7 @@ public class Block223Controller {
 			throw new InvalidInputException("Only the admin who created the game can delete the game.");
 
 		game.delete();
+		Block223Persistence.save(block223);
 	}
 
 	public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
