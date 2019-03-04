@@ -62,6 +62,7 @@ public class EditBlocksPage {
 	 */
 	public EditBlocksPage() {
 		initialize();
+		refreshBlockData();
 	}
 
 	/**
@@ -144,7 +145,7 @@ public class EditBlocksPage {
 					Block223Controller.deleteBlock(gameBlocks.get(selectedBlock-1).getId());
 
 					//refresh block list that will be displayed in combo box list
-					//refreshData();
+					refreshBlockData();
 				} catch (InvalidInputException m) {
 					errorMessageToUse.setText(m.getMessage());
 				}
@@ -319,5 +320,26 @@ public class EditBlocksPage {
 						.addContainerGap(26, Short.MAX_VALUE))
 				);
 		frmGameBlockSettings.getContentPane().setLayout(groupLayout);
+	}
+	
+	private void refreshBlockData() {
+		Integer index = 0;
+		redValue.setText("");
+		greenValue.setText("");
+		blueValue.setText("");
+		pointsValue.setText("");
+		gameBlocks = new HashMap<Integer, TOBlock>();
+		selectBlockComboBox.removeAllItems();
+		selectBlockComboBox.addItem("");
+		index = 0;
+		try {
+			for (TOBlock block : Block223Controller.getBlocksOfCurrentDesignableGame()) {
+				gameBlocks.put(index, block);
+				selectBlockComboBox.addItem("R: "+block.getRed()+" G: "+block.getGreen()+" B: "+block.getBlue()+" Points: "+block.getPoints());
+				index++;
+			}
+		} catch (InvalidInputException e) {
+			errorMessageToUse.setText(e.getMessage());
+		}
 	}
 }

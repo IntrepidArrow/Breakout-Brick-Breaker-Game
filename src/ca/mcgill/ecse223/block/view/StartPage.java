@@ -80,7 +80,7 @@ public class StartPage extends JFrame {
 		
 		JLabel lblWelcomeToBlock = new JLabel("Welcome to Block223");
 		lblWelcomeToBlock.setFont(new Font("Segoe UI Light", Font.PLAIN, 21));
-		lblWelcomeToBlock.setBounds(113, 57, 191, 53);
+		lblWelcomeToBlock.setBounds(113, 57, 205, 53);
 		contentPane.add(lblWelcomeToBlock);
 		
 		JLabel lblNewUser = new JLabel("New user?");
