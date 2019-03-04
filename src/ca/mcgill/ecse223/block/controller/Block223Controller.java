@@ -417,13 +417,13 @@ public class Block223Controller {
 		// InavlidInputException checks
 		// Check if this is the right way to do the invalid input exception
 		if (!(Block223Application.getCurrentUserRole() instanceof Admin)) { // if current user role is not set to Admin
-			error += "Admin privileges are required to add a block. ";
+			error += "Admin privileges are required to remove a block. ";
 		}
 		if (Block223Application.getCurrentGame() == null) { // if the current game is not set
-			error += "A game must be selected to add a block. ";
+			error += "A game must be selected to remove a block. ";
 		}
 		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
-			error += "Only the admin who created the game can add a block. ";
+			error += "Only the admin who created the game can remove a block. ";
 		}
 		
 		if (error.length() > 0) {
