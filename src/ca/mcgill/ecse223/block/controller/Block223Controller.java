@@ -245,12 +245,8 @@ public class Block223Controller {
 		if (Block223Application.getCurrentGame() == null) { // if the current game is not set
 			error += "A game must be selected to delete a block. ";
 		}
-		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) { // if current
-																											// user role
-																											// is not
-																											// the admin
-																											// of the
-																											// game
+		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) { 
+			
 			error += "Only the admin who created the game can delete a block. ";
 		}
 		if (error.length() > 0) {
@@ -388,8 +384,31 @@ public class Block223Controller {
 
 	}
 
-	public static void removeBlock(int level, int gridHorizontalPosition, int gridVerticalPosition)
-			throws InvalidInputException {
+	public static void removeBlock(int level, int gridHorizontalPosition, int gridVerticalPosition) throws InvalidInputException {
+		String error = "";
+		// InavlidInputException checks
+		// Check if this is the right way to do the invalid input exception
+		if (!(Block223Application.getCurrentUserRole() instanceof Admin)) { // if current user role is not set to Admin
+			error += "Admin privileges are required to add a block. ";
+		}
+		if (Block223Application.getCurrentGame() == null) { // if the current game is not set
+			error += "A game must be selected to add a block. ";
+		}
+		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
+			error += "Only the admin who created the game can add a block. ";
+		}
+		
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+		
+		Game game = Block223Application.getCurrentGame();
+		Level currentLevel = game.getLevel(level-1);
+		BlockAssignment assignment = currentLevel.findBlockAssignment(gridHorizontalPosition, gridVerticalPosition);
+		
+		if(assignment != null) {
+			assignment.delete();
+		}
 	}
 
 	public static void saveGame() throws InvalidInputException {
