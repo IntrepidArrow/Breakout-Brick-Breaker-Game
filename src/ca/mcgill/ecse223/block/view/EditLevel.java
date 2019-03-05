@@ -84,26 +84,23 @@ public class EditLevel extends JFrame {
 		Block223Application.setCurrentGame(game);
 		game = new Game("revvy", 10, (Admin) currentUserRole, 5 ,4, 5.0, 6,3, block223); 
 		Block223Application.setCurrentGame(game);
-		int level = 3;
+		int level = 1;
+		int nrLevelCreated = 2;
 		try {
-			Block223Controller.setGameDetails(2, 10, 5 ,4, 5.0 , 6,3);
+			Block223Controller.setGameDetails(nrLevelCreated, 10, 5 ,4, 5.0 , 6,3);
 			Block223Controller.addBlock(30, 30, 10, 40);
 			Block223Controller.addBlock(40, 30, 10, 65);
 			Block223Controller.positionBlock(1, level, 3, 4);
-			HashMap<Integer, TOGridCell> blocksInArea = new HashMap<Integer, TOGridCell>();
-			int index = 0;
-			try { 
-				for (TOGridCell gridCell : Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level)){ 
-					blocksInArea.put(index, gridCell); 
-					//blockList.addItem("#" + gridCell.getId() + ", Points: " + gridCell.getPoints() + ", Color: " + gridCell.getRed());
-			index++; 
-			} 
-			}
-			catch (InvalidInputException e) { 
-				// TODO Auto-generated catch block
-				//error = e.getMessage(); 
-				e.printStackTrace(); 
-				}
+			Block223Controller.positionBlock(1, level, 4, 4);
+			/*
+			 * HashMap<Integer, TOGridCell> blocksInArea = new HashMap<Integer,
+			 * TOGridCell>(); int index = 0; try { for (TOGridCell gridCell :
+			 * Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level)){
+			 * blocksInArea.put(index, gridCell); //blockList.addItem("#" + gridCell.getId()
+			 * + ", Points: " + gridCell.getPoints() + ", Color: " + gridCell.getRed());
+			 * index++; } } catch (InvalidInputException e) { // TODO Auto-generated catch
+			 * block //error = e.getMessage(); e.printStackTrace(); }
+			 */
 			
 		} catch (InvalidInputException e) {
 			// TODO Auto-generated catch block
@@ -351,7 +348,8 @@ public class EditLevel extends JFrame {
 		index = 0;
 		int nrLevels;
 		try {
-			nrLevels = Block223Controller.getCurrentDesignableGame().getNrLevels();
+			nrLevels = Block223Controller.getCurrentDesignableGame().getNrLevels() - 1; 
+			// -1 because first index in array of levels not used, level 1 is at index 1
 			for (int i = 0 ; i < nrLevels   ; i++) {
 				levels.put(i,i);
 				levelList.addItem("Level " + (i + 1));
@@ -392,7 +390,6 @@ public class EditLevel extends JFrame {
 			error = e.getMessage();
 			e.printStackTrace();
 		};
-		blockList.setSelectedIndex(-1);
 	}
 	}
 
@@ -408,7 +405,9 @@ public class EditLevel extends JFrame {
 			try { 
 				for (TOGridCell gridCell : Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level)){ 
 					blocksInArea.put(index, gridCell); 
-					blockList.addItem("#" + gridCell.getId() + ", Points: " + gridCell.getPoints() + ", Color: " + gridCell.getRed());
+					blockAreaList.addItem("Horizontal: " + gridCell.getGridHorizontalPosition() + 
+							". Vertical: " + gridCell.getGridVerticalPosition() + 
+							". Block id #" + gridCell.getId() );
 			index++; 
 			} 
 			}
@@ -440,7 +439,7 @@ public class EditLevel extends JFrame {
 		if (selectedLevel <= 0)
 			error = "Level needs to be selected !";
 		
-		TOBlock selectedBlock = blocksAvailable.get(blockList.getSelectedIndex());
+		TOBlock selectedBlock = blocksAvailable.get(blockList.getSelectedIndex() - 1);
 		if(blockList.getSelectedIndex() < 0)
 			error = error + " Block needs to be selected !";
 		
@@ -473,11 +472,65 @@ public class EditLevel extends JFrame {
 
 	//move block button
 	private void moveBlockButtonActionPerformed(java.awt.event.ActionEvent evt) {
+error = "";
+		
+		int selectedLevel = levelList.getSelectedIndex();
+		if (selectedLevel <= 0)
+			error = "Level needs to be selected !";
+		
+		
+		TOGridCell selectedGridCell = blocksInArea.get(blockAreaList.getSelectedIndex() - 1);
+		
+		int x = 0;
+		try {
+			x = Integer.parseInt(txtHorizontal.getText());
+		}
+		catch (NumberFormatException e) {
+			error = "Horizontal position needs to be a numerical value! ";
+		}
+		
+		int y = 0;
+		try {
+			y = Integer.parseInt(txtVertical.getText());
+		}
+		catch (NumberFormatException e) {
+			error = "Vertical position needs to be a numerical value! ";
+		}
+		
+		try {
+			Block223Controller.moveBlock(selectedLevel, selectedGridCell.getGridHorizontalPosition(), selectedGridCell.getGridVerticalPosition(), x, y);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			error = e.getMessage();
+			e.printStackTrace();
+		}
+		refreshData();
+		refreshPlayAreaVisualizer(selectedLevel);
 
 	}
 
 	//remove block button
 	private void removeBlockButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		int selectedLevel = levelList.getSelectedIndex();
+		if (selectedLevel <= 0)
+			error = "Level needs to be selected !";
+		
+		
+		TOGridCell selectedGridCell = blocksInArea.get(blockAreaList.getSelectedIndex() - 1);
+		if(blockList.getSelectedIndex() < 0)
+			error = error + " Grid Cell needs to be selected !";
+		
+		
+		try {
+			Block223Controller.removeBlock(selectedLevel, selectedGridCell.getGridHorizontalPosition(), selectedGridCell.getGridVerticalPosition());
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			error = e.getMessage();
+			e.printStackTrace();
+		}
+		refreshData();
+		refreshPlayAreaVisualizer(selectedLevel);
+
 
 	}
 

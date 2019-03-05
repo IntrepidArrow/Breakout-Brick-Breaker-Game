@@ -315,7 +315,7 @@ public class Block223Controller {
 		Game game = Block223Application.getCurrentGame();
 
 		// check level number
-		if (level < 1 || level > game.getLevels().size()) {
+		if (level < 1 || level >= game.getLevels().size()) {
 			error += "Level " + level + " does not exist for the game.";
 			
 		}
@@ -332,6 +332,8 @@ public class Block223Controller {
 		if (block == null) {
 			error = error + "The block does not exist. ";
 		}
+		
+		// check if this block has already been added
 
 		// check if position is taken
 		BlockAssignment takenBlockAssignment = actualLevel.findBlockAssignment(gridHorizontalPosition,
@@ -430,7 +432,7 @@ public class Block223Controller {
 		}
 		
 		Game game = Block223Application.getCurrentGame();
-		Level currentLevel = game.getLevel(level-1);
+		Level currentLevel = game.getLevel(level);
 		BlockAssignment assignment = currentLevel.findBlockAssignment(gridHorizontalPosition, gridVerticalPosition);
 		
 		if(assignment != null) {
