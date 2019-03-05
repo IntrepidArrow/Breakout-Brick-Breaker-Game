@@ -76,7 +76,7 @@ public class Block223Controller {
 
 			if (nrBlocksPerLevel <= 0) {
 
-				throw new InvalidInputException("nrBlocksPerLevel is negative of zero");
+				throw new InvalidInputException("nrBlocksPerLevel is negative or zero");
 			}
 		}
 
@@ -317,6 +317,7 @@ public class Block223Controller {
 		// check level number
 		if (level < 1 || level > game.getLevels().size()) {
 			error += "Level " + level + " does not exist for the game.";
+			
 		}
 		Level actualLevel = game.getLevel(level);
 
@@ -336,7 +337,7 @@ public class Block223Controller {
 		BlockAssignment takenBlockAssignment = actualLevel.findBlockAssignment(gridHorizontalPosition,
 				gridVerticalPosition);
 		if (takenBlockAssignment != null) {
-			error += "A block already exists at location" + gridHorizontalPosition + "/" + gridVerticalPosition + ".";
+			error += "A block already exists at location " + gridHorizontalPosition + "/" + gridVerticalPosition + ".";
 		}
 
 		if (error.length() > 0) {
@@ -755,7 +756,7 @@ public class Block223Controller {
 		Game game = Block223Application.getCurrentGame();
 		Level actualLevel = null;
 		try {
-			actualLevel = game.getLevel(level - 1);
+			actualLevel = game.getLevel(level );
 		} catch (IndexOutOfBoundsException e) {
 			throw new InvalidInputException("Level " + level + " does not exist for the game.");
 		}
