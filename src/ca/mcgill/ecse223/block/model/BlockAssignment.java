@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 
 // line 83 "../../../../../Block223Persistence.ump"
-// line 135 "../../../../../Block223.ump"
+// line 151 "../../../../../Block223.ump"
 public class BlockAssignment implements Serializable
 {
 
@@ -28,11 +28,11 @@ public class BlockAssignment implements Serializable
 
   public BlockAssignment(int aGridHorizontalPosition, int aGridVerticalPosition, Level aLevel, Block aBlock, Game aGame)
   {
-    // line 142 "../../../../../Block223.ump"
+    // line 158 "../../../../../Block223.ump"
     if(aGridHorizontalPosition < 1 || aGridHorizontalPosition > aGame.getMaxNumberHorizontalBlocks())
        throw new RuntimeException("The horizontal position must be between 1 and " + game.getMaxNumberHorizontalBlocks() + ".");
     // END OF UMPLE BEFORE INJECTION
-    // line 150 "../../../../../Block223.ump"
+    // line 166 "../../../../../Block223.ump"
     if(aGridVerticalPosition < 1 || aGridVerticalPosition > aGame.getMaxNumberVerticalBlocks())
        throw new RuntimeException("The vertical position must be between 1 and " + game.getMaxNumberVerticalBlocks() + ".");
     // END OF UMPLE BEFORE INJECTION
@@ -62,7 +62,7 @@ public class BlockAssignment implements Serializable
   public boolean setGridHorizontalPosition(int aGridHorizontalPosition)
   {
     boolean wasSet = false;
-    // line 146 "../../../../../Block223.ump"
+    // line 162 "../../../../../Block223.ump"
     if(aGridHorizontalPosition < 1 || aGridHorizontalPosition > game.getMaxNumberHorizontalBlocks())
        throw new RuntimeException("The horizontal position must be between 1 and " + game.getMaxNumberHorizontalBlocks() + ".");
     // END OF UMPLE BEFORE INJECTION
@@ -74,7 +74,7 @@ public class BlockAssignment implements Serializable
   public boolean setGridVerticalPosition(int aGridVerticalPosition)
   {
     boolean wasSet = false;
-    // line 155 "../../../../../Block223.ump"
+    // line 171 "../../../../../Block223.ump"
     if(aGridVerticalPosition < 1 || aGridVerticalPosition > game.getMaxNumberVerticalBlocks())
        throw new RuntimeException("The vertical position must be between 1 and " + game.getMaxNumberVerticalBlocks() + ".");
     // END OF UMPLE BEFORE INJECTION
