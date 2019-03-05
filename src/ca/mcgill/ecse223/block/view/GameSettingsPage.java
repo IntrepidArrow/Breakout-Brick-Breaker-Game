@@ -42,18 +42,12 @@ public class GameSettingsPage extends JFrame{
 	private JTextField nrLevelsField;
 	private JTextField gameNameField;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GameSettingsPage window = new GameSettingsPage();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	/*
+	 * public static void main(String[] args) { EventQueue.invokeLater(new
+	 * Runnable() { public void run() { try { GameSettingsPage window = new
+	 * GameSettingsPage(); window.setVisible(true); } catch (Exception e) {
+	 * e.printStackTrace(); } } }); }
+	 */
 
 
 	/**
@@ -301,11 +295,9 @@ public class GameSettingsPage extends JFrame{
 	private void editLevelsBtnActionPerformed(java.awt.event.ActionEvent evt) {
 		dispose();
 		// create a new instance of edit levels frame and make it visible 
-		// EditLevels editLevels = EditLevels(); 
-		// editLevels.setVisible(true); 
-
-
-	}
+		new EditLevel(); 
+	
+}
 
 	private void editBlocksBtnActionPerformed(java.awt.event.ActionEvent evt) {
 		dispose();
