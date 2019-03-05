@@ -6,6 +6,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.model.Admin;
 import ca.mcgill.ecse223.block.model.Ball;
@@ -49,18 +51,18 @@ public class Block223Controller {
 		String error = "";
 		UserRole currentRole = Block223Application.getCurrentUserRole();
 		if (!(currentRole instanceof Admin)) {
-			error += "Admin privileges are required to position a block. ";
+			error += "Admin privileges are required to define game settings.";
 		} else if (currentRole instanceof Admin) {
 			Admin currentAdmin = (Admin) currentRole;
 			if (!currentAdmin.getGames().contains(Block223Application.getCurrentGame())) {
-				error += "Only the admin who created the game can position a block. ";
+				error += "Only the admin who created the game can define its game settings.";
 			}
 		}
 
 		Game game = Block223Application.getCurrentGame();
 
 		if (game == null) {
-			error += "A game must be selected to define game settings. ";
+			error += "A game must be selected to define game settings.";
 		}
 		if (nrLevels < 1 || nrLevels > 99) {
 			error += "The number of levels must be between 1 and 99. ";
@@ -69,85 +71,54 @@ public class Block223Controller {
 		if (error.length() > 0) {
 			throw new InvalidInputException(error);
 		}
-
+		
 		try {
 			game.setNrBlocksPerLevel(nrBlocksPerLevel);
 		} catch (RuntimeException e) {
-
-			if (nrBlocksPerLevel <= 0) {
-
-				throw new InvalidInputException("nrBlocksPerLevel is negative or zero");
-			}
+			throw new InvalidInputException(e.getMessage());
 		}
-
+		
 		Ball ball = game.getBall();
-
 		try {
 			ball.setMinBallSpeedX(minBallSpeedX);
 		} catch (RuntimeException e) {
-			if (minBallSpeedX <= 0) {
-				throw new InvalidInputException(" minBallSpeedX must be greater than zero");
-			}
+			throw new InvalidInputException(e.getMessage());
 		}
-
 		try {
 			ball.setMinBallSpeedY(minBallSpeedY);
 		} catch (RuntimeException e) {
-
-			if (minBallSpeedY <= 0) {
-				throw new InvalidInputException("minBallSpeedY must be greater than zero");
-			}
-
+			throw new InvalidInputException(e.getMessage());
 		}
-
 		try {
 			ball.setBallSpeedIncreaseFactor(ballSpeedIncreaseFactor);
 		} catch (RuntimeException e) {
-
-			if (ballSpeedIncreaseFactor <= 0) {
-				throw new InvalidInputException("ballSpeedIncreaseFactor must be greater than zero");
-			}
+			throw new InvalidInputException(e.getMessage());
 		}
-
+		
 		Paddle paddle = game.getPaddle();
-
 		try {
 			paddle.setMaxPaddleLength(maxPaddleLength);
-
 		} catch (RuntimeException e) {
-			if ((maxPaddleLength <= 0) || (maxPaddleLength >= 400)) {
-				throw new InvalidInputException(
-						"the maximum length of the paddle must be greater than 0 and less or equal to 400");
-			}
+			throw new InvalidInputException(e.getMessage());
 		}
 		try {
-
 			paddle.setMinPaddleLength(minPaddleLength);
-
 		} catch (RuntimeException e) {
-			if (minPaddleLength <= 0) {
-
-				throw new InvalidInputException("the minPaddleLength of the paddle must be greater than 0 ");
-			}
+			throw new InvalidInputException(e.getMessage());
 		}
-
-		if (nrLevels > game.getLevels().size()) {
-
-			for (int i = game.getLevels().size(); i <= nrLevels; i++) {
-
-				game.addLevel();
-			}
-		} else if (nrLevels < game.getLevels().size()) {
-
-			for (int k = nrLevels; k <= game.getLevels().size(); k++) {
-				Level level = game.getLevel(game.getLevels().size() - 1);
-				level.delete();
-			}
+		
+		List<Level> levels = game.getLevels();
+		int size = levels.size();
+		
+		while (nrLevels > size) {
+			game.addLevel();
+			size = levels.size();
 		}
-
-		Block223Application.setCurrentGame(game);
-		return;
-
+		while (nrLevels < size) {
+			Level level = game.getLevel(size -1);
+			level.delete();
+			size = levels.size();
+		}
 	}
 
 	public static void deleteGame(String name) throws InvalidInputException {

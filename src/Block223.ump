@@ -75,6 +75,18 @@ class Game {
 	  }
 	  return foundBlock;
   }
+  
+  before setNrBlocksPerLevel, constructor {
+  	if(aNrBlocksPerLevel <= 0){
+  		throw new RuntimeException("The number of blocks per level must be greater than zero.");
+  		}
+  	}
+  before setName {
+  	if(aName == null){
+  		throw new RuntimeException("The name of a ame must be specified.");
+  	}
+  }
+  	
   public int getMaxNumberHorizontalBlocks() {
 	  int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING , (Block.SIZE + COLUMNS_PADDING) );
 	  return maxNbr;
@@ -167,6 +179,22 @@ class Ball {
    Integer minBallSpeedX;
    Integer minBallSpeedY;
    Double ballSpeedIncreaseFactor;
+   
+   before setMinBallSpeedX, constructor{
+   		if(aMinBallSpeedX <= 0){
+   			throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
+   		}
+   }
+   before setMinBallSpeedY, constructor{
+   		if(aMinBallSpeedY <= 0){
+   			throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
+   		}
+   }
+   before setBallSpeedIncreaseFactor, constructor {
+   		if(aBallSpeedIncreaseFactor <= 0){
+   			throw new RuntimeException("The speed increase factor of the ball must be greater than zero.");
+   		}
+   }
 }
 
 class Paddle {
@@ -174,4 +202,15 @@ class Paddle {
    const Integer VERTICAL_DISTANCE = 30;
    Integer maxPaddleLength;
    Integer minPaddleLength;
+   
+   before setMaxPaddleLength, constructor {
+   		if((aMaxPaddleLength <= 0) || aMaxPaddleLength > 390){
+   			throw new RuntimeException("The maximum length of the paddle must be greater than zero and less than or equal to 390.");
+   		}
+   }
+   before setMinPaddleLength, constructor {
+   		if(aMinPaddleLength <= 0){
+   			throw new RuntimeException("The minimum length of the paddle must be greater than zero.");
+   		}
+   }
 }

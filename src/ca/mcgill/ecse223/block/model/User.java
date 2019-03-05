@@ -37,6 +37,10 @@ public class User implements Serializable
     if(aUsername == null || aUsername.isEmpty()){
        	throw new RuntimeException("The username must be specified.");    
        	}
+       	if (!setUsername(aUsername))
+        {
+          throw new RuntimeException("The username has already been taken.");
+        }
     // END OF UMPLE BEFORE INJECTION
     if (!setUsername(aUsername))
     {
