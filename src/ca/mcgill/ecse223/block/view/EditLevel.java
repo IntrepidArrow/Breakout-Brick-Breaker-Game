@@ -2,9 +2,11 @@ package ca.mcgill.ecse223.block.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -18,17 +20,22 @@ import javax.swing.SwingConstants;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.BevelBorder;
+
+import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOBlock;
 import ca.mcgill.ecse223.block.controller.TOGridCell;
+import ca.mcgill.ecse223.block.model.Admin;
+import ca.mcgill.ecse223.block.model.Block223;
+import ca.mcgill.ecse223.block.model.Game;
 
 public class EditLevel extends JFrame {
 
 	private static final long serialVersionUID = -4426310869376315542L;
 
 	// UI elements
-	public JFrame frame;
+	public JFrame editLevelWindow;
 	private JLabel errorMessage;
 	private JButton backButton;
 	private JButton logoutButton;
@@ -65,24 +72,73 @@ public class EditLevel extends JFrame {
 	private HashMap<Integer, TOBlock> blocksAvailable;
 	//play area
 	private HashMap<Integer, TOGridCell> blocksInArea;
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		Block223 block223 = Block223Application.getBlock223();
+		Admin currentUserRole = new Admin("albert", block223);
+		Block223Application.setCurrentUserRole(currentUserRole);
+		Game game = null;
+		Block223Application.setCurrentGame(game);
+		game = new Game("revvy", 10, (Admin) currentUserRole, 5 ,4, 5.0, 6,3, block223); 
+		Block223Application.setCurrentGame(game);
+		int level = 3;
+		try {
+			Block223Controller.setGameDetails(2, 10, 5 ,4, 5.0 , 6,3);
+			Block223Controller.addBlock(30, 30, 10, 40);
+			Block223Controller.addBlock(40, 30, 10, 65);
+			Block223Controller.positionBlock(1, level, 3, 4);
+			HashMap<Integer, TOGridCell> blocksInArea = new HashMap<Integer, TOGridCell>();
+			int index = 0;
+			try { 
+				for (TOGridCell gridCell : Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level)){ 
+					blocksInArea.put(index, gridCell); 
+					//blockList.addItem("#" + gridCell.getId() + ", Points: " + gridCell.getPoints() + ", Color: " + gridCell.getRed());
+			index++; 
+			} 
+			}
+			catch (InvalidInputException e) { 
+				// TODO Auto-generated catch block
+				//error = e.getMessage(); 
+				e.printStackTrace(); 
+				}
+			
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					EditLevel window = new EditLevel();
+					window.editLevelWindow.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 
 	public EditLevel() {
 		initComponents();
 		refreshData();
-		//refreshPlayAreaVisualizer();
+		refreshPlayAreaVisualizer(0);
 	}
 
 
 	private void initComponents() {
 
 
-		frame = new JFrame();
-		frame.setBounds(100, 100, 841, 629);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		editLevelWindow= new JFrame();
+		editLevelWindow.setBounds(100, 100, 841, 629);
+		editLevelWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// elements for frame
 		backButton = new JButton("Back");
-		errorMessage = new JLabel("error");
+		errorMessage = new JLabel();
 		errorMessage.setForeground(Color.RED);
 
 		// elements for levels			
@@ -93,7 +149,7 @@ public class EditLevel extends JFrame {
 		  levelList.addActionListener(new java.awt.event.ActionListener() { public void
 		  actionPerformed(java.awt.event.ActionEvent evt) {
 			  if(levelList.getSelectedIndex() != 0 & levelList.getSelectedIndex() != -1)
-		  refreshPlayAreaVisualizer(); 
+		  refreshPlayAreaVisualizer(levelList.getSelectedIndex()); 
 		  } 
 		  }
 		  );
@@ -168,7 +224,7 @@ public class EditLevel extends JFrame {
 
 
 		// layout
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		GroupLayout groupLayout = new GroupLayout(editLevelWindow.getContentPane());
 		groupLayout.setHorizontalGroup(
 				groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -274,7 +330,7 @@ public class EditLevel extends JFrame {
 				.addGap(0, 375, Short.MAX_VALUE)
 				);
 		areaPanel.setLayout(gl_panel);
-		frame.getContentPane().setLayout(groupLayout);
+		editLevelWindow.getContentPane().setLayout(groupLayout);
 
 
 		pack();
@@ -296,36 +352,29 @@ public class EditLevel extends JFrame {
 		int nrLevels;
 		try {
 			nrLevels = Block223Controller.getCurrentDesignableGame().getNrLevels();
-			for (int i = 0 ; i < nrLevels - 1   ; i++) {
-				levels.put(i,i+1);
+			for (int i = 0 ; i < nrLevels   ; i++) {
+				levels.put(i,i);
 				levelList.addItem("Level " + (i + 1));
 				index++;
 			};
-			levelList.setSelectedIndex(-1);
+			//levelList.setSelectedIndex(-1);
 		} catch (InvalidInputException e) {
 			// TODO Auto-generated catch block
 			error = e.getMessage();
 			e.printStackTrace();
 		}
 		
-		//block area
-		
-			
-			  blocksInArea = new HashMap<Integer, TOGridCell>();
-			  blockAreaList.removeAllItems(); blockAreaList.addItem("No cell selected");
-			  int level = levelList.getSelectedIndex(); index = 0; try { for (TOGridCell
-			  gridCell : Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level))
-			  { blocksInArea.put(index, gridCell); blockList.addItem("#" + gridCell.getId()
-			  + ", Points: " + gridCell.getPoints() + ", Color: " + gridCell.getRed());
-			  index++; } } catch (InvalidInputException e) { // TODO Auto-generated catch block 
-			  error = e.getMessage(); e.printStackTrace(); };
-			  
-			  blockAreaList.setSelectedIndex(-1);
-			 
-
-		
-		
-		
+			/*
+			 * //block area blocksInArea = new HashMap<Integer, TOGridCell>();
+			 * blockAreaList.removeAllItems(); blockAreaList.addItem("No cell selected");
+			 * int level = levelList.getSelectedIndex(); index = 0; try { for (TOGridCell
+			 * gridCell : Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level))
+			 * { blocksInArea.put(index, gridCell); blockList.addItem("#" + gridCell.getId()
+			 * + ", Points: " + gridCell.getPoints() + ", Color: " + gridCell.getRed());
+			 * index++; } } catch (InvalidInputException e) { // TODO Auto-generated catch
+			 * block error = e.getMessage(); e.printStackTrace(); }
+			 * blockAreaList.setSelectedIndex(-1);
+			 */
 
 		// blocks available
 		blocksAvailable = new HashMap<Integer,TOBlock>();
@@ -348,29 +397,28 @@ public class EditLevel extends JFrame {
 	}
 
 	
-	  private void refreshPlayAreaVisualizer() {
+	  private void refreshPlayAreaVisualizer(int level) {
 	  //playAreaVisualizer.setLevel(levelList.getSelectedIndex()); 
 		  int index = 0;
 		  blocksInArea = new HashMap<Integer, TOGridCell>();
 			blockAreaList.removeAllItems(); 
 			blockAreaList.addItem("No cell selected");
-			int level = levelList.getSelectedIndex(); 
+			if(level != 0 || level != -1) {
 			index = 0; 
 			try { 
-				for (TOGridCell
-					gridCell : Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level))
-			{ 
+				for (TOGridCell gridCell : Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level)){ 
 					blocksInArea.put(index, gridCell); 
-					blockList.addItem("#" + gridCell.getId()
-			+ ", Points: " + gridCell.getPoints() + ", Color: " + gridCell.getRed());
+					blockList.addItem("#" + gridCell.getId() + ", Points: " + gridCell.getPoints() + ", Color: " + gridCell.getRed());
 			index++; 
 			} 
 			}
-			catch (InvalidInputException e) { // TODO Auto-generated catch block
+			catch (InvalidInputException e) { 
+				// TODO Auto-generated catch block
 				error = e.getMessage(); e.printStackTrace(); 
-				};
+				}
+			}
 			
-			blockAreaList.setSelectedIndex(-1);
+			//blockAreaList.setSelectedIndex(-1);
 		  }
 	 
 
@@ -386,10 +434,31 @@ public class EditLevel extends JFrame {
 
 	//position block button
 	private void positionBlockButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		error = "";
+		
 		int selectedLevel = levelList.getSelectedIndex();
+		if (selectedLevel <= 0)
+			error = "Level needs to be selected !";
+		
 		TOBlock selectedBlock = blocksAvailable.get(blockList.getSelectedIndex());
-		int x = Integer.parseInt(txtHorizontal.getText());
-		int y = Integer.parseInt(txtVertical.getText());
+		if(blockList.getSelectedIndex() < 0)
+			error = error + " Block needs to be selected !";
+		
+		int x = 0;
+		try {
+			x = Integer.parseInt(txtHorizontal.getText());
+		}
+		catch (NumberFormatException e) {
+			error = "Horizontal position needs to be a numerical value! ";
+		}
+		
+		int y = 0;
+		try {
+			y = Integer.parseInt(txtVertical.getText());
+		}
+		catch (NumberFormatException e) {
+			error = "Vertical position needs to be a numerical value! ";
+		}
 		
 		try {
 			Block223Controller.positionBlock(selectedBlock.getId(), selectedLevel, x , y);
@@ -399,7 +468,7 @@ public class EditLevel extends JFrame {
 			e.printStackTrace();
 		}
 		refreshData();
-		refreshPlayAreaVisualizer();
+		refreshPlayAreaVisualizer(selectedLevel);
 	}
 
 	//move block button
