@@ -285,12 +285,18 @@ public class Block223Controller {
 		}
 		Game game = Block223Application.getCurrentGame();
 
-		// check level number
-		if (level < 1 || level >= game.getLevels().size()) {
-			error += "Level " + level + " does not exist for the game.";
-			
+		/*
+		 * // check level number if (level < 1 || level >= game.getLevels().size()) {
+		 * error += "Level " + level + " does not exist for the game.";
+		 * 
+		 * } Level actualLevel = game.getLevel(level);
+		 */
+		Level actualLevel = null;
+		try {
+			actualLevel = game.getLevel(level - 1 );
+		} catch (IndexOutOfBoundsException e) {
+			throw new InvalidInputException("Level " + level + " does not exist for the game.");
 		}
-		Level actualLevel = game.getLevel(level);
 
 		// check if max number of blocks
 		if (actualLevel.getBlockAssignments().size() + 1 == game.getNrBlocksPerLevel()) {
@@ -303,7 +309,8 @@ public class Block223Controller {
 		if (block == null) {
 			error = error + "The block does not exist. ";
 		}
-		
+		// check if block number reached limit
+		//if(actualLevel.getBlockAssignments().size() >= game.)
 		// check if this block has already been added
 
 		// check if position is taken
@@ -729,7 +736,7 @@ public class Block223Controller {
 		Game game = Block223Application.getCurrentGame();
 		Level actualLevel = null;
 		try {
-			actualLevel = game.getLevel(level );
+			actualLevel = game.getLevel(level - 1 );
 		} catch (IndexOutOfBoundsException e) {
 			throw new InvalidInputException("Level " + level + " does not exist for the game.");
 		}
