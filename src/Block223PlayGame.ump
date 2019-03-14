@@ -1,0 +1,35 @@
+namespace ca.mcgill.ecse223.block.model;
+
+class Game {
+}
+class Player {
+}
+
+class SpecificGame {
+	isA Game;
+	* -<@> 1 Game game;
+	* -<@> 1 Player player;
+	
+	1 -- 1 Score score;
+	autounique id;
+	Date date;
+	defaulted Integer paddleXPos = 195; // depends on paddle length
+	defaulted Integer paddleYPos = 195; // depends on paddle length
+	defaulted Integer ballXPos = 195;
+	defaulted Integer ballYPos = 195;
+	Integer currentLevelPlayed;
+	defaulted Integer nrOfLife = 3;
+
+}
+
+class Score{
+	* -<@> 1 Game game; //Hall of Fame
+	* -<@> 1 Player player;
+	 
+}
+
+class SpecificBlockAssignment {
+//isA BlockAssignment;
+
+}
+
