@@ -178,18 +178,18 @@ public class Block223Controller {
 		// InavlidInputException checks
 		// Check if this is the right way to do the invalid input exception
 		if (!(Block223Application.getCurrentUserRole() instanceof Admin)) { // if current user role is not set to Admin
-			error += "Admin privileges are required to add a block. ";
+			error += "Admin privileges are required to add a block.";
 		}
 		if (Block223Application.getCurrentGame() == null) { // if the current game is not set
-			error += "A game must be selected to add a block. ";
+			error += "A game must be selected to add a block.";
 		}
 		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
-			error += "Only the admin who created the game can add a block. ";
+			error += "Only the admin who created the game can add a block.";
 		}
 		for (Block block : Block223Application.getCurrentGame().getBlocks()) { // Another block exists in the current
 																				// game with same color attributes
 			if ((block.getRed() == red) && (block.getGreen() == green) && (block.getBlue() == blue)) {
-				error += "A Block with the same color already exists for the game. ";
+				error += "A block with the same color already exists for the game.";
 			}
 		}
 		if (error.length() > 0) {
