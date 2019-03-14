@@ -7,7 +7,7 @@ import java.util.*;
 import java.sql.Date;
 
 // line 39 "../../../../../Block223Persistence.ump"
-// line 50 "../../../../../Block223.ump"
+// line 51 "../../../../../Block223.ump"
 public class Player extends UserRole implements Serializable
 {
 

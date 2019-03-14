@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.util.*;
 
 // line 4 "../../../../../Block223PlayGame.ump"
+// line 4 "../../../../../Block223States.ump"
 public class SpecificGame extends Game
 {
 
@@ -30,6 +31,10 @@ public class SpecificGame extends Game
 
   //Autounique Attributes
   private int id;
+
+  //SpecificGame State Machines
+  public enum Status { Init, Ongoing, Paused, Lvl_End, Game_End }
+  private Status status;
 
   //SpecificGame Associations
   private Game game;
@@ -66,6 +71,7 @@ public class SpecificGame extends Game
       throw new RuntimeException("Unable to create SpecificGame due to aScore");
     }
     score = aScore;
+    setStatus(Status.Init);
   }
 
   public SpecificGame(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223, Date aDate, int aCurrentLevelPlayed, Game aGame, Player aPlayer, Game aGameForScore, Player aPlayerForScore)
@@ -261,6 +267,102 @@ public class SpecificGame extends Game
   public int getId()
   {
     return id;
+  }
+
+  public String getStatusFullName()
+  {
+    String answer = status.toString();
+    return answer;
+  }
+
+  public Status getStatus()
+  {
+    return status;
+  }
+
+  public boolean setup()
+  {
+    boolean wasEventProcessed = false;
+    
+    Status aStatus = status;
+    switch (aStatus)
+    {
+      case Init:
+        setStatus(Status.Ongoing);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean space()
+  {
+    boolean wasEventProcessed = false;
+    
+    Status aStatus = status;
+    switch (aStatus)
+    {
+      case Ongoing:
+        setStatus(Status.Paused);
+        wasEventProcessed = true;
+        break;
+      case Paused:
+        setStatus(Status.Ongoing);
+        wasEventProcessed = true;
+        break;
+      case Lvl_End:
+        setStatus(Status.Init);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean levelCompleted()
+  {
+    boolean wasEventProcessed = false;
+    
+    Status aStatus = status;
+    switch (aStatus)
+    {
+      case Ongoing:
+        setStatus(Status.Lvl_End);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean gameCompleted()
+  {
+    boolean wasEventProcessed = false;
+    
+    Status aStatus = status;
+    switch (aStatus)
+    {
+      case Lvl_End:
+        setStatus(Status.Game_End);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private void setStatus(Status aStatus)
+  {
+    status = aStatus;
   }
   /* Code from template association_GetOne */
   public Game getGame()

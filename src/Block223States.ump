@@ -1,0 +1,25 @@
+namespace ca.mcgill.ecse223.block.model;
+
+
+class SpecificGame
+{
+   status {
+      Init {
+        setup -> Ongoing;
+      }
+      Ongoing {
+          space -> Paused;
+          levelCompleted -> Lvl_End;
+      }
+      Paused {
+        space -> Ongoing;
+      }
+      Lvl_End {
+        gameCompleted -> Game_End;
+        space -> Init;
+      }
+      Game_End {
+      }
+  }
+}
+
