@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 14 "../../../../../Block223Persistence.ump"
-// line 19 "../../../../../Block223.ump"
+// line 20 "../../../../../Block223.ump"
 public class User implements Serializable
 {
 
@@ -33,11 +33,11 @@ public class User implements Serializable
 
   public User(String aUsername, Block223 aBlock223, UserRole... allRoles)
   {
-    // line 22 "../../../../../Block223.ump"
+    // line 23 "../../../../../Block223.ump"
     if(aUsername == null || aUsername.isEmpty()){
        	throw new RuntimeException("The username must be specified.");    
        	}
-       	if (hasWithUsername(aUsername))
+       	if (!setUsername(aUsername))
         {
           throw new RuntimeException("The username has already been taken.");
         }

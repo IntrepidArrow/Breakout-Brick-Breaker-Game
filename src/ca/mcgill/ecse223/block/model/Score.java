@@ -3,8 +3,9 @@
 
 package ca.mcgill.ecse223.block.model;
 import java.sql.Date;
+import java.util.*;
 
-// line 25 "../../../../../Block223PlayGame.ump"
+// line 21 "../../../../../Block223PlayGame.ump"
 public class Score
 {
 
@@ -40,7 +41,7 @@ public class Score
     specificGame = aSpecificGame;
   }
 
-  public Score(Game aGame, Player aPlayer, Date aDateForSpecificGame, int aCurrentLevelPlayedForSpecificGame, Game aGameForSpecificGame, Player aPlayerForSpecificGame)
+  public Score(Game aGame, Player aPlayer, String aNameForSpecificGame, int aNrBlocksPerLevelForSpecificGame, Admin aAdminForSpecificGame, Ball aBallForSpecificGame, Paddle aPaddleForSpecificGame, Block223 aBlock223ForSpecificGame, Date aDateForSpecificGame, int aCurrentLevelPlayedForSpecificGame, Game aGameForSpecificGame, Player aPlayerForSpecificGame)
   {
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
@@ -52,7 +53,7 @@ public class Score
     {
       throw new RuntimeException("Unable to create score due to player");
     }
-    specificGame = new SpecificGame(aDateForSpecificGame, aCurrentLevelPlayedForSpecificGame, aGameForSpecificGame, aPlayerForSpecificGame, this);
+    specificGame = new SpecificGame(aNameForSpecificGame, aNrBlocksPerLevelForSpecificGame, aAdminForSpecificGame, aBallForSpecificGame, aPaddleForSpecificGame, aBlock223ForSpecificGame, aDateForSpecificGame, aCurrentLevelPlayedForSpecificGame, aGameForSpecificGame, aPlayerForSpecificGame, this);
   }
 
   //------------------------

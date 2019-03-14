@@ -1,9 +1,5 @@
 namespace ca.mcgill.ecse223.block.model;
 
-class Game {
-}
-class Player {
-}
 
 class SpecificGame {
 	isA Game;

@@ -2,11 +2,13 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
+import java.io.Serializable;
 import java.util.*;
 import java.sql.Date;
 
-// line 5 "../../../../../Block223PlayGame.ump"
-public class Player
+// line 39 "../../../../../Block223Persistence.ump"
+// line 50 "../../../../../Block223.ump"
+public class Player extends UserRole implements Serializable
 {
 
   //------------------------
@@ -21,8 +23,9 @@ public class Player
   // CONSTRUCTOR
   //------------------------
 
-  public Player()
+  public Player(String aPassword, Block223 aBlock223)
   {
+    super(aPassword, aBlock223);
     specificGames = new ArrayList<SpecificGame>();
     scores = new ArrayList<Score>();
   }
@@ -96,9 +99,9 @@ public class Player
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public SpecificGame addSpecificGame(Date aDate, int aCurrentLevelPlayed, Game aGame, Score aScore)
+  public SpecificGame addSpecificGame(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223, Date aDate, int aCurrentLevelPlayed, Game aGame, Score aScore)
   {
-    return new SpecificGame(aDate, aCurrentLevelPlayed, aGame, this, aScore);
+    return new SpecificGame(aName, aNrBlocksPerLevel, aAdmin, aBall, aPaddle, aBlock223, aDate, aCurrentLevelPlayed, aGame, this, aScore);
   }
 
   public boolean addSpecificGame(SpecificGame aSpecificGame)
@@ -251,6 +254,15 @@ public class Player
       scores.remove(aScore);
     }
     
+    super.delete();
   }
+  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 42 "../../../../../Block223Persistence.ump"
+  private static final long serialVersionUID = -2683573616927799873L ;
 
+  
 }

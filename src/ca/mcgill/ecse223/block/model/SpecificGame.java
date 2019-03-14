@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.block.model;
 import java.sql.Date;
 import java.util.*;
 
-// line 8 "../../../../../Block223PlayGame.ump"
+// line 4 "../../../../../Block223PlayGame.ump"
 public class SpecificGame extends Game
 {
 
@@ -40,9 +40,9 @@ public class SpecificGame extends Game
   // CONSTRUCTOR
   //------------------------
 
-  public SpecificGame(Date aDate, int aCurrentLevelPlayed, Game aGame, Player aPlayer, Score aScore)
+  public SpecificGame(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223, Date aDate, int aCurrentLevelPlayed, Game aGame, Player aPlayer, Score aScore)
   {
-    super();
+    super(aName, aNrBlocksPerLevel, aAdmin, aBall, aPaddle, aBlock223);
     date = aDate;
     resetPaddleXPos();
     resetPaddleYPos();
@@ -68,9 +68,9 @@ public class SpecificGame extends Game
     score = aScore;
   }
 
-  public SpecificGame(Date aDate, int aCurrentLevelPlayed, Game aGame, Player aPlayer, Game aGameForScore, Player aPlayerForScore)
+  public SpecificGame(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223, Date aDate, int aCurrentLevelPlayed, Game aGame, Player aPlayer, Game aGameForScore, Player aPlayerForScore)
   {
-    super();
+    super(aName, aNrBlocksPerLevel, aAdmin, aBall, aPaddle, aBlock223);
     date = aDate;
     resetPaddleXPos();
     resetPaddleYPos();
