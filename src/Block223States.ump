@@ -1,25 +1,57 @@
 namespace ca.mcgill.ecse223.block.model;
 
 
+
+
+
 class SpecificGame
 {
-   status {
+   gameStatus {
       Init {
-        setup -> Ongoing;
+        setup -> ongoing;
       }
-      Ongoing {
-          space -> Paused;
+     
+      ongoing {
+        getInput() -> Paused;
+          
+          moveBall() [isWallPaddleHit()] / {doWallPaddleHit()} -> ongoing;
+          
+          moveBall() [isBlockHit(level)] / {doBlockHit()} -> ongoing;
+        
+          moveBall() [level.getSpecificBlockAssignments().size == 0] /{saveScoreAndDelete();
+            
+          }-> Game_End ;
+          
+          moveBall() [isOutOfBounds() && specificGame.getNrOfLife() == 1 ] -> Game_End ;
+        
+          moveBall() [isOutOfBounds() && specificGame.getNrOfLife() > 1 ]/ {
+         
+          doOutOfBounds();
+            
+          }-> ResetLevel;
+         
           levelCompleted -> Lvl_End;
+          
       }
+     
       Paused {
-        space -> Ongoing;
+        entry / {saveGame()};
+        getInput() -> ongoing;
       }
+     
+      ResetLevel{
+      getInput() -> ongoing;
+      }
+     
       Lvl_End {
         gameCompleted -> Game_End;
         space -> Init;
       }
+     
       Game_End {
+        entry / {saveScoreandDelete()};
       }
   }
 }
+
 
