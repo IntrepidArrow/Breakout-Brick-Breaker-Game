@@ -2,12 +2,11 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
-import java.sql.Date;
 import java.util.*;
 
-// line 4 "../../../../../Block223PlayGame.ump"
+// line 13 "../../../../../Block223PlayGame.ump"
 // line 4 "../../../../../Block223States.ump"
-public class SpecificGame extends Game
+public class SpecificGame
 {
 
   //------------------------
@@ -21,13 +20,8 @@ public class SpecificGame extends Game
   //------------------------
 
   //SpecificGame Attributes
-  private Date date;
-  private int paddleXPos;
-  private int paddleYPos;
-  private int ballXPos;
-  private int ballYPos;
-  private int currentLevelPlayed;
   private int nrOfLife;
+  private int currentLevelPlayed;
 
   //Autounique Attributes
   private int id;
@@ -37,25 +31,34 @@ public class SpecificGame extends Game
   private Status status;
 
   //SpecificGame Associations
+  private List<Score> scores;
+  private SpecificBall specificBall;
+  private SpecificPaddle specificPaddle;
+  private List<SpecificBlockAssignment> blockAssignments;
   private Game game;
   private Player player;
-  private Score score;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public SpecificGame(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223, Date aDate, int aCurrentLevelPlayed, Game aGame, Player aPlayer, Score aScore)
+  public SpecificGame(int aCurrentLevelPlayed, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle, Game aGame, Player aPlayer)
   {
-    super(aName, aNrBlocksPerLevel, aAdmin, aBall, aPaddle, aBlock223);
-    date = aDate;
-    resetPaddleXPos();
-    resetPaddleYPos();
-    resetBallXPos();
-    resetBallYPos();
-    currentLevelPlayed = aCurrentLevelPlayed;
     resetNrOfLife();
+    currentLevelPlayed = aCurrentLevelPlayed;
     id = nextId++;
+    scores = new ArrayList<Score>();
+    if (aSpecificBall == null || aSpecificBall.getSpecificGame() != null)
+    {
+      throw new RuntimeException("Unable to create SpecificGame due to aSpecificBall");
+    }
+    specificBall = aSpecificBall;
+    if (aSpecificPaddle == null || aSpecificPaddle.getSpecificGame() != null)
+    {
+      throw new RuntimeException("Unable to create SpecificGame due to aSpecificPaddle");
+    }
+    specificPaddle = aSpecificPaddle;
+    blockAssignments = new ArrayList<SpecificBlockAssignment>();
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
@@ -66,25 +69,18 @@ public class SpecificGame extends Game
     {
       throw new RuntimeException("Unable to create specificGame due to player");
     }
-    if (aScore == null || aScore.getSpecificGame() != null)
-    {
-      throw new RuntimeException("Unable to create SpecificGame due to aScore");
-    }
-    score = aScore;
     setStatus(Status.Init);
   }
 
-  public SpecificGame(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223, Date aDate, int aCurrentLevelPlayed, Game aGame, Player aPlayer, Game aGameForScore, Player aPlayerForScore)
+  public SpecificGame(int aCurrentLevelPlayed, Ball aBallForSpecificBall, Paddle aPaddleForSpecificPaddle, Game aGame, Player aPlayer)
   {
-    super(aName, aNrBlocksPerLevel, aAdmin, aBall, aPaddle, aBlock223);
-    date = aDate;
-    resetPaddleXPos();
-    resetPaddleYPos();
-    resetBallXPos();
-    resetBallYPos();
-    currentLevelPlayed = aCurrentLevelPlayed;
     resetNrOfLife();
+    currentLevelPlayed = aCurrentLevelPlayed;
     id = nextId++;
+    scores = new ArrayList<Score>();
+    specificBall = new SpecificBall(aBallForSpecificBall, this);
+    specificPaddle = new SpecificPaddle(aPaddleForSpecificPaddle, this);
+    blockAssignments = new ArrayList<SpecificBlockAssignment>();
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
@@ -95,92 +91,11 @@ public class SpecificGame extends Game
     {
       throw new RuntimeException("Unable to create specificGame due to player");
     }
-    score = new Score(aGameForScore, aPlayerForScore, this);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-
-  public boolean setDate(Date aDate)
-  {
-    boolean wasSet = false;
-    date = aDate;
-    wasSet = true;
-    return wasSet;
-  }
-  /* Code from template attribute_SetDefaulted */
-  public boolean setPaddleXPos(int aPaddleXPos)
-  {
-    boolean wasSet = false;
-    paddleXPos = aPaddleXPos;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean resetPaddleXPos()
-  {
-    boolean wasReset = false;
-    paddleXPos = getDefaultPaddleXPos();
-    wasReset = true;
-    return wasReset;
-  }
-  /* Code from template attribute_SetDefaulted */
-  public boolean setPaddleYPos(int aPaddleYPos)
-  {
-    boolean wasSet = false;
-    paddleYPos = aPaddleYPos;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean resetPaddleYPos()
-  {
-    boolean wasReset = false;
-    paddleYPos = getDefaultPaddleYPos();
-    wasReset = true;
-    return wasReset;
-  }
-  /* Code from template attribute_SetDefaulted */
-  public boolean setBallXPos(int aBallXPos)
-  {
-    boolean wasSet = false;
-    ballXPos = aBallXPos;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean resetBallXPos()
-  {
-    boolean wasReset = false;
-    ballXPos = getDefaultBallXPos();
-    wasReset = true;
-    return wasReset;
-  }
-  /* Code from template attribute_SetDefaulted */
-  public boolean setBallYPos(int aBallYPos)
-  {
-    boolean wasSet = false;
-    ballYPos = aBallYPos;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean resetBallYPos()
-  {
-    boolean wasReset = false;
-    ballYPos = getDefaultBallYPos();
-    wasReset = true;
-    return wasReset;
-  }
-
-  public boolean setCurrentLevelPlayed(int aCurrentLevelPlayed)
-  {
-    boolean wasSet = false;
-    currentLevelPlayed = aCurrentLevelPlayed;
-    wasSet = true;
-    return wasSet;
-  }
   /* Code from template attribute_SetDefaulted */
   public boolean setNrOfLife(int aNrOfLife)
   {
@@ -198,60 +113,12 @@ public class SpecificGame extends Game
     return wasReset;
   }
 
-  public Date getDate()
+  public boolean setCurrentLevelPlayed(int aCurrentLevelPlayed)
   {
-    return date;
-  }
-
-  /**
-   * depends on paddle length
-   */
-  public int getPaddleXPos()
-  {
-    return paddleXPos;
-  }
-  /* Code from template attribute_GetDefaulted */
-  public int getDefaultPaddleXPos()
-  {
-    return 195;
-  }
-
-  /**
-   * depends on paddle length
-   */
-  public int getPaddleYPos()
-  {
-    return paddleYPos;
-  }
-  /* Code from template attribute_GetDefaulted */
-  public int getDefaultPaddleYPos()
-  {
-    return 195;
-  }
-
-  public int getBallXPos()
-  {
-    return ballXPos;
-  }
-  /* Code from template attribute_GetDefaulted */
-  public int getDefaultBallXPos()
-  {
-    return 195;
-  }
-
-  public int getBallYPos()
-  {
-    return ballYPos;
-  }
-  /* Code from template attribute_GetDefaulted */
-  public int getDefaultBallYPos()
-  {
-    return 195;
-  }
-
-  public int getCurrentLevelPlayed()
-  {
-    return currentLevelPlayed;
+    boolean wasSet = false;
+    currentLevelPlayed = aCurrentLevelPlayed;
+    wasSet = true;
+    return wasSet;
   }
 
   public int getNrOfLife()
@@ -262,6 +129,11 @@ public class SpecificGame extends Game
   public int getDefaultNrOfLife()
   {
     return 3;
+  }
+
+  public int getCurrentLevelPlayed()
+  {
+    return currentLevelPlayed;
   }
 
   public int getId()
@@ -364,6 +236,76 @@ public class SpecificGame extends Game
   {
     status = aStatus;
   }
+  /* Code from template association_GetMany */
+  public Score getScore(int index)
+  {
+    Score aScore = scores.get(index);
+    return aScore;
+  }
+
+  public List<Score> getScores()
+  {
+    List<Score> newScores = Collections.unmodifiableList(scores);
+    return newScores;
+  }
+
+  public int numberOfScores()
+  {
+    int number = scores.size();
+    return number;
+  }
+
+  public boolean hasScores()
+  {
+    boolean has = scores.size() > 0;
+    return has;
+  }
+
+  public int indexOfScore(Score aScore)
+  {
+    int index = scores.indexOf(aScore);
+    return index;
+  }
+  /* Code from template association_GetOne */
+  public SpecificBall getSpecificBall()
+  {
+    return specificBall;
+  }
+  /* Code from template association_GetOne */
+  public SpecificPaddle getSpecificPaddle()
+  {
+    return specificPaddle;
+  }
+  /* Code from template association_GetMany */
+  public SpecificBlockAssignment getBlockAssignment(int index)
+  {
+    SpecificBlockAssignment aBlockAssignment = blockAssignments.get(index);
+    return aBlockAssignment;
+  }
+
+  public List<SpecificBlockAssignment> getBlockAssignments()
+  {
+    List<SpecificBlockAssignment> newBlockAssignments = Collections.unmodifiableList(blockAssignments);
+    return newBlockAssignments;
+  }
+
+  public int numberOfBlockAssignments()
+  {
+    int number = blockAssignments.size();
+    return number;
+  }
+
+  public boolean hasBlockAssignments()
+  {
+    boolean has = blockAssignments.size() > 0;
+    return has;
+  }
+
+  public int indexOfBlockAssignment(SpecificBlockAssignment aBlockAssignment)
+  {
+    int index = blockAssignments.indexOf(aBlockAssignment);
+    return index;
+  }
   /* Code from template association_GetOne */
   public Game getGame()
   {
@@ -374,10 +316,149 @@ public class SpecificGame extends Game
   {
     return player;
   }
-  /* Code from template association_GetOne */
-  public Score getScore()
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfScores()
   {
-    return score;
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Score addScore(int aPoints, Game aGame, Player aPlayer)
+  {
+    return new Score(aPoints, aGame, aPlayer, this);
+  }
+
+  public boolean addScore(Score aScore)
+  {
+    boolean wasAdded = false;
+    if (scores.contains(aScore)) { return false; }
+    SpecificGame existingSpecificGame = aScore.getSpecificGame();
+    boolean isNewSpecificGame = existingSpecificGame != null && !this.equals(existingSpecificGame);
+    if (isNewSpecificGame)
+    {
+      aScore.setSpecificGame(this);
+    }
+    else
+    {
+      scores.add(aScore);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeScore(Score aScore)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aScore, as it must always have a specificGame
+    if (!this.equals(aScore.getSpecificGame()))
+    {
+      scores.remove(aScore);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addScoreAt(Score aScore, int index)
+  {  
+    boolean wasAdded = false;
+    if(addScore(aScore))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfScores()) { index = numberOfScores() - 1; }
+      scores.remove(aScore);
+      scores.add(index, aScore);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveScoreAt(Score aScore, int index)
+  {
+    boolean wasAdded = false;
+    if(scores.contains(aScore))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfScores()) { index = numberOfScores() - 1; }
+      scores.remove(aScore);
+      scores.add(index, aScore);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addScoreAt(aScore, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfBlockAssignments()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public SpecificBlockAssignment addBlockAssignment(int aPositionX, int aPositionY, Block aBlock)
+  {
+    return new SpecificBlockAssignment(aPositionX, aPositionY, aBlock, this);
+  }
+
+  public boolean addBlockAssignment(SpecificBlockAssignment aBlockAssignment)
+  {
+    boolean wasAdded = false;
+    if (blockAssignments.contains(aBlockAssignment)) { return false; }
+    SpecificGame existingSpecificGame = aBlockAssignment.getSpecificGame();
+    boolean isNewSpecificGame = existingSpecificGame != null && !this.equals(existingSpecificGame);
+    if (isNewSpecificGame)
+    {
+      aBlockAssignment.setSpecificGame(this);
+    }
+    else
+    {
+      blockAssignments.add(aBlockAssignment);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeBlockAssignment(SpecificBlockAssignment aBlockAssignment)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aBlockAssignment, as it must always have a specificGame
+    if (!this.equals(aBlockAssignment.getSpecificGame()))
+    {
+      blockAssignments.remove(aBlockAssignment);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addBlockAssignmentAt(SpecificBlockAssignment aBlockAssignment, int index)
+  {  
+    boolean wasAdded = false;
+    if(addBlockAssignment(aBlockAssignment))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfBlockAssignments()) { index = numberOfBlockAssignments() - 1; }
+      blockAssignments.remove(aBlockAssignment);
+      blockAssignments.add(index, aBlockAssignment);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveBlockAssignmentAt(SpecificBlockAssignment aBlockAssignment, int index)
+  {
+    boolean wasAdded = false;
+    if(blockAssignments.contains(aBlockAssignment))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfBlockAssignments()) { index = numberOfBlockAssignments() - 1; }
+      blockAssignments.remove(aBlockAssignment);
+      blockAssignments.add(index, aBlockAssignment);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addBlockAssignmentAt(aBlockAssignment, index);
+    }
+    return wasAdded;
   }
   /* Code from template association_SetOneToMany */
   public boolean setGame(Game aGame)
@@ -420,6 +501,30 @@ public class SpecificGame extends Game
 
   public void delete()
   {
+    for(int i=scores.size(); i > 0; i--)
+    {
+      Score aScore = scores.get(i - 1);
+      aScore.delete();
+    }
+    SpecificBall existingSpecificBall = specificBall;
+    specificBall = null;
+    if (existingSpecificBall != null)
+    {
+      existingSpecificBall.delete();
+    }
+    SpecificPaddle existingSpecificPaddle = specificPaddle;
+    specificPaddle = null;
+    if (existingSpecificPaddle != null)
+    {
+      existingSpecificPaddle.delete();
+    }
+    while (blockAssignments.size() > 0)
+    {
+      SpecificBlockAssignment aBlockAssignment = blockAssignments.get(blockAssignments.size() - 1);
+      aBlockAssignment.delete();
+      blockAssignments.remove(aBlockAssignment);
+    }
+    
     Game placeholderGame = game;
     this.game = null;
     if(placeholderGame != null)
@@ -432,13 +537,6 @@ public class SpecificGame extends Game
     {
       placeholderPlayer.removeSpecificGame(this);
     }
-    Score existingScore = score;
-    score = null;
-    if (existingScore != null)
-    {
-      existingScore.delete();
-    }
-    super.delete();
   }
 
 
@@ -446,15 +544,11 @@ public class SpecificGame extends Game
   {
     return super.toString() + "["+
             "id" + ":" + getId()+ "," +
-            "paddleXPos" + ":" + getPaddleXPos()+ "," +
-            "paddleYPos" + ":" + getPaddleYPos()+ "," +
-            "ballXPos" + ":" + getBallXPos()+ "," +
-            "ballYPos" + ":" + getBallYPos()+ "," +
-            "currentLevelPlayed" + ":" + getCurrentLevelPlayed()+ "," +
-            "nrOfLife" + ":" + getNrOfLife()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "nrOfLife" + ":" + getNrOfLife()+ "," +
+            "currentLevelPlayed" + ":" + getCurrentLevelPlayed()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "specificBall = "+(getSpecificBall()!=null?Integer.toHexString(System.identityHashCode(getSpecificBall())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "specificPaddle = "+(getSpecificPaddle()!=null?Integer.toHexString(System.identityHashCode(getSpecificPaddle())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "score = "+(getScore()!=null?Integer.toHexString(System.identityHashCode(getScore())):"null");
+            "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null");
   }
 }
