@@ -3,6 +3,8 @@ namespace ca.mcgill.ecse223.block.model;
 class Game{
 	1 <@>- * SpecificGame specificGames;
 	1 -- * Score gameScores; //After game is over it is deleted. Only it's scores need to be saved for future games
+	
+	lazy immutable Boolean published;
 }
 
 class Player{

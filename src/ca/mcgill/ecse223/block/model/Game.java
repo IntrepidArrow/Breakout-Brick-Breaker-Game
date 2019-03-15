@@ -36,6 +36,7 @@ public class Game implements Serializable
   //------------------------
 
   //Game Attributes
+  private boolean published;
   private String name;
   private int nrBlocksPerLevel;
 
@@ -50,6 +51,9 @@ public class Game implements Serializable
   private Paddle paddle;
   private Block223 block223;
 
+  //Helper Variables
+  private boolean canSetPublished;
+
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -61,6 +65,7 @@ public class Game implements Serializable
       		throw new RuntimeException("The number of blocks per level must be greater than zero.");
       		}
     // END OF UMPLE BEFORE INJECTION
+    canSetPublished = true;
     nrBlocksPerLevel = aNrBlocksPerLevel;
     if (!setName(aName))
     {
@@ -100,6 +105,7 @@ public class Game implements Serializable
       		throw new RuntimeException("The number of blocks per level must be greater than zero.");
       		}
     // END OF UMPLE BEFORE INJECTION
+    published = false;
     name = aName;
     nrBlocksPerLevel = aNrBlocksPerLevel;
     specificGames = new ArrayList<SpecificGame>();
@@ -124,6 +130,16 @@ public class Game implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
+  /* Code from template attribute_SetImmutable */
+  public boolean setPublished(boolean aPublished)
+  {
+    boolean wasSet = false;
+    if (!canSetPublished) { return false; }
+    canSetPublished = false;
+    published = aPublished;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setName(String aName)
   {
@@ -159,6 +175,11 @@ public class Game implements Serializable
     return wasSet;
   }
 
+  public boolean getPublished()
+  {
+    return published;
+  }
+
   public String getName()
   {
     return name;
@@ -177,6 +198,11 @@ public class Game implements Serializable
   public int getNrBlocksPerLevel()
   {
     return nrBlocksPerLevel;
+  }
+  /* Code from template attribute_IsBoolean */
+  public boolean isPublished()
+  {
+    return published;
   }
   /* Code from template association_GetMany */
   public SpecificGame getSpecificGame(int index)
@@ -884,6 +910,7 @@ public class Game implements Serializable
   public String toString()
   {
     return super.toString() + "["+
+            "published" + ":" + getPublished()+ "," +
             "name" + ":" + getName()+ "," +
             "nrBlocksPerLevel" + ":" + getNrBlocksPerLevel()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "admin = "+(getAdmin()!=null?Integer.toHexString(System.identityHashCode(getAdmin())):"null") + System.getProperties().getProperty("line.separator") +
