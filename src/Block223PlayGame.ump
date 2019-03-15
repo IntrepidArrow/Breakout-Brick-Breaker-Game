@@ -7,6 +7,9 @@ class Game{
 	lazy immutable Boolean published;
 }
 
+class Level{
+}
+
 class Player{
 	1 -- * Score playerScores;
 	1 -- * SpecificGame specificGames;
@@ -46,6 +49,7 @@ class SpecificPaddle{
 	Integer paddlePosX = 195 - (paddle.getMaxPaddleLength()/2);
 }
 class SpecificBlockAssignment {
+	* -- 1 Level level;
 	* -> 1 Block block;
 	//specific block assignments by pixel positions
 	immutable Integer positionX;

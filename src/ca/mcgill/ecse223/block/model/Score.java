@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.model;
 
-// line 27 "../../../../../Block223PlayGame.ump"
+// line 30 "../../../../../Block223PlayGame.ump"
 public class Score
 {
 

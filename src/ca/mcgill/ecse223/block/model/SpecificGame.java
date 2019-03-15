@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.block.model;
 import java.util.*;
 
-// line 15 "../../../../../Block223PlayGame.ump"
+// line 18 "../../../../../Block223PlayGame.ump"
 // line 4 "../../../../../Block223States.ump"
 public class SpecificGame
 {
@@ -394,9 +394,9 @@ public class SpecificGame
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public SpecificBlockAssignment addBlockAssignment(int aPositionX, int aPositionY, Block aBlock)
+  public SpecificBlockAssignment addBlockAssignment(int aPositionX, int aPositionY, Level aLevel, Block aBlock)
   {
-    return new SpecificBlockAssignment(aPositionX, aPositionY, aBlock, this);
+    return new SpecificBlockAssignment(aPositionX, aPositionY, aLevel, aBlock, this);
   }
 
   public boolean addBlockAssignment(SpecificBlockAssignment aBlockAssignment)
