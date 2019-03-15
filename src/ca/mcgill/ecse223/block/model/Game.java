@@ -4,9 +4,9 @@
 package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
-import java.sql.Date;
 
 // line 45 "../../../../../Block223Persistence.ump"
+// line 3 "../../../../../Block223PlayGame.ump"
 // line 55 "../../../../../Block223.ump"
 public class Game implements Serializable
 {
@@ -40,14 +40,14 @@ public class Game implements Serializable
   private int nrBlocksPerLevel;
 
   //Game Associations
+  private List<SpecificGame> specificGames;
+  private List<Score> gameScores;
   private Admin admin;
   private List<Block> blocks;
   private List<Level> levels;
   private List<BlockAssignment> blockAssignments;
   private Ball ball;
   private Paddle paddle;
-  private List<SpecificGame> specificGames;
-  private List<Score> scores;
   private Block223 block223;
 
   //------------------------
@@ -66,6 +66,8 @@ public class Game implements Serializable
     {
       throw new RuntimeException("Cannot create due to duplicate name");
     }
+    specificGames = new ArrayList<SpecificGame>();
+    gameScores = new ArrayList<Score>();
     boolean didAddAdmin = setAdmin(aAdmin);
     if (!didAddAdmin)
     {
@@ -84,8 +86,6 @@ public class Game implements Serializable
       throw new RuntimeException("Unable to create Game due to aPaddle");
     }
     paddle = aPaddle;
-    specificGames = new ArrayList<SpecificGame>();
-    scores = new ArrayList<Score>();
     boolean didAddBlock223 = setBlock223(aBlock223);
     if (!didAddBlock223)
     {
@@ -102,6 +102,8 @@ public class Game implements Serializable
     // END OF UMPLE BEFORE INJECTION
     name = aName;
     nrBlocksPerLevel = aNrBlocksPerLevel;
+    specificGames = new ArrayList<SpecificGame>();
+    gameScores = new ArrayList<Score>();
     boolean didAddAdmin = setAdmin(aAdmin);
     if (!didAddAdmin)
     {
@@ -112,8 +114,6 @@ public class Game implements Serializable
     blockAssignments = new ArrayList<BlockAssignment>();
     ball = new Ball(aMinBallSpeedXForBall, aMinBallSpeedYForBall, aBallSpeedIncreaseFactorForBall, this);
     paddle = new Paddle(aMaxPaddleLengthForPaddle, aMinPaddleLengthForPaddle, this);
-    specificGames = new ArrayList<SpecificGame>();
-    scores = new ArrayList<Score>();
     boolean didAddBlock223 = setBlock223(aBlock223);
     if (!didAddBlock223)
     {
@@ -177,6 +177,69 @@ public class Game implements Serializable
   public int getNrBlocksPerLevel()
   {
     return nrBlocksPerLevel;
+  }
+  /* Code from template association_GetMany */
+  public SpecificGame getSpecificGame(int index)
+  {
+    SpecificGame aSpecificGame = specificGames.get(index);
+    return aSpecificGame;
+  }
+
+  public List<SpecificGame> getSpecificGames()
+  {
+    List<SpecificGame> newSpecificGames = Collections.unmodifiableList(specificGames);
+    return newSpecificGames;
+  }
+
+  public int numberOfSpecificGames()
+  {
+    int number = specificGames.size();
+    return number;
+  }
+
+  public boolean hasSpecificGames()
+  {
+    boolean has = specificGames.size() > 0;
+    return has;
+  }
+
+  public int indexOfSpecificGame(SpecificGame aSpecificGame)
+  {
+    int index = specificGames.indexOf(aSpecificGame);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public Score getGameScore(int index)
+  {
+    Score aGameScore = gameScores.get(index);
+    return aGameScore;
+  }
+
+  /**
+   * After game is over it is deleted. Only it's scores need to be saved for future games
+   */
+  public List<Score> getGameScores()
+  {
+    List<Score> newGameScores = Collections.unmodifiableList(gameScores);
+    return newGameScores;
+  }
+
+  public int numberOfGameScores()
+  {
+    int number = gameScores.size();
+    return number;
+  }
+
+  public boolean hasGameScores()
+  {
+    boolean has = gameScores.size() > 0;
+    return has;
+  }
+
+  public int indexOfGameScore(Score aGameScore)
+  {
+    int index = gameScores.indexOf(aGameScore);
+    return index;
   }
   /* Code from template association_GetOne */
   public Admin getAdmin()
@@ -283,70 +346,154 @@ public class Game implements Serializable
   {
     return paddle;
   }
-  /* Code from template association_GetMany */
-  public SpecificGame getSpecificGame(int index)
-  {
-    SpecificGame aSpecificGame = specificGames.get(index);
-    return aSpecificGame;
-  }
-
-  public List<SpecificGame> getSpecificGames()
-  {
-    List<SpecificGame> newSpecificGames = Collections.unmodifiableList(specificGames);
-    return newSpecificGames;
-  }
-
-  public int numberOfSpecificGames()
-  {
-    int number = specificGames.size();
-    return number;
-  }
-
-  public boolean hasSpecificGames()
-  {
-    boolean has = specificGames.size() > 0;
-    return has;
-  }
-
-  public int indexOfSpecificGame(SpecificGame aSpecificGame)
-  {
-    int index = specificGames.indexOf(aSpecificGame);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public Score getScore(int index)
-  {
-    Score aScore = scores.get(index);
-    return aScore;
-  }
-
-  public List<Score> getScores()
-  {
-    List<Score> newScores = Collections.unmodifiableList(scores);
-    return newScores;
-  }
-
-  public int numberOfScores()
-  {
-    int number = scores.size();
-    return number;
-  }
-
-  public boolean hasScores()
-  {
-    boolean has = scores.size() > 0;
-    return has;
-  }
-
-  public int indexOfScore(Score aScore)
-  {
-    int index = scores.indexOf(aScore);
-    return index;
-  }
   /* Code from template association_GetOne */
   public Block223 getBlock223()
   {
     return block223;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfSpecificGames()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public SpecificGame addSpecificGame(int aCurrentLevelPlayed, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle, Player aPlayer)
+  {
+    return new SpecificGame(aCurrentLevelPlayed, aSpecificBall, aSpecificPaddle, this, aPlayer);
+  }
+
+  public boolean addSpecificGame(SpecificGame aSpecificGame)
+  {
+    boolean wasAdded = false;
+    if (specificGames.contains(aSpecificGame)) { return false; }
+    Game existingGame = aSpecificGame.getGame();
+    boolean isNewGame = existingGame != null && !this.equals(existingGame);
+    if (isNewGame)
+    {
+      aSpecificGame.setGame(this);
+    }
+    else
+    {
+      specificGames.add(aSpecificGame);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeSpecificGame(SpecificGame aSpecificGame)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aSpecificGame, as it must always have a game
+    if (!this.equals(aSpecificGame.getGame()))
+    {
+      specificGames.remove(aSpecificGame);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addSpecificGameAt(SpecificGame aSpecificGame, int index)
+  {  
+    boolean wasAdded = false;
+    if(addSpecificGame(aSpecificGame))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfSpecificGames()) { index = numberOfSpecificGames() - 1; }
+      specificGames.remove(aSpecificGame);
+      specificGames.add(index, aSpecificGame);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveSpecificGameAt(SpecificGame aSpecificGame, int index)
+  {
+    boolean wasAdded = false;
+    if(specificGames.contains(aSpecificGame))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfSpecificGames()) { index = numberOfSpecificGames() - 1; }
+      specificGames.remove(aSpecificGame);
+      specificGames.add(index, aSpecificGame);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addSpecificGameAt(aSpecificGame, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfGameScores()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Score addGameScore(int aPoints, Player aPlayer, SpecificGame aSpecificGame)
+  {
+    return new Score(aPoints, this, aPlayer, aSpecificGame);
+  }
+
+  public boolean addGameScore(Score aGameScore)
+  {
+    boolean wasAdded = false;
+    if (gameScores.contains(aGameScore)) { return false; }
+    Game existingGame = aGameScore.getGame();
+    boolean isNewGame = existingGame != null && !this.equals(existingGame);
+    if (isNewGame)
+    {
+      aGameScore.setGame(this);
+    }
+    else
+    {
+      gameScores.add(aGameScore);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeGameScore(Score aGameScore)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aGameScore, as it must always have a game
+    if (!this.equals(aGameScore.getGame()))
+    {
+      gameScores.remove(aGameScore);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addGameScoreAt(Score aGameScore, int index)
+  {  
+    boolean wasAdded = false;
+    if(addGameScore(aGameScore))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfGameScores()) { index = numberOfGameScores() - 1; }
+      gameScores.remove(aGameScore);
+      gameScores.add(index, aGameScore);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveGameScoreAt(Score aGameScore, int index)
+  {
+    boolean wasAdded = false;
+    if(gameScores.contains(aGameScore))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfGameScores()) { index = numberOfGameScores() - 1; }
+      gameScores.remove(aGameScore);
+      gameScores.add(index, aGameScore);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addGameScoreAt(aGameScore, index);
+    }
+    return wasAdded;
   }
   /* Code from template association_SetOneToMany */
   public boolean setAdmin(Admin aAdmin)
@@ -619,150 +766,6 @@ public class Game implements Serializable
     }
     return wasAdded;
   }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfSpecificGames()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-  public SpecificGame addSpecificGame(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223, Date aDate, int aCurrentLevelPlayed, Player aPlayer, Score aScore)
-  {
-    return new SpecificGame(aName, aNrBlocksPerLevel, aAdmin, aBall, aPaddle, aBlock223, aDate, aCurrentLevelPlayed, this, aPlayer, aScore);
-  }
-
-  public boolean addSpecificGame(SpecificGame aSpecificGame)
-  {
-    boolean wasAdded = false;
-    if (specificGames.contains(aSpecificGame)) { return false; }
-    Game existingGame = aSpecificGame.getGame();
-    boolean isNewGame = existingGame != null && !this.equals(existingGame);
-    if (isNewGame)
-    {
-      aSpecificGame.setGame(this);
-    }
-    else
-    {
-      specificGames.add(aSpecificGame);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeSpecificGame(SpecificGame aSpecificGame)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aSpecificGame, as it must always have a game
-    if (!this.equals(aSpecificGame.getGame()))
-    {
-      specificGames.remove(aSpecificGame);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addSpecificGameAt(SpecificGame aSpecificGame, int index)
-  {  
-    boolean wasAdded = false;
-    if(addSpecificGame(aSpecificGame))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfSpecificGames()) { index = numberOfSpecificGames() - 1; }
-      specificGames.remove(aSpecificGame);
-      specificGames.add(index, aSpecificGame);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveSpecificGameAt(SpecificGame aSpecificGame, int index)
-  {
-    boolean wasAdded = false;
-    if(specificGames.contains(aSpecificGame))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfSpecificGames()) { index = numberOfSpecificGames() - 1; }
-      specificGames.remove(aSpecificGame);
-      specificGames.add(index, aSpecificGame);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addSpecificGameAt(aSpecificGame, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfScores()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-  public Score addScore(Player aPlayer, SpecificGame aSpecificGame)
-  {
-    return new Score(this, aPlayer, aSpecificGame);
-  }
-
-  public boolean addScore(Score aScore)
-  {
-    boolean wasAdded = false;
-    if (scores.contains(aScore)) { return false; }
-    Game existingGame = aScore.getGame();
-    boolean isNewGame = existingGame != null && !this.equals(existingGame);
-    if (isNewGame)
-    {
-      aScore.setGame(this);
-    }
-    else
-    {
-      scores.add(aScore);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeScore(Score aScore)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aScore, as it must always have a game
-    if (!this.equals(aScore.getGame()))
-    {
-      scores.remove(aScore);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addScoreAt(Score aScore, int index)
-  {  
-    boolean wasAdded = false;
-    if(addScore(aScore))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfScores()) { index = numberOfScores() - 1; }
-      scores.remove(aScore);
-      scores.add(index, aScore);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveScoreAt(Score aScore, int index)
-  {
-    boolean wasAdded = false;
-    if(scores.contains(aScore))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfScores()) { index = numberOfScores() - 1; }
-      scores.remove(aScore);
-      scores.add(index, aScore);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addScoreAt(aScore, index);
-    }
-    return wasAdded;
-  }
   /* Code from template association_SetOneToMany */
   public boolean setBlock223(Block223 aBlock223)
   {
@@ -786,6 +789,18 @@ public class Game implements Serializable
   public void delete()
   {
     gamesByName.remove(getName());
+    while (specificGames.size() > 0)
+    {
+      SpecificGame aSpecificGame = specificGames.get(specificGames.size() - 1);
+      aSpecificGame.delete();
+      specificGames.remove(aSpecificGame);
+    }
+    
+    for(int i=gameScores.size(); i > 0; i--)
+    {
+      Score aGameScore = gameScores.get(i - 1);
+      aGameScore.delete();
+    }
     Admin placeholderAdmin = admin;
     this.admin = null;
     if(placeholderAdmin != null)
@@ -825,20 +840,6 @@ public class Game implements Serializable
     {
       existingPaddle.delete();
     }
-    while (specificGames.size() > 0)
-    {
-      SpecificGame aSpecificGame = specificGames.get(specificGames.size() - 1);
-      aSpecificGame.delete();
-      specificGames.remove(aSpecificGame);
-    }
-    
-    while (scores.size() > 0)
-    {
-      Score aScore = scores.get(scores.size() - 1);
-      aScore.delete();
-      scores.remove(aScore);
-    }
-    
     Block223 placeholderBlock223 = block223;
     this.block223 = null;
     if(placeholderBlock223 != null)

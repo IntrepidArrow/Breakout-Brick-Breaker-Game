@@ -4,9 +4,9 @@
 package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
-import java.sql.Date;
 
 // line 39 "../../../../../Block223Persistence.ump"
+// line 8 "../../../../../Block223PlayGame.ump"
 // line 51 "../../../../../Block223.ump"
 public class Player extends UserRole implements Serializable
 {
@@ -16,8 +16,8 @@ public class Player extends UserRole implements Serializable
   //------------------------
 
   //Player Associations
+  private List<Score> playerScores;
   private List<SpecificGame> specificGames;
-  private List<Score> scores;
 
   //------------------------
   // CONSTRUCTOR
@@ -26,13 +26,43 @@ public class Player extends UserRole implements Serializable
   public Player(String aPassword, Block223 aBlock223)
   {
     super(aPassword, aBlock223);
+    playerScores = new ArrayList<Score>();
     specificGames = new ArrayList<SpecificGame>();
-    scores = new ArrayList<Score>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+  /* Code from template association_GetMany */
+  public Score getPlayerScore(int index)
+  {
+    Score aPlayerScore = playerScores.get(index);
+    return aPlayerScore;
+  }
+
+  public List<Score> getPlayerScores()
+  {
+    List<Score> newPlayerScores = Collections.unmodifiableList(playerScores);
+    return newPlayerScores;
+  }
+
+  public int numberOfPlayerScores()
+  {
+    int number = playerScores.size();
+    return number;
+  }
+
+  public boolean hasPlayerScores()
+  {
+    boolean has = playerScores.size() > 0;
+    return has;
+  }
+
+  public int indexOfPlayerScore(Score aPlayerScore)
+  {
+    int index = playerScores.indexOf(aPlayerScore);
+    return index;
+  }
   /* Code from template association_GetMany */
   public SpecificGame getSpecificGame(int index)
   {
@@ -63,35 +93,77 @@ public class Player extends UserRole implements Serializable
     int index = specificGames.indexOf(aSpecificGame);
     return index;
   }
-  /* Code from template association_GetMany */
-  public Score getScore(int index)
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfPlayerScores()
   {
-    Score aScore = scores.get(index);
-    return aScore;
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Score addPlayerScore(int aPoints, Game aGame, SpecificGame aSpecificGame)
+  {
+    return new Score(aPoints, aGame, this, aSpecificGame);
   }
 
-  public List<Score> getScores()
+  public boolean addPlayerScore(Score aPlayerScore)
   {
-    List<Score> newScores = Collections.unmodifiableList(scores);
-    return newScores;
+    boolean wasAdded = false;
+    if (playerScores.contains(aPlayerScore)) { return false; }
+    Player existingPlayer = aPlayerScore.getPlayer();
+    boolean isNewPlayer = existingPlayer != null && !this.equals(existingPlayer);
+    if (isNewPlayer)
+    {
+      aPlayerScore.setPlayer(this);
+    }
+    else
+    {
+      playerScores.add(aPlayerScore);
+    }
+    wasAdded = true;
+    return wasAdded;
   }
 
-  public int numberOfScores()
+  public boolean removePlayerScore(Score aPlayerScore)
   {
-    int number = scores.size();
-    return number;
+    boolean wasRemoved = false;
+    //Unable to remove aPlayerScore, as it must always have a player
+    if (!this.equals(aPlayerScore.getPlayer()))
+    {
+      playerScores.remove(aPlayerScore);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addPlayerScoreAt(Score aPlayerScore, int index)
+  {  
+    boolean wasAdded = false;
+    if(addPlayerScore(aPlayerScore))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfPlayerScores()) { index = numberOfPlayerScores() - 1; }
+      playerScores.remove(aPlayerScore);
+      playerScores.add(index, aPlayerScore);
+      wasAdded = true;
+    }
+    return wasAdded;
   }
 
-  public boolean hasScores()
+  public boolean addOrMovePlayerScoreAt(Score aPlayerScore, int index)
   {
-    boolean has = scores.size() > 0;
-    return has;
-  }
-
-  public int indexOfScore(Score aScore)
-  {
-    int index = scores.indexOf(aScore);
-    return index;
+    boolean wasAdded = false;
+    if(playerScores.contains(aPlayerScore))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfPlayerScores()) { index = numberOfPlayerScores() - 1; }
+      playerScores.remove(aPlayerScore);
+      playerScores.add(index, aPlayerScore);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addPlayerScoreAt(aPlayerScore, index);
+    }
+    return wasAdded;
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfSpecificGames()
@@ -99,9 +171,9 @@ public class Player extends UserRole implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public SpecificGame addSpecificGame(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223, Date aDate, int aCurrentLevelPlayed, Game aGame, Score aScore)
+  public SpecificGame addSpecificGame(int aCurrentLevelPlayed, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle, Game aGame)
   {
-    return new SpecificGame(aName, aNrBlocksPerLevel, aAdmin, aBall, aPaddle, aBlock223, aDate, aCurrentLevelPlayed, aGame, this, aScore);
+    return new SpecificGame(aCurrentLevelPlayed, aSpecificBall, aSpecificPaddle, aGame, this);
   }
 
   public boolean addSpecificGame(SpecificGame aSpecificGame)
@@ -165,95 +237,19 @@ public class Player extends UserRole implements Serializable
     }
     return wasAdded;
   }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfScores()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-  public Score addScore(Game aGame, SpecificGame aSpecificGame)
-  {
-    return new Score(aGame, this, aSpecificGame);
-  }
-
-  public boolean addScore(Score aScore)
-  {
-    boolean wasAdded = false;
-    if (scores.contains(aScore)) { return false; }
-    Player existingPlayer = aScore.getPlayer();
-    boolean isNewPlayer = existingPlayer != null && !this.equals(existingPlayer);
-    if (isNewPlayer)
-    {
-      aScore.setPlayer(this);
-    }
-    else
-    {
-      scores.add(aScore);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeScore(Score aScore)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aScore, as it must always have a player
-    if (!this.equals(aScore.getPlayer()))
-    {
-      scores.remove(aScore);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addScoreAt(Score aScore, int index)
-  {  
-    boolean wasAdded = false;
-    if(addScore(aScore))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfScores()) { index = numberOfScores() - 1; }
-      scores.remove(aScore);
-      scores.add(index, aScore);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveScoreAt(Score aScore, int index)
-  {
-    boolean wasAdded = false;
-    if(scores.contains(aScore))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfScores()) { index = numberOfScores() - 1; }
-      scores.remove(aScore);
-      scores.add(index, aScore);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addScoreAt(aScore, index);
-    }
-    return wasAdded;
-  }
 
   public void delete()
   {
-    while (specificGames.size() > 0)
+    for(int i=playerScores.size(); i > 0; i--)
     {
-      SpecificGame aSpecificGame = specificGames.get(specificGames.size() - 1);
+      Score aPlayerScore = playerScores.get(i - 1);
+      aPlayerScore.delete();
+    }
+    for(int i=specificGames.size(); i > 0; i--)
+    {
+      SpecificGame aSpecificGame = specificGames.get(i - 1);
       aSpecificGame.delete();
-      specificGames.remove(aSpecificGame);
     }
-    
-    while (scores.size() > 0)
-    {
-      Score aScore = scores.get(scores.size() - 1);
-      aScore.delete();
-      scores.remove(aScore);
-    }
-    
     super.delete();
   }
   

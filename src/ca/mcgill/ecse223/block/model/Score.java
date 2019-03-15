@@ -2,16 +2,17 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
-import java.sql.Date;
-import java.util.*;
 
-// line 21 "../../../../../Block223PlayGame.ump"
+// line 25 "../../../../../Block223PlayGame.ump"
 public class Score
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  //Score Attributes
+  private int points;
 
   //Score Associations
   private Game game;
@@ -22,43 +23,42 @@ public class Score
   // CONSTRUCTOR
   //------------------------
 
-  public Score(Game aGame, Player aPlayer, SpecificGame aSpecificGame)
+  public Score(int aPoints, Game aGame, Player aPlayer, SpecificGame aSpecificGame)
   {
+    points = aPoints;
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
-      throw new RuntimeException("Unable to create score due to game");
+      throw new RuntimeException("Unable to create gameScore due to game");
     }
     boolean didAddPlayer = setPlayer(aPlayer);
     if (!didAddPlayer)
     {
-      throw new RuntimeException("Unable to create score due to player");
+      throw new RuntimeException("Unable to create playerScore due to player");
     }
-    if (aSpecificGame == null || aSpecificGame.getScore() != null)
+    boolean didAddSpecificGame = setSpecificGame(aSpecificGame);
+    if (!didAddSpecificGame)
     {
-      throw new RuntimeException("Unable to create Score due to aSpecificGame");
+      throw new RuntimeException("Unable to create score due to specificGame");
     }
-    specificGame = aSpecificGame;
-  }
-
-  public Score(Game aGame, Player aPlayer, String aNameForSpecificGame, int aNrBlocksPerLevelForSpecificGame, Admin aAdminForSpecificGame, Ball aBallForSpecificGame, Paddle aPaddleForSpecificGame, Block223 aBlock223ForSpecificGame, Date aDateForSpecificGame, int aCurrentLevelPlayedForSpecificGame, Game aGameForSpecificGame, Player aPlayerForSpecificGame)
-  {
-    boolean didAddGame = setGame(aGame);
-    if (!didAddGame)
-    {
-      throw new RuntimeException("Unable to create score due to game");
-    }
-    boolean didAddPlayer = setPlayer(aPlayer);
-    if (!didAddPlayer)
-    {
-      throw new RuntimeException("Unable to create score due to player");
-    }
-    specificGame = new SpecificGame(aNameForSpecificGame, aNrBlocksPerLevelForSpecificGame, aAdminForSpecificGame, aBallForSpecificGame, aPaddleForSpecificGame, aBlock223ForSpecificGame, aDateForSpecificGame, aCurrentLevelPlayedForSpecificGame, aGameForSpecificGame, aPlayerForSpecificGame, this);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setPoints(int aPoints)
+  {
+    boolean wasSet = false;
+    points = aPoints;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getPoints()
+  {
+    return points;
+  }
   /* Code from template association_GetOne */
   public Game getGame()
   {
@@ -87,9 +87,9 @@ public class Score
     game = aGame;
     if (existingGame != null && !existingGame.equals(aGame))
     {
-      existingGame.removeScore(this);
+      existingGame.removeGameScore(this);
     }
-    game.addScore(this);
+    game.addGameScore(this);
     wasSet = true;
     return wasSet;
   }
@@ -106,9 +106,28 @@ public class Score
     player = aPlayer;
     if (existingPlayer != null && !existingPlayer.equals(aPlayer))
     {
-      existingPlayer.removeScore(this);
+      existingPlayer.removePlayerScore(this);
     }
-    player.addScore(this);
+    player.addPlayerScore(this);
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setSpecificGame(SpecificGame aSpecificGame)
+  {
+    boolean wasSet = false;
+    if (aSpecificGame == null)
+    {
+      return wasSet;
+    }
+
+    SpecificGame existingSpecificGame = specificGame;
+    specificGame = aSpecificGame;
+    if (existingSpecificGame != null && !existingSpecificGame.equals(aSpecificGame))
+    {
+      existingSpecificGame.removeScore(this);
+    }
+    specificGame.addScore(this);
     wasSet = true;
     return wasSet;
   }
@@ -119,20 +138,29 @@ public class Score
     this.game = null;
     if(placeholderGame != null)
     {
-      placeholderGame.removeScore(this);
+      placeholderGame.removeGameScore(this);
     }
     Player placeholderPlayer = player;
     this.player = null;
     if(placeholderPlayer != null)
     {
-      placeholderPlayer.removeScore(this);
+      placeholderPlayer.removePlayerScore(this);
     }
-    SpecificGame existingSpecificGame = specificGame;
-    specificGame = null;
-    if (existingSpecificGame != null)
+    SpecificGame placeholderSpecificGame = specificGame;
+    this.specificGame = null;
+    if(placeholderSpecificGame != null)
     {
-      existingSpecificGame.delete();
+      placeholderSpecificGame.removeScore(this);
     }
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "points" + ":" + getPoints()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "specificGame = "+(getSpecificGame()!=null?Integer.toHexString(System.identityHashCode(getSpecificGame())):"null");
+  }
 }

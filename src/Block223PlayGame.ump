@@ -1,31 +1,54 @@
 namespace ca.mcgill.ecse223.block.model;
 
+class Game{
+	1 <@>- * SpecificGame specificGames;
+	1 -- * Score gameScores; //After game is over it is deleted. Only it's scores need to be saved for future games
+}
+
+class Player{
+	1 -- * Score playerScores;
+	1 -- * SpecificGame specificGames;
+}
 
 class SpecificGame {
-	isA Game;
-	* -<@> 1 Game game;
-	* -<@> 1 Player player;
-	
-	1 -- 1 Score score;
-	autounique id;
-	Date date;
-	defaulted Integer paddleXPos = 195; // depends on paddle length
-	defaulted Integer paddleYPos = 195; // depends on paddle length
-	defaulted Integer ballXPos = 195;
-	defaulted Integer ballYPos = 195;
-	Integer currentLevelPlayed;
-	defaulted Integer nrOfLife = 3;
 
+	1 -- * Score;
+	1 <@>- 1 SpecificBall specificBall;
+	1 <@>- 1 SpecificPaddle specificPaddle;
+	1 <@>- * SpecificBlockAssignment blockAssignments;
+	
+	defaulted Integer nrOfLife = 3;
+	autounique id;
+	Integer currentLevelPlayed;
 }
 
 class Score{
-	* -<@> 1 Game game; //Hall of Fame
-	* -<@> 1 Player player;
-	 
+	Integer points;
 }
 
+class SpecificBall{
+	
+	* -> 1 Ball ball;
+	//default start postions of the ball specified in assignment doc - center of the play area
+	defaulted Integer ballPosX = 195;
+	defaulted Integer ballPosY = 195;
+	defaulted Integer directionX = ball.getMinBallSpeedX();
+	defaulted Integer directionY = ball.getMinBallSpeedY();
+
+}
+class SpecificPaddle{
+	
+	* -> 1 Paddle paddle;
+	//paddle will start in the center of the screen at the start of a new game - default start position with respect to top left
+	//corner of the paddle
+	Integer paddlePosX = 195 - (paddle.getMaxPaddleLength()/2);
+}
 class SpecificBlockAssignment {
-//isA BlockAssignment;
-
+	* -> 1 Block block;
+	//specific block assignments by pixel positions
+	immutable Integer positionX;
+	immutable Integer positionY;
 }
+
+
 
