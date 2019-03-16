@@ -29,39 +29,50 @@ class SpecificGame {
 	defaulted Integer paddlePosX = 195 - (game.getPaddle().getMaxPaddleLength() / 2);
 	defaulted Integer paddlePosY = 195;
 
-	public boolean isWallPaddleHit() {
+	private boolean levelCompleted() {
 		return false;
 	}
 
-	public boolean isBlockHit() {
+	private boolean gameCompleted() {
 		return false;
 	}
 
-	public boolean isOutOfBounds() {
+	private boolean isWallPaddleHit() {
 		return false;
 	}
 
-	public void saveGame() {
+	private boolean isBlockHit() {
+		return false;
 	}
 
-	public void saveScoreAndDelete() {
+	private boolean isOutOfBounds() {
+		return false;
 	}
 
-	public void doWallPaddleHit() {
+	private void saveGame() {
 	}
 
-	public void doBlockHit() {
+	private void saveScoreAndDelete() {
 	}
 
-	public void doOutOfBounds() {
+	private void doWallPaddleHit() {
 	}
 
-	public static int signum(int a) {
+	private void doBlockHit() {
+	}
+
+	private void doOutOfBounds() {
+	}
+
+	private static int signum(int a) {
 		return a < 0 ? -1 : 1;
 	}
 
 	private boolean paddleIntersecting() {
 		return false;
+	}
+
+	private void loadNextLevel() {
 	}
 }
 

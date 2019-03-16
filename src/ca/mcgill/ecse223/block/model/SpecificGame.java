@@ -33,7 +33,7 @@ public class SpecificGame
   private int id;
 
   //SpecificGame State Machines
-  public enum GameStatus { Init, ongoing, Paused, ResetLevel, Lvl_End, Game_End }
+  public enum GameStatus { Init, Ongoing, Paused, Level_End, Game_End }
   private GameStatus gameStatus;
 
   //SpecificGame Associations
@@ -308,7 +308,7 @@ public class SpecificGame
     switch (aGameStatus)
     {
       case Init:
-        setGameStatus(GameStatus.ongoing);
+        setGameStatus(GameStatus.Ongoing);
         wasEventProcessed = true;
         break;
       default:
@@ -318,23 +318,25 @@ public class SpecificGame
     return wasEventProcessed;
   }
 
-  public boolean getInput()
+  public boolean executeSpaceCmd()
   {
     boolean wasEventProcessed = false;
     
     GameStatus aGameStatus = gameStatus;
     switch (aGameStatus)
     {
-      case ongoing:
+      case Ongoing:
         setGameStatus(GameStatus.Paused);
         wasEventProcessed = true;
         break;
       case Paused:
-        setGameStatus(GameStatus.ongoing);
+        setGameStatus(GameStatus.Ongoing);
         wasEventProcessed = true;
         break;
-      case ResetLevel:
-        setGameStatus(GameStatus.ongoing);
+      case Level_End:
+        // line 33 "../../../../../Block223States.ump"
+        loadNextLevel();
+        setGameStatus(GameStatus.Ongoing);
         wasEventProcessed = true;
         break;
       default:
@@ -351,26 +353,26 @@ public class SpecificGame
     GameStatus aGameStatus = gameStatus;
     switch (aGameStatus)
     {
-      case ongoing:
+      case Ongoing:
         if (isWallPaddleHit())
         {
-        // line 14 "../../../../../Block223States.ump"
+        // line 13 "../../../../../Block223States.ump"
           doWallPaddleHit();
-          setGameStatus(GameStatus.ongoing);
+          setGameStatus(GameStatus.Ongoing);
           wasEventProcessed = true;
           break;
         }
         if (isBlockHit())
         {
-        // line 16 "../../../../../Block223States.ump"
+        // line 15 "../../../../../Block223States.ump"
           doBlockHit();
-          setGameStatus(GameStatus.ongoing);
+          setGameStatus(GameStatus.Ongoing);
           wasEventProcessed = true;
           break;
         }
         if (getSpecificBlockAssignments().size()==0)
         {
-        // line 18 "../../../../../Block223States.ump"
+        // line 17 "../../../../../Block223States.ump"
           saveScoreAndDelete();
           setGameStatus(GameStatus.Game_End);
           wasEventProcessed = true;
@@ -384,9 +386,9 @@ public class SpecificGame
         }
         if (isOutOfBounds()&&getNrOfLife()>1)
         {
-        // line 22 "../../../../../Block223States.ump"
+        // line 21 "../../../../../Block223States.ump"
           doOutOfBounds();
-          setGameStatus(GameStatus.ResetLevel);
+          setGameStatus(GameStatus.Paused);
           wasEventProcessed = true;
           break;
         }
@@ -398,16 +400,20 @@ public class SpecificGame
     return wasEventProcessed;
   }
 
-  public boolean levelCompleted()
+  public boolean checkLevelStatus()
   {
     boolean wasEventProcessed = false;
     
     GameStatus aGameStatus = gameStatus;
     switch (aGameStatus)
     {
-      case ongoing:
-        setGameStatus(GameStatus.Lvl_End);
-        wasEventProcessed = true;
+      case Ongoing:
+        if (levelCompleted())
+        {
+          setGameStatus(GameStatus.Level_End);
+          wasEventProcessed = true;
+          break;
+        }
         break;
       default:
         // Other states do respond to this event
@@ -416,34 +422,20 @@ public class SpecificGame
     return wasEventProcessed;
   }
 
-  public boolean gameCompleted()
+  public boolean entry()
   {
     boolean wasEventProcessed = false;
     
     GameStatus aGameStatus = gameStatus;
     switch (aGameStatus)
     {
-      case Lvl_End:
-        setGameStatus(GameStatus.Game_End);
-        wasEventProcessed = true;
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    return wasEventProcessed;
-  }
-
-  public boolean space()
-  {
-    boolean wasEventProcessed = false;
-    
-    GameStatus aGameStatus = gameStatus;
-    switch (aGameStatus)
-    {
-      case Lvl_End:
-        setGameStatus(GameStatus.Init);
-        wasEventProcessed = true;
+      case Level_End:
+        if (gameCompleted())
+        {
+          setGameStatus(GameStatus.Game_End);
+          wasEventProcessed = true;
+          break;
+        }
         break;
       default:
         // Other states do respond to this event
@@ -460,11 +452,11 @@ public class SpecificGame
     switch(gameStatus)
     {
       case Paused:
-        // line 28 "../../../../../Block223States.ump"
+        // line 27 "../../../../../Block223States.ump"
         saveGame();
         break;
       case Game_End:
-        // line 42 "../../../../../Block223States.ump"
+        // line 37 "../../../../../Block223States.ump"
         saveScoreAndDelete();
         break;
     }
@@ -751,53 +743,68 @@ public class SpecificGame
   }
 
   // line 33 "../../../../../Block223PlayGame.ump"
-   public boolean isWallPaddleHit(){
+   private boolean levelCompleted(){
     return false;
   }
 
   // line 37 "../../../../../Block223PlayGame.ump"
-   public boolean isBlockHit(){
+   private boolean gameCompleted(){
     return false;
   }
 
   // line 41 "../../../../../Block223PlayGame.ump"
-   public boolean isOutOfBounds(){
+   private boolean isWallPaddleHit(){
     return false;
   }
 
   // line 45 "../../../../../Block223PlayGame.ump"
-   public void saveGame(){
+   private boolean isBlockHit(){
+    return false;
+  }
+
+  // line 49 "../../../../../Block223PlayGame.ump"
+   private boolean isOutOfBounds(){
+    return false;
+  }
+
+  // line 53 "../../../../../Block223PlayGame.ump"
+   private void saveGame(){
     
   }
 
-  // line 48 "../../../../../Block223PlayGame.ump"
-   public void saveScoreAndDelete(){
+  // line 56 "../../../../../Block223PlayGame.ump"
+   private void saveScoreAndDelete(){
     
   }
 
-  // line 51 "../../../../../Block223PlayGame.ump"
-   public void doWallPaddleHit(){
+  // line 59 "../../../../../Block223PlayGame.ump"
+   private void doWallPaddleHit(){
     
   }
 
-  // line 54 "../../../../../Block223PlayGame.ump"
-   public void doBlockHit(){
+  // line 62 "../../../../../Block223PlayGame.ump"
+   private void doBlockHit(){
     
   }
 
-  // line 57 "../../../../../Block223PlayGame.ump"
-   public void doOutOfBounds(){
+  // line 65 "../../../../../Block223PlayGame.ump"
+   private void doOutOfBounds(){
     
   }
 
-  // line 60 "../../../../../Block223PlayGame.ump"
-   public static  int signum(int a){
+  // line 68 "../../../../../Block223PlayGame.ump"
+   private static  int signum(int a){
     return a < 0 ? -1 : 1;
   }
 
-  // line 64 "../../../../../Block223PlayGame.ump"
+  // line 72 "../../../../../Block223PlayGame.ump"
    private boolean paddleIntersecting(){
     return false;
+  }
+
+  // line 76 "../../../../../Block223PlayGame.ump"
+   private void loadNextLevel(){
+    
   }
 
 

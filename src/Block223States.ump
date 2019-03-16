@@ -4,38 +4,33 @@ class SpecificGame
 {
 	gameStatus {
 		Init {
-			setup -> ongoing;
+			setup() -> Ongoing;
 		}
 
-		ongoing {
+		Ongoing {
+			executeSpaceCmd() -> Paused;
 
-			getInput() -> Paused;
-	
-			moveBall() [ isWallPaddleHit() ] / { doWallPaddleHit(); } -> ongoing;
-	
-			moveBall() [ isBlockHit() ] / { doBlockHit(); } -> ongoing;
-	
-			moveBall() [ getSpecificBlockAssignments().size() == 0] / { saveScoreAndDelete(); }-> Game_End;
-	
+			moveBall() [ isWallPaddleHit() ] / { doWallPaddleHit(); } -> Ongoing;
+
+			moveBall() [ isBlockHit() ] / { doBlockHit(); } -> Ongoing;
+
+			moveBall() [ getSpecificBlockAssignments().size() == 0 ] / { saveScoreAndDelete(); }-> Game_End;
+
 			moveBall() [ isOutOfBounds() && getNrOfLife() == 1 ] -> Game_End;
 
-			moveBall() [ isOutOfBounds() && getNrOfLife() > 1 ] / { doOutOfBounds(); } -> ResetLevel;
-         
-			levelCompleted -> Lvl_End;
+			moveBall() [ isOutOfBounds() && getNrOfLife() > 1 ] / { doOutOfBounds(); } -> Paused;
+
+			checkLevelStatus() [ levelCompleted() ] -> Level_End;
 		}
 
 		Paused {
 			entry / { saveGame(); };
-			getInput() -> ongoing;
+			executeSpaceCmd() -> Ongoing;
 		}
 
-		ResetLevel {
-			getInput() -> ongoing;
-		}
-
-		Lvl_End {
-			gameCompleted -> Game_End;
-			space -> Init;
+		Level_End {
+			entry [ gameCompleted() ] -> Game_End;
+			executeSpaceCmd() / { loadNextLevel(); } -> Ongoing;
 		}
 
 		Game_End {
