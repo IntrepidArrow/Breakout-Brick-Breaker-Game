@@ -9,15 +9,15 @@ class SpecificGame
 
 		ongoing {
 
-	        getInput() -> Paused;
+			getInput() -> Paused;
 	
-	        moveBall() [ isWallPaddleHit() ] / { doWallPaddleHit(); } -> ongoing;
+			moveBall() [ isWallPaddleHit() ] / { doWallPaddleHit(); } -> ongoing;
 	
-	        moveBall() [ isBlockHit() ] / { doBlockHit(); } -> ongoing;
+			moveBall() [ isBlockHit() ] / { doBlockHit(); } -> ongoing;
 	
-	        moveBall() [ getSpecificBlockAssignments().size() == 0] / { saveScoreAndDelete(); }-> Game_End;
+			moveBall() [ getSpecificBlockAssignments().size() == 0] / { saveScoreAndDelete(); }-> Game_End;
 	
-	        moveBall() [ isOutOfBounds() && getNrOfLife() == 1 ] -> Game_End;
+			moveBall() [ isOutOfBounds() && getNrOfLife() == 1 ] -> Game_End;
 
 			moveBall() [ isOutOfBounds() && getNrOfLife() > 1 ] / { doOutOfBounds(); } -> ResetLevel;
          
