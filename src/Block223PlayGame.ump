@@ -25,6 +25,17 @@ class SpecificGame {
 	defaulted Integer nrOfLife = 3;
 	autounique id;
 	Integer currentLevelPlayed;
+	public static boolean isWallPaddleHit() {
+		return false;
+	}
+	public static int signum(int a) {
+		return a<0?-1:1;
+	}
+	public static void doWallPaddleHit() {
+	}
+	public static boolean paddleIntersecting() {
+		return false;
+	}
 }
 
 class Score{

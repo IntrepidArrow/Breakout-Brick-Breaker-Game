@@ -561,6 +561,17 @@ public class Block223Controller {
 		Block223Application.setCurrentGame(selectedGame);
 	}
 
+	//Itteration4
+	//public TOHallOfFame getHallOfFame(){}
+	//public List<TOScore> getListOfToScores(){}
+	private void saveAndDelete(){}
+	private void moveBall(){}
+
+
+	// ****************************
+	// Query methods
+	// ****************************
+
 	public static String getSHA512(String passwordToHash, String salt) {
 		String generatedPassword = null;
 		try {
@@ -577,11 +588,7 @@ public class Block223Controller {
 		}
 		return generatedPassword;
 	}
-
-	// ****************************
-	// Query methods
-	// ****************************
-
+	
 	public static List<TOGame> getDesignableGames() throws InvalidInputException {
 
 		UserRole admin = Block223Application.getCurrentUserRole();
