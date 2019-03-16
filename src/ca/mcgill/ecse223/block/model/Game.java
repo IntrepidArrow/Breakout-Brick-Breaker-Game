@@ -383,9 +383,9 @@ public class Game implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public SpecificGame addSpecificGame(SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle, Player aPlayer)
+  public SpecificGame addSpecificGame(Player aPlayer)
   {
-    return new SpecificGame(aSpecificBall, aSpecificPaddle, this, aPlayer);
+    return new SpecificGame(this, aPlayer);
   }
 
   public boolean addSpecificGame(SpecificGame aSpecificGame)

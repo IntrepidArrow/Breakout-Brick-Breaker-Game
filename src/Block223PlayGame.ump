@@ -17,8 +17,6 @@ class Player {
 
 class SpecificGame {
 	1 -- * Score;
-	1 <@>- 1 SpecificBall specificBall;
-	1 <@>- 1 SpecificPaddle specificPaddle;
 	1 <@>- * SpecificBlockAssignment specificBlockAssignments;
 
 	autounique id;
@@ -26,7 +24,7 @@ class SpecificGame {
 	defaulted Integer currentLevelPlayed = 1;
 	defaulted Integer ballPosX = 195;
 	defaulted Integer ballPosY = 195;
-	defaulted Integer paddlePosX = 195 - (paddle.getMaxPaddleLength() / 2);
+	defaulted Integer paddlePosX = 195 - (game.getPaddle().getMaxPaddleLength() / 2);
 
 	public boolean isWallPaddleHit() {
 		return false;

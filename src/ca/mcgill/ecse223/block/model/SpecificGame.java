@@ -22,6 +22,9 @@ public class SpecificGame
   //SpecificGame Attributes
   private int nrOfLife;
   private int currentLevelPlayed;
+  private int ballPosX;
+  private int ballPosY;
+  private int paddlePosX;
 
   //Autounique Attributes
   private int id;
@@ -32,8 +35,6 @@ public class SpecificGame
 
   //SpecificGame Associations
   private List<Score> scores;
-  private SpecificBall specificBall;
-  private SpecificPaddle specificPaddle;
   private List<SpecificBlockAssignment> specificBlockAssignments;
   private Game game;
   private Player player;
@@ -42,22 +43,15 @@ public class SpecificGame
   // CONSTRUCTOR
   //------------------------
 
-  public SpecificGame(SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle, Game aGame, Player aPlayer)
+  public SpecificGame(Game aGame, Player aPlayer)
   {
     resetNrOfLife();
     resetCurrentLevelPlayed();
+    resetBallPosX();
+    resetBallPosY();
+    resetPaddlePosX();
     id = nextId++;
     scores = new ArrayList<Score>();
-    if (aSpecificBall == null || aSpecificBall.getSpecificGame() != null)
-    {
-      throw new RuntimeException("Unable to create SpecificGame due to aSpecificBall");
-    }
-    specificBall = aSpecificBall;
-    if (aSpecificPaddle == null || aSpecificPaddle.getSpecificGame() != null)
-    {
-      throw new RuntimeException("Unable to create SpecificGame due to aSpecificPaddle");
-    }
-    specificPaddle = aSpecificPaddle;
     specificBlockAssignments = new ArrayList<SpecificBlockAssignment>();
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
@@ -70,27 +64,6 @@ public class SpecificGame
       throw new RuntimeException("Unable to create specificGame due to player");
     }
     setGameStatus(GameStatus.Init);
-  }
-
-  public SpecificGame(Ball aBallForSpecificBall, Paddle aPaddleForSpecificPaddle, Game aGame, Player aPlayer)
-  {
-    resetNrOfLife();
-    resetCurrentLevelPlayed();
-    id = nextId++;
-    scores = new ArrayList<Score>();
-    specificBall = new SpecificBall(aBallForSpecificBall, this);
-    specificPaddle = new SpecificPaddle(aPaddleForSpecificPaddle, this);
-    specificBlockAssignments = new ArrayList<SpecificBlockAssignment>();
-    boolean didAddGame = setGame(aGame);
-    if (!didAddGame)
-    {
-      throw new RuntimeException("Unable to create specificGame due to game");
-    }
-    boolean didAddPlayer = setPlayer(aPlayer);
-    if (!didAddPlayer)
-    {
-      throw new RuntimeException("Unable to create specificGame due to player");
-    }
   }
 
   //------------------------
@@ -128,6 +101,54 @@ public class SpecificGame
     wasReset = true;
     return wasReset;
   }
+  /* Code from template attribute_SetDefaulted */
+  public boolean setBallPosX(int aBallPosX)
+  {
+    boolean wasSet = false;
+    ballPosX = aBallPosX;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean resetBallPosX()
+  {
+    boolean wasReset = false;
+    ballPosX = getDefaultBallPosX();
+    wasReset = true;
+    return wasReset;
+  }
+  /* Code from template attribute_SetDefaulted */
+  public boolean setBallPosY(int aBallPosY)
+  {
+    boolean wasSet = false;
+    ballPosY = aBallPosY;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean resetBallPosY()
+  {
+    boolean wasReset = false;
+    ballPosY = getDefaultBallPosY();
+    wasReset = true;
+    return wasReset;
+  }
+  /* Code from template attribute_SetDefaulted */
+  public boolean setPaddlePosX(int aPaddlePosX)
+  {
+    boolean wasSet = false;
+    paddlePosX = aPaddlePosX;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean resetPaddlePosX()
+  {
+    boolean wasReset = false;
+    paddlePosX = getDefaultPaddlePosX();
+    wasReset = true;
+    return wasReset;
+  }
 
   public int getNrOfLife()
   {
@@ -147,6 +168,36 @@ public class SpecificGame
   public int getDefaultCurrentLevelPlayed()
   {
     return 1;
+  }
+
+  public int getBallPosX()
+  {
+    return ballPosX;
+  }
+  /* Code from template attribute_GetDefaulted */
+  public int getDefaultBallPosX()
+  {
+    return 195;
+  }
+
+  public int getBallPosY()
+  {
+    return ballPosY;
+  }
+  /* Code from template attribute_GetDefaulted */
+  public int getDefaultBallPosY()
+  {
+    return 195;
+  }
+
+  public int getPaddlePosX()
+  {
+    return paddlePosX;
+  }
+  /* Code from template attribute_GetDefaulted */
+  public int getDefaultPaddlePosX()
+  {
+    return 195 - (game.getPaddle().getMaxPaddleLength() / 2);
   }
 
   public int getId()
@@ -363,16 +414,6 @@ public class SpecificGame
   {
     int index = scores.indexOf(aScore);
     return index;
-  }
-  /* Code from template association_GetOne */
-  public SpecificBall getSpecificBall()
-  {
-    return specificBall;
-  }
-  /* Code from template association_GetOne */
-  public SpecificPaddle getSpecificPaddle()
-  {
-    return specificPaddle;
   }
   /* Code from template association_GetMany */
   public SpecificBlockAssignment getSpecificBlockAssignment(int index)
@@ -604,18 +645,6 @@ public class SpecificGame
       Score aScore = scores.get(i - 1);
       aScore.delete();
     }
-    SpecificBall existingSpecificBall = specificBall;
-    specificBall = null;
-    if (existingSpecificBall != null)
-    {
-      existingSpecificBall.delete();
-    }
-    SpecificPaddle existingSpecificPaddle = specificPaddle;
-    specificPaddle = null;
-    if (existingSpecificPaddle != null)
-    {
-      existingSpecificPaddle.delete();
-    }
     while (specificBlockAssignments.size() > 0)
     {
       SpecificBlockAssignment aSpecificBlockAssignment = specificBlockAssignments.get(specificBlockAssignments.size() - 1);
@@ -637,52 +666,52 @@ public class SpecificGame
     }
   }
 
-  // line 29 "../../../../../Block223PlayGame.ump"
+  // line 30 "../../../../../Block223PlayGame.ump"
    public boolean isWallPaddleHit(){
     return false;
   }
 
-  // line 33 "../../../../../Block223PlayGame.ump"
+  // line 34 "../../../../../Block223PlayGame.ump"
    public boolean isBlockHit(){
     return false;
   }
 
-  // line 37 "../../../../../Block223PlayGame.ump"
+  // line 38 "../../../../../Block223PlayGame.ump"
    public boolean isOutOfBounds(){
     return false;
   }
 
-  // line 41 "../../../../../Block223PlayGame.ump"
+  // line 42 "../../../../../Block223PlayGame.ump"
    public void saveGame(){
     
   }
 
-  // line 44 "../../../../../Block223PlayGame.ump"
+  // line 45 "../../../../../Block223PlayGame.ump"
    public void saveScoreAndDelete(){
     
   }
 
-  // line 47 "../../../../../Block223PlayGame.ump"
+  // line 48 "../../../../../Block223PlayGame.ump"
    public void doWallPaddleHit(){
     
   }
 
-  // line 50 "../../../../../Block223PlayGame.ump"
+  // line 51 "../../../../../Block223PlayGame.ump"
    public void doBlockHit(){
     
   }
 
-  // line 53 "../../../../../Block223PlayGame.ump"
+  // line 54 "../../../../../Block223PlayGame.ump"
    public void doOutOfBounds(){
     
   }
 
-  // line 56 "../../../../../Block223PlayGame.ump"
+  // line 57 "../../../../../Block223PlayGame.ump"
    public static  int signum(int a){
     return a < 0 ? -1 : 1;
   }
 
-  // line 60 "../../../../../Block223PlayGame.ump"
+  // line 61 "../../../../../Block223PlayGame.ump"
    private boolean paddleIntersecting(){
     return false;
   }
@@ -693,9 +722,10 @@ public class SpecificGame
     return super.toString() + "["+
             "id" + ":" + getId()+ "," +
             "nrOfLife" + ":" + getNrOfLife()+ "," +
-            "currentLevelPlayed" + ":" + getCurrentLevelPlayed()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "specificBall = "+(getSpecificBall()!=null?Integer.toHexString(System.identityHashCode(getSpecificBall())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "specificPaddle = "+(getSpecificPaddle()!=null?Integer.toHexString(System.identityHashCode(getSpecificPaddle())):"null") + System.getProperties().getProperty("line.separator") +
+            "currentLevelPlayed" + ":" + getCurrentLevelPlayed()+ "," +
+            "ballPosX" + ":" + getBallPosX()+ "," +
+            "ballPosY" + ":" + getBallPosY()+ "," +
+            "paddlePosX" + ":" + getPaddlePosX()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null");
   }
