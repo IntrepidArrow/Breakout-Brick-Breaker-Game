@@ -17,13 +17,14 @@ class Player {
 
 class SpecificGame {
 	1 -- * Score;
-	1 <@>- 1 SpecificBall specificBall;
-	1 <@>- 1 SpecificPaddle specificPaddle;
 	1 <@>- * SpecificBlockAssignment specificBlockAssignments;
 
-	defaulted Integer nrOfLife = 3;
 	autounique id;
-	Integer currentLevelPlayed;
+	defaulted Integer nrOfLife = 3;
+	defaulted Integer currentLevelPlayed = 1;
+	defaulted Integer ballPosX = 195;
+	defaulted Integer ballPosY = 195;
+	defaulted Integer paddlePosX = 195 - (game.getPaddle().getMaxPaddleLength() / 2);
 
 	public boolean isWallPaddleHit() {
 		return false;
@@ -63,22 +64,6 @@ class SpecificGame {
 
 class Score {
 	Integer points;
-}
-
-class SpecificBall {
-	* -> 1 Ball ball;
-	//default start postions of the ball specified in assignment doc - center of the play area
-	defaulted Integer ballPosX = 195;
-	defaulted Integer ballPosY = 195;
-	defaulted Integer directionX = ball.getMinBallSpeedX();
-	defaulted Integer directionY = ball.getMinBallSpeedY();
-}
-
-class SpecificPaddle {
-	* -> 1 Paddle paddle;
-	//paddle will start in the center of the screen at the start of a new game - default start position with respect to top left
-	//corner of the paddle
-	Integer paddlePosX = 195 - (paddle.getMaxPaddleLength() / 2);
 }
 
 class SpecificBlockAssignment {
