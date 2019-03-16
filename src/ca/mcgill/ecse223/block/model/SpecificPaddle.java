@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.model;
 
-// line 56 "../../../../../Block223PlayGame.ump"
+// line 77 "../../../../../Block223PlayGame.ump"
 public class SpecificPaddle
 {
 
@@ -24,7 +24,7 @@ public class SpecificPaddle
 
   public SpecificPaddle(Paddle aPaddle, SpecificGame aSpecificGame)
   {
-    paddlePosX = 195 - (paddle.getMaxPaddleLength()/2);
+    paddlePosX = 195 - (paddle.getMaxPaddleLength() / 2);
     if (!setPaddle(aPaddle))
     {
       throw new RuntimeException("Unable to create SpecificPaddle due to aPaddle");
@@ -38,7 +38,7 @@ public class SpecificPaddle
 
   public SpecificPaddle(Paddle aPaddle, int aCurrentLevelPlayedForSpecificGame, SpecificBall aSpecificBallForSpecificGame, Game aGameForSpecificGame, Player aPlayerForSpecificGame)
   {
-    paddlePosX = 195 - (paddle.getMaxPaddleLength()/2);
+    paddlePosX = 195 - (paddle.getMaxPaddleLength() / 2);
     boolean didAddPaddle = setPaddle(aPaddle);
     if (!didAddPaddle)
     {

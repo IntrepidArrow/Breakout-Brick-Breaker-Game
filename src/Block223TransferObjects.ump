@@ -40,6 +40,5 @@ class TOScore {
 
 class TOHallOfFame {
   List<TOScore> listOfToScores;
-  List<String>  listOfUsernames;
-
+  List<String> listOfUsernames;
 }

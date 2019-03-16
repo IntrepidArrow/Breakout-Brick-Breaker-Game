@@ -1,65 +1,86 @@
 namespace ca.mcgill.ecse223.block.model;
 
-class Game{
+class Game {
 	1 <@>- * SpecificGame specificGames;
 	1 -- * Score gameScores; //After game is over it is deleted. Only it's scores need to be saved for future games
-	
+
 	lazy immutable Boolean published;
 }
 
-class Level{
+class Level {
 }
 
-class Player{
+class Player {
 	1 -- * Score playerScores;
 	1 -- * SpecificGame specificGames;
 }
 
 class SpecificGame {
-
 	1 -- * Score;
 	1 <@>- 1 SpecificBall specificBall;
 	1 <@>- 1 SpecificPaddle specificPaddle;
-	1 <@>- * SpecificBlockAssignment blockAssignments;
-	
+	1 <@>- * SpecificBlockAssignment specificBlockAssignments;
+
 	defaulted Integer nrOfLife = 3;
 	autounique id;
 	Integer currentLevelPlayed;
-	private boolean isWallPaddleHit() {
+
+	public boolean isWallPaddleHit() {
 		return false;
 	}
+
+	public boolean isBlockHit() {
+		return false;
+	}
+
+	public boolean isOutOfBounds() {
+		return false;
+	}
+
+	public void saveGame() {
+	}
+
+	public void saveScoreAndDelete() {
+	}
+
+	public void doWallPaddleHit() {
+	}
+
+	public void doBlockHit() {
+	}
+
+	public void doOutOfBounds() {
+	}
+
 	public static int signum(int a) {
-		return a<0?-1:1;
+		return a < 0 ? -1 : 1;
 	}
-	private void doWallPaddleHit() {
-	}
+
 	private boolean paddleIntersecting() {
 		return false;
 	}
-	private void saveScoreAndDelete(){}
 }
 
-class Score{
+class Score {
 	Integer points;
 }
 
-class SpecificBall{
-	
+class SpecificBall {
 	* -> 1 Ball ball;
 	//default start postions of the ball specified in assignment doc - center of the play area
 	defaulted Integer ballPosX = 195;
 	defaulted Integer ballPosY = 195;
 	defaulted Integer directionX = ball.getMinBallSpeedX();
 	defaulted Integer directionY = ball.getMinBallSpeedY();
-
 }
-class SpecificPaddle{
-	
+
+class SpecificPaddle {
 	* -> 1 Paddle paddle;
 	//paddle will start in the center of the screen at the start of a new game - default start position with respect to top left
 	//corner of the paddle
-	Integer paddlePosX = 195 - (paddle.getMaxPaddleLength()/2);
+	Integer paddlePosX = 195 - (paddle.getMaxPaddleLength() / 2);
 }
+
 class SpecificBlockAssignment {
 	* -- 1 Level level;
 	* -> 1 Block block;
@@ -67,10 +88,9 @@ class SpecificBlockAssignment {
 	immutable Integer positionX;
 	immutable Integer positionY;
 }
-class User{
-	public static String getPlayerUsername(Player){
+
+class User {
+	public static String getPlayerUsername(Player) {
 		return "";
 	}
 }
-
-
