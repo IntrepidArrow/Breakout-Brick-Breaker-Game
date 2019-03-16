@@ -33,3 +33,12 @@ class TOUserMode {
   enum Mode { None, Design, Play }
   Mode mode;
 }
+
+class TOScore {
+  Integer points;
+}
+
+class TOHallOfFame {
+  List<TOScore> listOfToScores;
+  List<String> listOfUsernames;
+}

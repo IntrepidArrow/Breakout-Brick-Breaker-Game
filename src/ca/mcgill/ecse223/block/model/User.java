@@ -6,7 +6,8 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 14 "../../../../../Block223Persistence.ump"
-// line 21 "../../../../../Block223.ump"
+// line 92 "../../../../../Block223PlayGame.ump"
+// line 22 "../../../../../Block223.ump"
 public class User implements Serializable
 {
 
@@ -33,7 +34,7 @@ public class User implements Serializable
 
   public User(String aUsername, Block223 aBlock223, UserRole... allRoles)
   {
-    // line 24 "../../../../../Block223.ump"
+    // line 25 "../../../../../Block223.ump"
     if(aUsername == null || aUsername.isEmpty()){
        	throw new RuntimeException("The username must be specified.");    
        	}
@@ -263,6 +264,11 @@ public class User implements Serializable
       tmpUsersByUsername.put(u.getUsername(), u);
     }
     User.usersByUsername=tmpUsersByUsername;
+  }
+
+  // line 94 "../../../../../Block223PlayGame.ump"
+   public static  String getPlayerUsername(String Player){
+    return "";
   }
 
 

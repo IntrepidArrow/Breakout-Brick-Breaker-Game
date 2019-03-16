@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 58 "../../../../../Block223Persistence.ump"
-// line 103 "../../../../../Block223.ump"
+// line 104 "../../../../../Block223.ump"
 public class Block implements Serializable
 {
 
@@ -44,22 +44,22 @@ public class Block implements Serializable
 
   public Block(int aRed, int aGreen, int aBlue, int aPoints, Game aGame)
   {
-    // line 112 "../../../../../Block223.ump"
+    // line 113 "../../../../../Block223.ump"
     if((aRed < 0) || (aRed > 255)){
        		throw new RuntimeException("Red must be between 0 and 255.");
        	}
     // END OF UMPLE BEFORE INJECTION
-    // line 118 "../../../../../Block223.ump"
+    // line 119 "../../../../../Block223.ump"
     if((aGreen < 0) || (aGreen > 255)){
        		throw new RuntimeException("Green must be between 0 and 255.");
        	}
     // END OF UMPLE BEFORE INJECTION
-    // line 124 "../../../../../Block223.ump"
+    // line 125 "../../../../../Block223.ump"
     if((aBlue < 0) || (aBlue > 255)){
        		throw new RuntimeException("Blue must be between 0 and 255.");
        	}
     // END OF UMPLE BEFORE INJECTION
-    // line 130 "../../../../../Block223.ump"
+    // line 131 "../../../../../Block223.ump"
     if((aPoints < 1) || (aPoints > 1000)){
        		throw new RuntimeException("Points must be between 1 and 1000.");
        	}
@@ -84,7 +84,7 @@ public class Block implements Serializable
   public boolean setRed(int aRed)
   {
     boolean wasSet = false;
-    // line 112 "../../../../../Block223.ump"
+    // line 113 "../../../../../Block223.ump"
     if((aRed < 0) || (aRed > 255)){
        		throw new RuntimeException("Red must be between 0 and 255.");
        	}
@@ -97,7 +97,7 @@ public class Block implements Serializable
   public boolean setGreen(int aGreen)
   {
     boolean wasSet = false;
-    // line 118 "../../../../../Block223.ump"
+    // line 119 "../../../../../Block223.ump"
     if((aGreen < 0) || (aGreen > 255)){
        		throw new RuntimeException("Green must be between 0 and 255.");
        	}
@@ -110,7 +110,7 @@ public class Block implements Serializable
   public boolean setBlue(int aBlue)
   {
     boolean wasSet = false;
-    // line 124 "../../../../../Block223.ump"
+    // line 125 "../../../../../Block223.ump"
     if((aBlue < 0) || (aBlue > 255)){
        		throw new RuntimeException("Blue must be between 0 and 255.");
        	}
@@ -123,7 +123,7 @@ public class Block implements Serializable
   public boolean setPoints(int aPoints)
   {
     boolean wasSet = false;
-    // line 130 "../../../../../Block223.ump"
+    // line 131 "../../../../../Block223.ump"
     if((aPoints < 1) || (aPoints > 1000)){
        		throw new RuntimeException("Points must be between 1 and 1000.");
        	}

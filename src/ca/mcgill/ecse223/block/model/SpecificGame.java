@@ -664,6 +664,16 @@ public class SpecificGame
     
   }
 
+  // line 56 "../../../../../Block223PlayGame.ump"
+   public static  int signum(int a){
+    return a < 0 ? -1 : 1;
+  }
+
+  // line 60 "../../../../../Block223PlayGame.ump"
+   private boolean paddleIntersecting(){
+    return false;
+  }
+
 
   public String toString()
   {

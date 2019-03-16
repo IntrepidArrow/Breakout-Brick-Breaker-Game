@@ -51,6 +51,14 @@ class SpecificGame {
 
 	public void doOutOfBounds() {
 	}
+
+	public static int signum(int a) {
+		return a < 0 ? -1 : 1;
+	}
+
+	private boolean paddleIntersecting() {
+		return false;
+	}
 }
 
 class Score {
@@ -79,4 +87,10 @@ class SpecificBlockAssignment {
 	//specific block assignments by pixel positions
 	immutable Integer positionX;
 	immutable Integer positionY;
+}
+
+class User {
+	public static String getPlayerUsername(Player) {
+		return "";
+	}
 }

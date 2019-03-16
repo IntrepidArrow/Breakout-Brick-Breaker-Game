@@ -11,7 +11,7 @@ import java.util.*;
  */
 // line 77 "../../../../../Block223Persistence.ump"
 // line 10 "../../../../../Block223PlayGame.ump"
-// line 138 "../../../../../Block223.ump"
+// line 139 "../../../../../Block223.ump"
 public class Level implements Serializable
 {
 
@@ -303,7 +303,7 @@ public class Level implements Serializable
     }
   }
 
-  // line 140 "../../../../../Block223.ump"
+  // line 141 "../../../../../Block223.ump"
    public BlockAssignment findBlockAssignment(int gridHorizontalPosition, int gridVerticalPosition){
     BlockAssignment foundBlockAssignment = null;
   for(BlockAssignment blockAssignment : this.getBlockAssignments()) {

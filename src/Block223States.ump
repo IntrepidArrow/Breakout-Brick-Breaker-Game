@@ -28,16 +28,16 @@ class SpecificGame
 			entry / { saveGame(); };
 			getInput() -> ongoing;
 		}
-     
+
 		ResetLevel {
 			getInput() -> ongoing;
 		}
-     
+
 		Lvl_End {
 			gameCompleted -> Game_End;
 			space -> Init;
 		}
-     
+
 		Game_End {
 			entry / { saveScoreAndDelete(); };
 		}
