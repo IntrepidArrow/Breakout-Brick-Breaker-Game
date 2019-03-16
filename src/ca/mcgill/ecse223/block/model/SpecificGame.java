@@ -24,7 +24,10 @@ public class SpecificGame
   private int currentLevelPlayed;
   private int ballPosX;
   private int ballPosY;
+  private int directionX;
+  private int directionY;
   private int paddlePosX;
+  private int paddlePosY;
 
   //Autounique Attributes
   private int id;
@@ -49,7 +52,10 @@ public class SpecificGame
     resetCurrentLevelPlayed();
     resetBallPosX();
     resetBallPosY();
+    resetDirectionX();
+    resetDirectionY();
     resetPaddlePosX();
+    resetPaddlePosY();
     id = nextId++;
     scores = new ArrayList<Score>();
     specificBlockAssignments = new ArrayList<SpecificBlockAssignment>();
@@ -134,6 +140,38 @@ public class SpecificGame
     return wasReset;
   }
   /* Code from template attribute_SetDefaulted */
+  public boolean setDirectionX(int aDirectionX)
+  {
+    boolean wasSet = false;
+    directionX = aDirectionX;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean resetDirectionX()
+  {
+    boolean wasReset = false;
+    directionX = getDefaultDirectionX();
+    wasReset = true;
+    return wasReset;
+  }
+  /* Code from template attribute_SetDefaulted */
+  public boolean setDirectionY(int aDirectionY)
+  {
+    boolean wasSet = false;
+    directionY = aDirectionY;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean resetDirectionY()
+  {
+    boolean wasReset = false;
+    directionY = getDefaultDirectionY();
+    wasReset = true;
+    return wasReset;
+  }
+  /* Code from template attribute_SetDefaulted */
   public boolean setPaddlePosX(int aPaddlePosX)
   {
     boolean wasSet = false;
@@ -146,6 +184,22 @@ public class SpecificGame
   {
     boolean wasReset = false;
     paddlePosX = getDefaultPaddlePosX();
+    wasReset = true;
+    return wasReset;
+  }
+  /* Code from template attribute_SetDefaulted */
+  public boolean setPaddlePosY(int aPaddlePosY)
+  {
+    boolean wasSet = false;
+    paddlePosY = aPaddlePosY;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean resetPaddlePosY()
+  {
+    boolean wasReset = false;
+    paddlePosY = getDefaultPaddlePosY();
     wasReset = true;
     return wasReset;
   }
@@ -190,6 +244,26 @@ public class SpecificGame
     return 195;
   }
 
+  public int getDirectionX()
+  {
+    return directionX;
+  }
+  /* Code from template attribute_GetDefaulted */
+  public int getDefaultDirectionX()
+  {
+    return game.getBall().getMinBallSpeedX();
+  }
+
+  public int getDirectionY()
+  {
+    return directionY;
+  }
+  /* Code from template attribute_GetDefaulted */
+  public int getDefaultDirectionY()
+  {
+    return game.getBall().getMinBallSpeedY();
+  }
+
   public int getPaddlePosX()
   {
     return paddlePosX;
@@ -198,6 +272,16 @@ public class SpecificGame
   public int getDefaultPaddlePosX()
   {
     return 195 - (game.getPaddle().getMaxPaddleLength() / 2);
+  }
+
+  public int getPaddlePosY()
+  {
+    return paddlePosY;
+  }
+  /* Code from template attribute_GetDefaulted */
+  public int getDefaultPaddlePosY()
+  {
+    return 195;
   }
 
   public int getId()
@@ -666,52 +750,52 @@ public class SpecificGame
     }
   }
 
-  // line 30 "../../../../../Block223PlayGame.ump"
+  // line 33 "../../../../../Block223PlayGame.ump"
    public boolean isWallPaddleHit(){
     return false;
   }
 
-  // line 34 "../../../../../Block223PlayGame.ump"
+  // line 37 "../../../../../Block223PlayGame.ump"
    public boolean isBlockHit(){
     return false;
   }
 
-  // line 38 "../../../../../Block223PlayGame.ump"
+  // line 41 "../../../../../Block223PlayGame.ump"
    public boolean isOutOfBounds(){
     return false;
   }
 
-  // line 42 "../../../../../Block223PlayGame.ump"
+  // line 45 "../../../../../Block223PlayGame.ump"
    public void saveGame(){
     
   }
 
-  // line 45 "../../../../../Block223PlayGame.ump"
+  // line 48 "../../../../../Block223PlayGame.ump"
    public void saveScoreAndDelete(){
     
   }
 
-  // line 48 "../../../../../Block223PlayGame.ump"
+  // line 51 "../../../../../Block223PlayGame.ump"
    public void doWallPaddleHit(){
     
   }
 
-  // line 51 "../../../../../Block223PlayGame.ump"
+  // line 54 "../../../../../Block223PlayGame.ump"
    public void doBlockHit(){
     
   }
 
-  // line 54 "../../../../../Block223PlayGame.ump"
+  // line 57 "../../../../../Block223PlayGame.ump"
    public void doOutOfBounds(){
     
   }
 
-  // line 57 "../../../../../Block223PlayGame.ump"
+  // line 60 "../../../../../Block223PlayGame.ump"
    public static  int signum(int a){
     return a < 0 ? -1 : 1;
   }
 
-  // line 61 "../../../../../Block223PlayGame.ump"
+  // line 64 "../../../../../Block223PlayGame.ump"
    private boolean paddleIntersecting(){
     return false;
   }
@@ -725,7 +809,10 @@ public class SpecificGame
             "currentLevelPlayed" + ":" + getCurrentLevelPlayed()+ "," +
             "ballPosX" + ":" + getBallPosX()+ "," +
             "ballPosY" + ":" + getBallPosY()+ "," +
-            "paddlePosX" + ":" + getPaddlePosX()+ "]" + System.getProperties().getProperty("line.separator") +
+            "directionX" + ":" + getDirectionX()+ "," +
+            "directionY" + ":" + getDirectionY()+ "," +
+            "paddlePosX" + ":" + getPaddlePosX()+ "," +
+            "paddlePosY" + ":" + getPaddlePosY()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null");
   }
