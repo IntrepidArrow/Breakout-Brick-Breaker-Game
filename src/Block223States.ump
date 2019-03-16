@@ -3,7 +3,6 @@ namespace ca.mcgill.ecse223.block.model;
 
 
 
-
 class SpecificGame
 {
    gameStatus {
@@ -49,7 +48,7 @@ class SpecificGame
       }
      
       Game_End {
-        entry / {saveScoreandDelete()};
+        entry / {saveScoreAndDelete()};
       }
   }
 }

@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.block.model;
 import java.util.*;
 
 // line 18 "../../../../../Block223PlayGame.ump"
-// line 7 "../../../../../Block223States.ump"
+// line 6 "../../../../../Block223States.ump"
 public class SpecificGame
 {
 
@@ -206,7 +206,7 @@ public class SpecificGame
       case ongoing:
         if (isWallPaddleHit())
         {
-        // line 17 "../../../../../Block223States.ump"
+        // line 16 "../../../../../Block223States.ump"
           doWallPaddleHit();
           setGameStatus(GameStatus.ongoing);
           wasEventProcessed = true;
@@ -214,7 +214,7 @@ public class SpecificGame
         }
         if (isBlockHit(level))
         {
-        // line 19 "../../../../../Block223States.ump"
+        // line 18 "../../../../../Block223States.ump"
           doBlockHit();
           setGameStatus(GameStatus.ongoing);
           wasEventProcessed = true;
@@ -222,7 +222,7 @@ public class SpecificGame
         }
         if (level.getSpecificBlockAssignments().size==0)
         {
-        // line 21 "../../../../../Block223States.ump"
+        // line 20 "../../../../../Block223States.ump"
           saveScoreAndDelete();
           setGameStatus(GameStatus.Game_End);
           wasEventProcessed = true;
@@ -236,7 +236,7 @@ public class SpecificGame
         }
         if (isOutOfBounds()&&specificGame.getNrOfLife()>1)
         {
-        // line 27 "../../../../../Block223States.ump"
+        // line 26 "../../../../../Block223States.ump"
           doOutOfBounds();
           setGameStatus(GameStatus.ResetLevel);
           wasEventProcessed = true;
@@ -312,12 +312,12 @@ public class SpecificGame
     switch(gameStatus)
     {
       case Paused:
-        // line 38 "../../../../../Block223States.ump"
+        // line 37 "../../../../../Block223States.ump"
         saveGame();
         break;
       case Game_End:
-        // line 52 "../../../../../Block223States.ump"
-        saveScoreandDelete()
+        // line 51 "../../../../../Block223States.ump"
+        saveScoreAndDelete()
         break;
     }
   }
@@ -642,6 +642,11 @@ public class SpecificGame
   // line 37 "../../../../../Block223PlayGame.ump"
    private boolean paddleIntersecting(){
     return false;
+  }
+
+  // line 39 "../../../../../Block223PlayGame.ump"
+   private void saveScoreAndDelete(){
+    
   }
 
 

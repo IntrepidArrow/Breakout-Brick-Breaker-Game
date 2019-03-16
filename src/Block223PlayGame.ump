@@ -36,6 +36,7 @@ class SpecificGame {
 	private boolean paddleIntersecting() {
 		return false;
 	}
+	private void saveScoreAndDelete(){}
 }
 
 class Score{
@@ -67,7 +68,9 @@ class SpecificBlockAssignment {
 	immutable Integer positionY;
 }
 class User{
-	public static String getPlayerUsername(Player){}
+	public static String getPlayerUsername(Player){
+		return "";
+	}
 }
 
 
