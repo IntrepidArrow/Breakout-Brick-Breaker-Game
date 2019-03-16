@@ -562,8 +562,10 @@ public class Block223Controller {
 	}
 
 	//Itteration4
-	//public TOHallOfFame getHallOfFame(){}
-	//public List<TOScore> getListOfToScores(){}
+	public TOHallOfFame getHallOfFame(){
+		return null;}
+	public List<TOScore> getListOfToScores(){
+		return null;}
 	private void saveAndDelete(){}
 	private void moveBall(){}
 
