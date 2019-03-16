@@ -1,57 +1,45 @@
 namespace ca.mcgill.ecse223.block.model;
 
-
-
-
-
 class SpecificGame
 {
-   gameStatus {
-      Init {
-        setup -> ongoing;
-      }
-     
-      ongoing {
-        getInput() -> Paused;
-          
-          moveBall() [isWallPaddleHit();] / {doWallPaddleHit();} -> ongoing;
-          
-          moveBall() [isBlockHit(level);] / {doBlockHit();} -> ongoing;
-        
-          moveBall() [level.getSpecificBlockAssignments().size == 0] /{saveScoreAndDelete();
-            
-          }-> Game_End ;
-          
-          moveBall() [isOutOfBounds() && specificGame.getNrOfLife() == 1 ] -> Game_End ;
-        
-          moveBall() [isOutOfBounds() && specificGame.getNrOfLife() > 1 ]/ {
+	gameStatus {
+		Init {
+			setup -> ongoing;
+		}
+
+		ongoing {
+
+	        getInput() -> Paused;
+	
+	        moveBall() [ isWallPaddleHit() ] / { doWallPaddleHit(); } -> ongoing;
+	
+	        moveBall() [ isBlockHit() ] / { doBlockHit(); } -> ongoing;
+	
+	        moveBall() [ getSpecificBlockAssignments().size() == 0] / { saveScoreAndDelete(); }-> Game_End;
+	
+	        moveBall() [ isOutOfBounds() && getNrOfLife() == 1 ] -> Game_End;
+
+			moveBall() [ isOutOfBounds() && getNrOfLife() > 1 ] / { doOutOfBounds(); } -> ResetLevel;
          
-          doOutOfBounds();
-            
-          }-> ResetLevel;
-         
-          levelCompleted -> Lvl_End;
-          
-      }
+			levelCompleted -> Lvl_End;
+		}
+
+		Paused {
+			entry / { saveGame(); };
+			getInput() -> ongoing;
+		}
      
-      Paused {
-        entry / {saveGame();};
-        getInput() -> ongoing;
-      }
+		ResetLevel {
+			getInput() -> ongoing;
+		}
      
-      ResetLevel{
-      getInput() -> ongoing;
-      }
+		Lvl_End {
+			gameCompleted -> Game_End;
+			space -> Init;
+		}
      
-      Lvl_End {
-        gameCompleted -> Game_End;
-        space -> Init;
-      }
-     
-      Game_End {
-        entry / {saveScoreAndDelete();};
-      }
-  }
+		Game_End {
+			entry / { saveScoreAndDelete(); };
+		}
+	}
 }
-
-

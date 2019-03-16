@@ -19,16 +19,37 @@ class SpecificGame {
 	1 -- * Score;
 	1 <@>- 1 SpecificBall specificBall;
 	1 <@>- 1 SpecificPaddle specificPaddle;
-	1 <@>- * SpecificBlockAssignment blockAssignments;
+	1 <@>- * SpecificBlockAssignment specificBlockAssignments;
 
 	defaulted Integer nrOfLife = 3;
 	autounique id;
 	Integer currentLevelPlayed;
 
+	public boolean isWallPaddleHit() {
+		return false;
+	}
+
+	public boolean isBlockHit() {
+		return false;
+	}
+
+	public boolean isOutOfBounds() {
+		return false;
+	}
+
 	public void saveGame() {
 	}
 
 	public void saveScoreAndDelete() {
+	}
+
+	public void doWallPaddleHit() {
+	}
+
+	public void doBlockHit() {
+	}
+
+	public void doOutOfBounds() {
 	}
 }
 
@@ -43,7 +64,6 @@ class SpecificBall {
 	defaulted Integer ballPosY = 195;
 	defaulted Integer directionX = ball.getMinBallSpeedX();
 	defaulted Integer directionY = ball.getMinBallSpeedY();
-
 }
 
 class SpecificPaddle {

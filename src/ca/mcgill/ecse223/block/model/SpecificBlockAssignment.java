@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.model;
 
-// line 56 "../../../../../Block223PlayGame.ump"
+// line 76 "../../../../../Block223PlayGame.ump"
 public class SpecificBlockAssignment
 {
 
@@ -40,7 +40,7 @@ public class SpecificBlockAssignment
     boolean didAddSpecificGame = setSpecificGame(aSpecificGame);
     if (!didAddSpecificGame)
     {
-      throw new RuntimeException("Unable to create blockAssignment due to specificGame");
+      throw new RuntimeException("Unable to create specificBlockAssignment due to specificGame");
     }
   }
 
@@ -118,9 +118,9 @@ public class SpecificBlockAssignment
     specificGame = aSpecificGame;
     if (existingSpecificGame != null && !existingSpecificGame.equals(aSpecificGame))
     {
-      existingSpecificGame.removeBlockAssignment(this);
+      existingSpecificGame.removeSpecificBlockAssignment(this);
     }
-    specificGame.addBlockAssignment(this);
+    specificGame.addSpecificBlockAssignment(this);
     wasSet = true;
     return wasSet;
   }
@@ -138,7 +138,7 @@ public class SpecificBlockAssignment
     this.specificGame = null;
     if(placeholderSpecificGame != null)
     {
-      placeholderSpecificGame.removeBlockAssignment(this);
+      placeholderSpecificGame.removeSpecificBlockAssignment(this);
     }
   }
 

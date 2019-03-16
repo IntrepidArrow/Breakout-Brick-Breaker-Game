@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.block.model;
 import java.util.*;
 
 // line 18 "../../../../../Block223PlayGame.ump"
-// line 7 "../../../../../Block223States.ump"
+// line 3 "../../../../../Block223States.ump"
 public class SpecificGame
 {
 
@@ -34,7 +34,7 @@ public class SpecificGame
   private List<Score> scores;
   private SpecificBall specificBall;
   private SpecificPaddle specificPaddle;
-  private List<SpecificBlockAssignment> blockAssignments;
+  private List<SpecificBlockAssignment> specificBlockAssignments;
   private Game game;
   private Player player;
 
@@ -58,7 +58,7 @@ public class SpecificGame
       throw new RuntimeException("Unable to create SpecificGame due to aSpecificPaddle");
     }
     specificPaddle = aSpecificPaddle;
-    blockAssignments = new ArrayList<SpecificBlockAssignment>();
+    specificBlockAssignments = new ArrayList<SpecificBlockAssignment>();
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
@@ -80,7 +80,7 @@ public class SpecificGame
     scores = new ArrayList<Score>();
     specificBall = new SpecificBall(aBallForSpecificBall, this);
     specificPaddle = new SpecificPaddle(aPaddleForSpecificPaddle, this);
-    blockAssignments = new ArrayList<SpecificBlockAssignment>();
+    specificBlockAssignments = new ArrayList<SpecificBlockAssignment>();
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
@@ -196,6 +196,78 @@ public class SpecificGame
     return wasEventProcessed;
   }
 
+  public boolean moveBall()
+  {
+    boolean wasEventProcessed = false;
+    
+    GameStatus aGameStatus = gameStatus;
+    switch (aGameStatus)
+    {
+      case ongoing:
+        if (isWallPaddleHit())
+        {
+        // line 14 "../../../../../Block223States.ump"
+          doWallPaddleHit();
+          setGameStatus(GameStatus.ongoing);
+          wasEventProcessed = true;
+          break;
+        }
+        if (isBlockHit())
+        {
+        // line 16 "../../../../../Block223States.ump"
+          doBlockHit();
+          setGameStatus(GameStatus.ongoing);
+          wasEventProcessed = true;
+          break;
+        }
+        if (getSpecificBlockAssignments().size()==0)
+        {
+        // line 18 "../../../../../Block223States.ump"
+          saveScoreAndDelete();
+          setGameStatus(GameStatus.Game_End);
+          wasEventProcessed = true;
+          break;
+        }
+        if (isOutOfBounds()&&getNrOfLife()==1)
+        {
+          setGameStatus(GameStatus.Game_End);
+          wasEventProcessed = true;
+          break;
+        }
+        if (isOutOfBounds()&&getNrOfLife()>1)
+        {
+        // line 22 "../../../../../Block223States.ump"
+          doOutOfBounds();
+          setGameStatus(GameStatus.ResetLevel);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean levelCompleted()
+  {
+    boolean wasEventProcessed = false;
+    
+    GameStatus aGameStatus = gameStatus;
+    switch (aGameStatus)
+    {
+      case ongoing:
+        setGameStatus(GameStatus.Lvl_End);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
   public boolean gameCompleted()
   {
     boolean wasEventProcessed = false;
@@ -240,11 +312,11 @@ public class SpecificGame
     switch(gameStatus)
     {
       case Paused:
-        // line 38 "../../../../../Block223States.ump"
+        // line 28 "../../../../../Block223States.ump"
         saveGame();
         break;
       case Game_End:
-        // line 52 "../../../../../Block223States.ump"
+        // line 42 "../../../../../Block223States.ump"
         saveScoreAndDelete();
         break;
     }
@@ -290,33 +362,33 @@ public class SpecificGame
     return specificPaddle;
   }
   /* Code from template association_GetMany */
-  public SpecificBlockAssignment getBlockAssignment(int index)
+  public SpecificBlockAssignment getSpecificBlockAssignment(int index)
   {
-    SpecificBlockAssignment aBlockAssignment = blockAssignments.get(index);
-    return aBlockAssignment;
+    SpecificBlockAssignment aSpecificBlockAssignment = specificBlockAssignments.get(index);
+    return aSpecificBlockAssignment;
   }
 
-  public List<SpecificBlockAssignment> getBlockAssignments()
+  public List<SpecificBlockAssignment> getSpecificBlockAssignments()
   {
-    List<SpecificBlockAssignment> newBlockAssignments = Collections.unmodifiableList(blockAssignments);
-    return newBlockAssignments;
+    List<SpecificBlockAssignment> newSpecificBlockAssignments = Collections.unmodifiableList(specificBlockAssignments);
+    return newSpecificBlockAssignments;
   }
 
-  public int numberOfBlockAssignments()
+  public int numberOfSpecificBlockAssignments()
   {
-    int number = blockAssignments.size();
+    int number = specificBlockAssignments.size();
     return number;
   }
 
-  public boolean hasBlockAssignments()
+  public boolean hasSpecificBlockAssignments()
   {
-    boolean has = blockAssignments.size() > 0;
+    boolean has = specificBlockAssignments.size() > 0;
     return has;
   }
 
-  public int indexOfBlockAssignment(SpecificBlockAssignment aBlockAssignment)
+  public int indexOfSpecificBlockAssignment(SpecificBlockAssignment aSpecificBlockAssignment)
   {
-    int index = blockAssignments.indexOf(aBlockAssignment);
+    int index = specificBlockAssignments.indexOf(aSpecificBlockAssignment);
     return index;
   }
   /* Code from template association_GetOne */
@@ -402,74 +474,74 @@ public class SpecificGame
     return wasAdded;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfBlockAssignments()
+  public static int minimumNumberOfSpecificBlockAssignments()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public SpecificBlockAssignment addBlockAssignment(int aPositionX, int aPositionY, Level aLevel, Block aBlock)
+  public SpecificBlockAssignment addSpecificBlockAssignment(int aPositionX, int aPositionY, Level aLevel, Block aBlock)
   {
     return new SpecificBlockAssignment(aPositionX, aPositionY, aLevel, aBlock, this);
   }
 
-  public boolean addBlockAssignment(SpecificBlockAssignment aBlockAssignment)
+  public boolean addSpecificBlockAssignment(SpecificBlockAssignment aSpecificBlockAssignment)
   {
     boolean wasAdded = false;
-    if (blockAssignments.contains(aBlockAssignment)) { return false; }
-    SpecificGame existingSpecificGame = aBlockAssignment.getSpecificGame();
+    if (specificBlockAssignments.contains(aSpecificBlockAssignment)) { return false; }
+    SpecificGame existingSpecificGame = aSpecificBlockAssignment.getSpecificGame();
     boolean isNewSpecificGame = existingSpecificGame != null && !this.equals(existingSpecificGame);
     if (isNewSpecificGame)
     {
-      aBlockAssignment.setSpecificGame(this);
+      aSpecificBlockAssignment.setSpecificGame(this);
     }
     else
     {
-      blockAssignments.add(aBlockAssignment);
+      specificBlockAssignments.add(aSpecificBlockAssignment);
     }
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeBlockAssignment(SpecificBlockAssignment aBlockAssignment)
+  public boolean removeSpecificBlockAssignment(SpecificBlockAssignment aSpecificBlockAssignment)
   {
     boolean wasRemoved = false;
-    //Unable to remove aBlockAssignment, as it must always have a specificGame
-    if (!this.equals(aBlockAssignment.getSpecificGame()))
+    //Unable to remove aSpecificBlockAssignment, as it must always have a specificGame
+    if (!this.equals(aSpecificBlockAssignment.getSpecificGame()))
     {
-      blockAssignments.remove(aBlockAssignment);
+      specificBlockAssignments.remove(aSpecificBlockAssignment);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addBlockAssignmentAt(SpecificBlockAssignment aBlockAssignment, int index)
+  public boolean addSpecificBlockAssignmentAt(SpecificBlockAssignment aSpecificBlockAssignment, int index)
   {  
     boolean wasAdded = false;
-    if(addBlockAssignment(aBlockAssignment))
+    if(addSpecificBlockAssignment(aSpecificBlockAssignment))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfBlockAssignments()) { index = numberOfBlockAssignments() - 1; }
-      blockAssignments.remove(aBlockAssignment);
-      blockAssignments.add(index, aBlockAssignment);
+      if(index > numberOfSpecificBlockAssignments()) { index = numberOfSpecificBlockAssignments() - 1; }
+      specificBlockAssignments.remove(aSpecificBlockAssignment);
+      specificBlockAssignments.add(index, aSpecificBlockAssignment);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveBlockAssignmentAt(SpecificBlockAssignment aBlockAssignment, int index)
+  public boolean addOrMoveSpecificBlockAssignmentAt(SpecificBlockAssignment aSpecificBlockAssignment, int index)
   {
     boolean wasAdded = false;
-    if(blockAssignments.contains(aBlockAssignment))
+    if(specificBlockAssignments.contains(aSpecificBlockAssignment))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfBlockAssignments()) { index = numberOfBlockAssignments() - 1; }
-      blockAssignments.remove(aBlockAssignment);
-      blockAssignments.add(index, aBlockAssignment);
+      if(index > numberOfSpecificBlockAssignments()) { index = numberOfSpecificBlockAssignments() - 1; }
+      specificBlockAssignments.remove(aSpecificBlockAssignment);
+      specificBlockAssignments.add(index, aSpecificBlockAssignment);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addBlockAssignmentAt(aBlockAssignment, index);
+      wasAdded = addSpecificBlockAssignmentAt(aSpecificBlockAssignment, index);
     }
     return wasAdded;
   }
@@ -531,11 +603,11 @@ public class SpecificGame
     {
       existingSpecificPaddle.delete();
     }
-    while (blockAssignments.size() > 0)
+    while (specificBlockAssignments.size() > 0)
     {
-      SpecificBlockAssignment aBlockAssignment = blockAssignments.get(blockAssignments.size() - 1);
-      aBlockAssignment.delete();
-      blockAssignments.remove(aBlockAssignment);
+      SpecificBlockAssignment aSpecificBlockAssignment = specificBlockAssignments.get(specificBlockAssignments.size() - 1);
+      aSpecificBlockAssignment.delete();
+      specificBlockAssignments.remove(aSpecificBlockAssignment);
     }
     
     Game placeholderGame = game;
@@ -553,12 +625,42 @@ public class SpecificGame
   }
 
   // line 29 "../../../../../Block223PlayGame.ump"
+   public boolean isWallPaddleHit(){
+    return false;
+  }
+
+  // line 33 "../../../../../Block223PlayGame.ump"
+   public boolean isBlockHit(){
+    return false;
+  }
+
+  // line 37 "../../../../../Block223PlayGame.ump"
+   public boolean isOutOfBounds(){
+    return false;
+  }
+
+  // line 41 "../../../../../Block223PlayGame.ump"
    public void saveGame(){
     
   }
 
-  // line 32 "../../../../../Block223PlayGame.ump"
+  // line 44 "../../../../../Block223PlayGame.ump"
    public void saveScoreAndDelete(){
+    
+  }
+
+  // line 47 "../../../../../Block223PlayGame.ump"
+   public void doWallPaddleHit(){
+    
+  }
+
+  // line 50 "../../../../../Block223PlayGame.ump"
+   public void doBlockHit(){
+    
+  }
+
+  // line 53 "../../../../../Block223PlayGame.ump"
+   public void doOutOfBounds(){
     
   }
 
