@@ -171,9 +171,9 @@ public class Player extends UserRole implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public SpecificGame addSpecificGame(int aCurrentLevelPlayed, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle, Game aGame)
+  public SpecificGame addSpecificGame(SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle, Game aGame)
   {
-    return new SpecificGame(aCurrentLevelPlayed, aSpecificBall, aSpecificPaddle, aGame, this);
+    return new SpecificGame(aSpecificBall, aSpecificPaddle, aGame, this);
   }
 
   public boolean addSpecificGame(SpecificGame aSpecificGame)

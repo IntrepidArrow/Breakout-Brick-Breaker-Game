@@ -42,10 +42,10 @@ public class SpecificGame
   // CONSTRUCTOR
   //------------------------
 
-  public SpecificGame(int aCurrentLevelPlayed, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle, Game aGame, Player aPlayer)
+  public SpecificGame(SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle, Game aGame, Player aPlayer)
   {
     resetNrOfLife();
-    currentLevelPlayed = aCurrentLevelPlayed;
+    resetCurrentLevelPlayed();
     id = nextId++;
     scores = new ArrayList<Score>();
     if (aSpecificBall == null || aSpecificBall.getSpecificGame() != null)
@@ -72,10 +72,10 @@ public class SpecificGame
     setGameStatus(GameStatus.Init);
   }
 
-  public SpecificGame(int aCurrentLevelPlayed, Ball aBallForSpecificBall, Paddle aPaddleForSpecificPaddle, Game aGame, Player aPlayer)
+  public SpecificGame(Ball aBallForSpecificBall, Paddle aPaddleForSpecificPaddle, Game aGame, Player aPlayer)
   {
     resetNrOfLife();
-    currentLevelPlayed = aCurrentLevelPlayed;
+    resetCurrentLevelPlayed();
     id = nextId++;
     scores = new ArrayList<Score>();
     specificBall = new SpecificBall(aBallForSpecificBall, this);
@@ -112,13 +112,21 @@ public class SpecificGame
     wasReset = true;
     return wasReset;
   }
-
+  /* Code from template attribute_SetDefaulted */
   public boolean setCurrentLevelPlayed(int aCurrentLevelPlayed)
   {
     boolean wasSet = false;
     currentLevelPlayed = aCurrentLevelPlayed;
     wasSet = true;
     return wasSet;
+  }
+
+  public boolean resetCurrentLevelPlayed()
+  {
+    boolean wasReset = false;
+    currentLevelPlayed = getDefaultCurrentLevelPlayed();
+    wasReset = true;
+    return wasReset;
   }
 
   public int getNrOfLife()
@@ -134,6 +142,11 @@ public class SpecificGame
   public int getCurrentLevelPlayed()
   {
     return currentLevelPlayed;
+  }
+  /* Code from template attribute_GetDefaulted */
+  public int getDefaultCurrentLevelPlayed()
+  {
+    return 1;
   }
 
   public int getId()

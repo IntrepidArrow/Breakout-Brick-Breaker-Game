@@ -42,7 +42,7 @@ public class SpecificBall
     specificGame = aSpecificGame;
   }
 
-  public SpecificBall(Ball aBall, int aCurrentLevelPlayedForSpecificGame, SpecificPaddle aSpecificPaddleForSpecificGame, Game aGameForSpecificGame, Player aPlayerForSpecificGame)
+  public SpecificBall(Ball aBall, SpecificPaddle aSpecificPaddleForSpecificGame, Game aGameForSpecificGame, Player aPlayerForSpecificGame)
   {
     resetBallPosX();
     resetBallPosY();
@@ -53,7 +53,7 @@ public class SpecificBall
     {
       throw new RuntimeException("Unable to create specificBall due to ball");
     }
-    specificGame = new SpecificGame(aCurrentLevelPlayedForSpecificGame, this, aSpecificPaddleForSpecificGame, aGameForSpecificGame, aPlayerForSpecificGame);
+    specificGame = new SpecificGame(this, aSpecificPaddleForSpecificGame, aGameForSpecificGame, aPlayerForSpecificGame);
   }
 
   //------------------------

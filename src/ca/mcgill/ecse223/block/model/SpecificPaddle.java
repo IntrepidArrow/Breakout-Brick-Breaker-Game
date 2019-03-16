@@ -36,7 +36,7 @@ public class SpecificPaddle
     specificGame = aSpecificGame;
   }
 
-  public SpecificPaddle(Paddle aPaddle, int aCurrentLevelPlayedForSpecificGame, SpecificBall aSpecificBallForSpecificGame, Game aGameForSpecificGame, Player aPlayerForSpecificGame)
+  public SpecificPaddle(Paddle aPaddle, SpecificBall aSpecificBallForSpecificGame, Game aGameForSpecificGame, Player aPlayerForSpecificGame)
   {
     paddlePosX = 195 - (paddle.getMaxPaddleLength() / 2);
     boolean didAddPaddle = setPaddle(aPaddle);
@@ -44,7 +44,7 @@ public class SpecificPaddle
     {
       throw new RuntimeException("Unable to create specificPaddle due to paddle");
     }
-    specificGame = new SpecificGame(aCurrentLevelPlayedForSpecificGame, aSpecificBallForSpecificGame, this, aGameForSpecificGame, aPlayerForSpecificGame);
+    specificGame = new SpecificGame(aSpecificBallForSpecificGame, this, aGameForSpecificGame, aPlayerForSpecificGame);
   }
 
   //------------------------
