@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 14 "../../../../../Block223Persistence.ump"
+// line 69 "../../../../../Block223PlayGame.ump"
 // line 21 "../../../../../Block223.ump"
 public class User implements Serializable
 {
@@ -263,6 +264,11 @@ public class User implements Serializable
       tmpUsersByUsername.put(u.getUsername(), u);
     }
     User.usersByUsername=tmpUsersByUsername;
+  }
+
+  // line 70 "../../../../../Block223PlayGame.ump"
+   public static  String getPlayerUsername(String Player){
+    
   }
 
 

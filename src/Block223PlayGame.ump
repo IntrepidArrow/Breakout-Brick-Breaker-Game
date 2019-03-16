@@ -25,15 +25,15 @@ class SpecificGame {
 	defaulted Integer nrOfLife = 3;
 	autounique id;
 	Integer currentLevelPlayed;
-	public static boolean isWallPaddleHit() {
+	private boolean isWallPaddleHit() {
 		return false;
 	}
 	public static int signum(int a) {
 		return a<0?-1:1;
 	}
-	public static void doWallPaddleHit() {
+	private void doWallPaddleHit() {
 	}
-	public static boolean paddleIntersecting() {
+	private boolean paddleIntersecting() {
 		return false;
 	}
 }
@@ -66,6 +66,8 @@ class SpecificBlockAssignment {
 	immutable Integer positionX;
 	immutable Integer positionY;
 }
-
+class User{
+	public static String getPlayerUsername(Player){}
+}
 
 

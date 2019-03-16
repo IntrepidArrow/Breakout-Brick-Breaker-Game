@@ -14,9 +14,9 @@ class SpecificGame
       ongoing {
         getInput() -> Paused;
           
-          moveBall() [isWallPaddleHit()] / {doWallPaddleHit()} -> ongoing;
+          moveBall() [isWallPaddleHit()] / {doWallPaddleHit();} -> ongoing;
           
-          moveBall() [isBlockHit(level)] / {doBlockHit()} -> ongoing;
+          moveBall() [isBlockHit(level)] / {doBlockHit();} -> ongoing;
         
           moveBall() [level.getSpecificBlockAssignments().size == 0] /{saveScoreAndDelete();
             
@@ -35,7 +35,7 @@ class SpecificGame
       }
      
       Paused {
-        entry / {saveGame()};
+        entry / {saveGame();}
         getInput() -> ongoing;
       }
      

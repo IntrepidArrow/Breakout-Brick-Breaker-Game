@@ -207,7 +207,7 @@ public class SpecificGame
         if (isWallPaddleHit())
         {
         // line 17 "../../../../../Block223States.ump"
-          doWallPaddleHit()
+          doWallPaddleHit();
           setGameStatus(GameStatus.ongoing);
           wasEventProcessed = true;
           break;
@@ -215,7 +215,7 @@ public class SpecificGame
         if (isBlockHit(level))
         {
         // line 19 "../../../../../Block223States.ump"
-          doBlockHit()
+          doBlockHit();
           setGameStatus(GameStatus.ongoing);
           wasEventProcessed = true;
           break;
@@ -313,7 +313,7 @@ public class SpecificGame
     {
       case Paused:
         // line 38 "../../../../../Block223States.ump"
-        saveGame()
+        saveGame();
         break;
       case Game_End:
         // line 52 "../../../../../Block223States.ump"
@@ -625,7 +625,7 @@ public class SpecificGame
   }
 
   // line 29 "../../../../../Block223PlayGame.ump"
-   public static  boolean isWallPaddleHit(){
+   private boolean isWallPaddleHit(){
     return false;
   }
 
@@ -635,12 +635,12 @@ public class SpecificGame
   }
 
   // line 35 "../../../../../Block223PlayGame.ump"
-   public static  void doWallPaddleHit(){
+   private void doWallPaddleHit(){
     
   }
 
   // line 37 "../../../../../Block223PlayGame.ump"
-   public static  boolean paddleIntersecting(){
+   private boolean paddleIntersecting(){
     return false;
   }
 
