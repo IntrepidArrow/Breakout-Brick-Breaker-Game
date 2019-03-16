@@ -42,3 +42,13 @@ class TOHallOfFame {
   List<TOScore> listOfToScores;
   List<String> listOfUsernames;
 }
+
+class TOSpecificGridCell {
+	Integer posX;
+   Integer posY;
+   Integer id;
+   Integer red;
+   Integer green;
+   Integer blue;
+   Integer points;
+}
