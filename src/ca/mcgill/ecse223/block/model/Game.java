@@ -902,7 +902,7 @@ public class Game implements Serializable
 
   // line 98 "../../../../../Block223.ump"
    public int getMaxNumberVerticalBlocks(){
-    int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - WALL_PADDING - 30 - 5 - 10 , (Block.SIZE + ROW_PADDING) ); 
+    int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - WALL_PADDING - Paddle.VERTICAL_DISTANCE - Paddle.PADDLE_WIDTH - Ball.BALL_DIAMETER , (Block.SIZE + ROW_PADDING) ); 
 	  return maxNbr;
   }
 
