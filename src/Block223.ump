@@ -91,7 +91,7 @@ class Game {
   }
   	
   public int getMaxNumberHorizontalBlocks() {
-	  int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING - COLUMNS_PADDING , (Block.SIZE + COLUMNS_PADDING) );
+	  int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING + COLUMNS_PADDING , (Block.SIZE + COLUMNS_PADDING) );
 	  return maxNbr;
   }
   public int getMaxNumberVerticalBlocks() {
