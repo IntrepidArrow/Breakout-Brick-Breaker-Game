@@ -376,7 +376,7 @@ public class Block223Controller {
 		blockassignment = actualLevel.findBlockAssignment(oldGridHorizontalPosition,
 				oldGridVerticalPosition);
 		if (blockassignment == null) {
-			error += error + "A block does not exist at location" + oldGridHorizontalPosition + "/"
+			error += error + "A block does not exist at location " + oldGridHorizontalPosition + "/"
 					+ oldGridVerticalPosition + ".";
 		}
 
