@@ -2,8 +2,9 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.controller;
+import java.util.*;
 
-// line 41 "../../../../../Block223TransferObjects.ump"
+// line 32 "../../../../../Block223TransferObjectsPlayMode.ump"
 public class TOHallOfFame
 {
 
@@ -12,57 +13,153 @@ public class TOHallOfFame
   //------------------------
 
   //TOHallOfFame Attributes
-  private List<TOScore> listOfToScores;
-  private List<String> listOfUsernames;
+  private String gamename;
+
+  //TOHallOfFame Associations
+  private List<TOHallOfFameEntry> entries;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public TOHallOfFame(List<TOScore> aListOfToScores, List<String> aListOfUsernames)
+  public TOHallOfFame(String aGamename)
   {
-    listOfToScores = aListOfToScores;
-    listOfUsernames = aListOfUsernames;
+    gamename = aGamename;
+    entries = new ArrayList<TOHallOfFameEntry>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setListOfToScores(List<TOScore> aListOfToScores)
+  public boolean setGamename(String aGamename)
   {
     boolean wasSet = false;
-    listOfToScores = aListOfToScores;
+    gamename = aGamename;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setListOfUsernames(List<String> aListOfUsernames)
+  public String getGamename()
   {
-    boolean wasSet = false;
-    listOfUsernames = aListOfUsernames;
-    wasSet = true;
-    return wasSet;
+    return gamename;
+  }
+  /* Code from template association_GetMany */
+  public TOHallOfFameEntry getEntry(int index)
+  {
+    TOHallOfFameEntry aEntry = entries.get(index);
+    return aEntry;
   }
 
-  public List<TOScore> getListOfToScores()
+  public List<TOHallOfFameEntry> getEntries()
   {
-    return listOfToScores;
+    List<TOHallOfFameEntry> newEntries = Collections.unmodifiableList(entries);
+    return newEntries;
   }
 
-  public List<String> getListOfUsernames()
+  public int numberOfEntries()
   {
-    return listOfUsernames;
+    int number = entries.size();
+    return number;
+  }
+
+  public boolean hasEntries()
+  {
+    boolean has = entries.size() > 0;
+    return has;
+  }
+
+  public int indexOfEntry(TOHallOfFameEntry aEntry)
+  {
+    int index = entries.indexOf(aEntry);
+    return index;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfEntries()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public TOHallOfFameEntry addEntry(int aPosition, String aPlayername, int aScore)
+  {
+    return new TOHallOfFameEntry(aPosition, aPlayername, aScore, this);
+  }
+
+  public boolean addEntry(TOHallOfFameEntry aEntry)
+  {
+    boolean wasAdded = false;
+    if (entries.contains(aEntry)) { return false; }
+    TOHallOfFame existingTOHallOfFame = aEntry.getTOHallOfFame();
+    boolean isNewTOHallOfFame = existingTOHallOfFame != null && !this.equals(existingTOHallOfFame);
+    if (isNewTOHallOfFame)
+    {
+      aEntry.setTOHallOfFame(this);
+    }
+    else
+    {
+      entries.add(aEntry);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeEntry(TOHallOfFameEntry aEntry)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aEntry, as it must always have a tOHallOfFame
+    if (!this.equals(aEntry.getTOHallOfFame()))
+    {
+      entries.remove(aEntry);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addEntryAt(TOHallOfFameEntry aEntry, int index)
+  {  
+    boolean wasAdded = false;
+    if(addEntry(aEntry))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfEntries()) { index = numberOfEntries() - 1; }
+      entries.remove(aEntry);
+      entries.add(index, aEntry);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveEntryAt(TOHallOfFameEntry aEntry, int index)
+  {
+    boolean wasAdded = false;
+    if(entries.contains(aEntry))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfEntries()) { index = numberOfEntries() - 1; }
+      entries.remove(aEntry);
+      entries.add(index, aEntry);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addEntryAt(aEntry, index);
+    }
+    return wasAdded;
   }
 
   public void delete()
-  {}
+  {
+    for(int i=entries.size(); i > 0; i--)
+    {
+      TOHallOfFameEntry aEntry = entries.get(i - 1);
+      aEntry.delete();
+    }
+  }
 
 
   public String toString()
   {
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "listOfToScores" + "=" + (getListOfToScores() != null ? !getListOfToScores().equals(this)  ? getListOfToScores().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "listOfUsernames" + "=" + (getListOfUsernames() != null ? !getListOfUsernames().equals(this)  ? getListOfUsernames().toString().replaceAll("  ","    ") : "this" : "null");
+    return super.toString() + "["+
+            "gamename" + ":" + getGamename()+ "]";
   }
 }

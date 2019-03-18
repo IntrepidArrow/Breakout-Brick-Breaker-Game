@@ -573,13 +573,7 @@ public class Block223Controller {
 		Block223Application.setCurrentGame(selectedGame);
 	}
 
-	//Itteration4
-	public TOHallOfFame getHallOfFame(){
-		return null;}
-	public List<TOScore> getListOfToScores(){
-		return null;}
-	private void saveAndDelete(){}
-	private void moveBall(){}
+	
 
 
 	// ****************************
@@ -791,4 +785,18 @@ public class Block223Controller {
 		TOUserMode userMode = new TOUserMode(mode);
 		return userMode;
 	}
+	
+	// play mode
+
+		public static List<TOPlayableGame> getPlayableGames() throws InvalidInputException {
+		}
+
+		public static List<TOCurrentlyPlayedGame> getCurrentPlayableGame() throws InvalidInputException {
+		}
+
+		public static TOHallOfFame getHallOfFame(int start, int end) throws InvalidInputException {
+		}
+
+		public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
+		}
 }

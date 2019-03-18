@@ -1,40 +1,96 @@
-namespace ca.mcgill.ecse223.block.model;
+class PlayedGame {
 
-class SpecificGame
-{
-	gameStatus {
-		Init {
-			setup() -> Ongoing;
-		}
+  // State Machine
+  
+  playStatus {
+    Ready {
+      entry / { doSetup(); }
+      play -> Moving;
+    }
+    Moving {
+      pause -> Paused;
+      move [hitPaddle()] / { doHitPaddleOrWall(); } -> Moving;
+      move [isOutOfBoundsAndLastLife()] / { doOutOfBounds(); } -> GameOver;
+      move [isOutOfBounds()] / { doOutOfBounds(); } -> Paused;
+      move [hitLastBlockAndLastLevel()] / { doHitBlock(); } -> GameOver;
+      move [hitLastBlock()] / { doHitBlockNextLevel(); } -> Ready;
+      move [hitBlock()] / { doHitBlock(); } -> Moving;
+      move [hitWall()] / { doHitPaddleOrWall(); } -> Moving;
+      move / { doHitNothingAndNotOutOfBounds(); } -> Moving;
+    }
+    Paused {
+      play -> Moving;
+    }
+    GameOver {
+      entry / { doGameOver(); }
+    }
+  }
+  
+  // Guards
+  
+  private boolean hitPaddle() {
+    // TODO implement
+    return false;
+  }
 
-		Ongoing {
-			executeSpaceCmd() -> Paused;
+  private boolean isOutOfBoundsAndLastLife() {
+    // TODO implement
+    return false;
+  }
+  
+  private boolean isOutOfBounds() {
+    // TODO implement
+    return false;
+  }
+  
+  private boolean hitLastBlockAndLastLevel() {
+    // TODO implement
+    return false;
+  }
+  
+  private boolean hitLastBlock(){
+    // TODO implement
+    return false;
+  }
+  
+  private boolean hitBlock() {
+    // TODO implement
+    return false;
+  }
+  
+  private boolean hitWall() {
+    // TODO implement
+    return false;
+  }
+  
+  // Actions
+  
+  private void doSetup() {
+    // TODO implement
+  }
+  
+  private void doHitPaddleOrWall() {
+    // TODO implement
+  }
 
-			moveBall() [ isWallPaddleHit() ] / { doWallPaddleHit(); } -> Ongoing;
+  private void doOutOfBounds() {
+    // TODO implement
+  }
 
-			moveBall() [ isBlockHit() ] / { doBlockHit(); } -> Ongoing;
+  private void doHitBlock() {
+    // TODO implement
+  }
 
-			moveBall() [ getSpecificBlockAssignments().size() == 0 ] / { saveScoreAndDelete(); }-> Game_End;
+  private void doHitBlockNextLevel() {
+    // TODO implement
+  }
 
-			moveBall() [ isOutOfBounds() && getNrOfLife() == 1 ] -> Game_End;
+  private void doHitNothingAndNotOutOfBounds() {
+    // TODO implement
+  }
 
-			moveBall() [ isOutOfBounds() && getNrOfLife() > 1 ] / { doOutOfBounds(); } -> Paused;
+  private void doGameOver() {
+    // TODO implement
+  }
 
-			checkLevelStatus() [ levelCompleted() ] -> Level_End;
-		}
-
-		Paused {
-			entry / { saveGame(); };
-			executeSpaceCmd() -> Ongoing;
-		}
-
-		Level_End {
-			entry [ gameCompleted() ] -> Game_End;
-			executeSpaceCmd() / { loadNextLevel(); } -> Ongoing;
-		}
-
-		Game_End {
-			entry / { saveScoreAndDelete(); };
-		}
-	}
 }
