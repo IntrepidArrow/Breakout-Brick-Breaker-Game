@@ -5,8 +5,7 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 14 "../../../../../Block223Persistence.ump"
-// line 91 "../../../../../Block223PlayGame.ump"
+// line 16 "../../../../../Block223Persistence.ump"
 // line 22 "../../../../../Block223.ump"
 public class User implements Serializable
 {
@@ -257,18 +256,13 @@ public class User implements Serializable
     }
   }
 
-  // line 20 "../../../../../Block223Persistence.ump"
+  // line 21 "../../../../../Block223Persistence.ump"
    public static  void reinitializeUniqueUsername(List<User> users){
     Map<String, User> tmpUsersByUsername = new HashMap<String, User>();
     for (User u : users) {
       tmpUsersByUsername.put(u.getUsername(), u);
     }
     User.usersByUsername=tmpUsersByUsername;
-  }
-
-  // line 93 "../../../../../Block223PlayGame.ump"
-   public static  String getPlayerUsername(String Player){
-    return "";
   }
 
 
@@ -282,8 +276,8 @@ public class User implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 17 "../../../../../Block223Persistence.ump"
-  private static final long serialVersionUID = -2683563616927798191L ;
+  // line 19 "../../../../../Block223Persistence.ump"
+  private static final long serialVersionUID = 4267485601061759914L ;
 
   
 }
