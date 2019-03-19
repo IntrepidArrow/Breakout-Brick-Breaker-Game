@@ -15,7 +15,6 @@ public class Block223Application {
 	private static Block223 block223;
 	private static Game currentGame;
 	private static UserRole currentUserRole;
-//	private static SpecificGame currentPlayedGame;
 
 	private static StartPage instance;
 
@@ -73,12 +72,4 @@ public class Block223Application {
 		// a getCurrentGame() method that return the current game.
 		return currentGame;
 	}
-//
-//	public static SpecificGame getCurrentPlayedGame() {
-//		return currentPlayedGame;
-//	}
-//
-//	public static void setCurrentPlayedGame(SpecificGame currentPlayedGame) {
-//		Block223Application.currentPlayedGame = currentPlayedGame;
-//	}
 }

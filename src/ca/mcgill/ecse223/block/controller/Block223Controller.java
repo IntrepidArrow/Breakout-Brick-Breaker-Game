@@ -225,14 +225,9 @@ public class Block223Controller {
 
 		// Main method body
 		Game game = Block223Application.getCurrentGame();
-		Block block = game.findBlock(id);
-		if (block != null) {
-			block.delete();
-			try {
-				Block223Persistence.save(Block223Application.getBlock223());
-			} catch (RuntimeException e) {
-				throw new InvalidInputException(e.getMessage());
-			}
+		Block foundBlock = game.findBlock(id);
+		if(foundBlock != null){
+			foundBlock.delete();
 		}
 	}
 
