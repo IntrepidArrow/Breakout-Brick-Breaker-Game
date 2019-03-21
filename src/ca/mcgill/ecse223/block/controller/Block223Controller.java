@@ -429,7 +429,15 @@ public class Block223Controller {
 	public static void saveGame() throws InvalidInputException {
 		String error = "";
 		UserRole currentRole = Block223Application.getCurrentUserRole();
+		if (Block223Application.getCurrentGame() == null) {
+			error += "A game must be selected to save it.";
+		}
 
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
+		
+		
 		if (!(currentRole instanceof Admin)) {
 			error += "Admin privileges are required to save a game.";
 		} else if (currentRole instanceof Admin) {
@@ -439,9 +447,6 @@ public class Block223Controller {
 			}
 		}
 
-		if (Block223Application.getCurrentGame() == null) {
-			error += "A game must be selected to access its information.";
-		}
 
 		if (error.length() > 0) {
 			throw new InvalidInputException(error.trim());
@@ -481,7 +486,7 @@ public class Block223Controller {
 			user = new User(username, block223, player);
 		} catch (RuntimeException e) {
 			block223.removeRole(player);
-			throw new InvalidInputException(e.toString());
+			throw new InvalidInputException(e.getMessage());
 
 		}
 		if (!(adminPassword == null || adminPassword.isEmpty())) {
