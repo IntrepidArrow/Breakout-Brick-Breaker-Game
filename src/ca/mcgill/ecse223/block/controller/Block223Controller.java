@@ -24,6 +24,7 @@ import ca.mcgill.ecse223.block.model.User;
 import ca.mcgill.ecse223.block.model.UserRole;
 import ca.mcgill.ecse223.block.model.PlayedGame.PlayStatus;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
+import ca.mcgill.ecse223.block.view.Block223PlayModeInterface;
 
 public class Block223Controller {
 
@@ -801,5 +802,18 @@ public class Block223Controller {
 	}
 
 	public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
+	}
+
+	public static void testGame(Block223PlayModeInterface ui) throws InvalidInputException {
+		Game game = Block223Application.getCurrentGame();
+		UserRole admin = Block223Application.getCurrentUserRole();
+		String username = User.findUsername(admin); //TODO: Implement findUsername String type method in User class as static method
+		Block223 block223 = Block223Application.getBlock223();
+
+		PlayedGame pgame = new PlayedGame(username, game, block223);
+		pgame.setPlayer(null);
+		Block223Application.setCurrentPlayableGame(pgame);
+
+		Block223Controller.startGame(ui);
 	}
 }
