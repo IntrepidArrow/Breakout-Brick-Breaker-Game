@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.block.application;
 import ca.mcgill.ecse223.block.model.Admin;
 import ca.mcgill.ecse223.block.model.Block223;
 import ca.mcgill.ecse223.block.model.Game;
+import ca.mcgill.ecse223.block.model.PlayedGame;
 //import ca.mcgill.ecse223.block.model.SpecificGame;
 import ca.mcgill.ecse223.block.model.User;
 import ca.mcgill.ecse223.block.model.UserRole;
@@ -15,28 +16,27 @@ public class Block223Application {
 	private static Block223 block223;
 	private static Game currentGame;
 	private static UserRole currentUserRole;
+	private static PlayedGame currentPlayableGame;
 
 	private static StartPage instance;
-
-
 
 	public static void main(String[] args) {
 		// start UI
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				StartPage newStart=StartPage.getStartInstance();
+				StartPage newStart = StartPage.getStartInstance();
 				newStart.setVisible(true);
 			}
 		});
 	}
 
 	public static Block223 getBlock223() {
-		if(block223 == null) {
-			//load model
-			//			System.out.println("loading model");
+		if (block223 == null) {
+			// load model
+			// System.out.println("loading model");
 			block223 = Block223Persistence.load();
 		}
-		//will directly return class variable if it is not empty 
+		// will directly return class variable if it is not empty
 		return block223;
 	}
 
@@ -44,7 +44,7 @@ public class Block223Application {
 		// TODO implement this method,
 		// a resetBlock223() method that forces a load from the file and returns the
 		// root block223 object,
-		//		System.out.println("reseting model");
+		// System.out.println("reseting model");
 
 		block223 = Block223Persistence.load();
 
@@ -52,12 +52,12 @@ public class Block223Application {
 	}
 
 	public static void setCurrentUserRole(UserRole aUserRole) {
-		//sets the currently logged in user role,
+		// sets the currently logged in user role,
 		currentUserRole = aUserRole;
 	}
 
 	public static UserRole getCurrentUserRole() {
-		//returns the currently logged in user role,
+		// returns the currently logged in user role,
 		return currentUserRole;
 	}
 
@@ -71,5 +71,13 @@ public class Block223Application {
 		// TODO implement this method
 		// a getCurrentGame() method that return the current game.
 		return currentGame;
+	}
+
+	public static PlayedGame getCurrentPlayableGame() {
+		return currentPlayableGame;
+	}
+
+	public static void setCurrentPlayableGame(PlayedGame aGame) {
+		currentPlayableGame = aGame;
 	}
 }
