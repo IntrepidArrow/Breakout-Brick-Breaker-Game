@@ -686,6 +686,70 @@ public class PlayedGame implements Serializable
     }
   }
 
+  // line 46 "../../../../../Block223PlayMode.ump"
+   private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
+    BouncePoint bp = null;
+	//BounceDirection br = null;
+	int xBlock = block.getX();
+	int yBlock = block.getY();
+	int sideBlock = Block.SIZE;
+	int ballRadius = Ball.BALL_DIAMETER / 2 ;
+	Rectangle2D blockShape = new Rectangle2D.Double(xBlock,yBlock,sideBlock,sideBlock);
+	Line2D ballTrajectory = new Line2D.Double(currentBallX,currentBallY,currentBallX + ballDirectionX, currentBallY + ballDirectionY);
+	if(blockShape.intersectsLine(ballTrajectory)) {
+		// segments representing the sides of the block
+		Line2D blockTopLine = new Line2D.Double(xBlock,yBlock - ballRadius, xBlock + sideBlock, yBlock - ballRadius);
+		Line2D blockBottomLine = new Line2D.Double(xBlock,yBlock + ballRadius + sideBlock, xBlock + sideBlock, yBlock + ballRadius + sideBlock);
+		Line2D blockRightLine = new Line2D.Double(xBlock + ballRadius + sideBlock ,yBlock, xBlock + ballRadius + sideBlock, yBlock + sideBlock);
+		Line2D blockLeftLine = new Line2D.Double(xBlock - ballRadius ,yBlock, xBlock - ballRadius, yBlock + sideBlock) ;
+		QuadCurve2D upLeftCorner = new QuadCurve2D.Double(xBlock - ballRadius, yBlock,xBlock - ballRadius, yBlock - ballRadius,  xBlock, yBlock - ballRadius);
+		QuadCurve2D upRightCorner = new QuadCurve2D.Double(xBlock + ballRadius + sideBlock, yBlock,xBlock + sideBlock + ballRadius, 
+        		yBlock - ballRadius,  xBlock + sideBlock, yBlock - ballRadius); 
+		QuadCurve2D lowRightCorner = new QuadCurve2D.Double(xBlock + sideBlock, yBlock + sideBlock + ballRadius,
+        		xBlock + sideBlock + ballRadius, yBlock + sideBlock + ballRadius,  xBlock + sideBlock + ballRadius, yBlock + sideBlock);
+		QuadCurve2D lowLeftCorner = new QuadCurve2D.Double(xBlock - ballRadius, yBlock + sideBlock,
+        		xBlock - ballRadius, yBlock + sideBlock + ballRadius,  xBlock, yBlock + sideBlock + ballRadius);
+		
+		// check if hit the top of block
+		
+		// check if hit the bottom of block
+		
+		// check if hit the right side of block
+		
+		// check if hit the left side of block
+		
+		}
+	
+	return bp;
+  }
+
+
+  /**
+   * helper
+   */
+  // line 84 "../../../../../Block223PlayMode.ump"
+   private int[] get_line_intersection(Line2D.Double pLine1, Line2D.Double pLine2){
+    int[] result = new int[2];
+
+      double s1_x = pLine1.x2 - pLine1.x1,
+          s1_y = pLine1.y2 - pLine1.y1,
+
+          s2_x = pLine2.x2 - pLine2.x1,
+          s2_y = pLine2.y2 - pLine2.y1,
+
+          s = (-s1_y * (pLine1.x1 - pLine2.x1) + s1_x * (pLine1.y1 - pLine2.y1)) / (-s2_x * s1_y + s1_x * s2_y),
+          t = ( s2_x * (pLine1.y1 - pLine2.y1) - s2_y * (pLine1.x1 - pLine2.x1)) / (-s2_x * s1_y + s1_x * s2_y);
+
+      if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
+      {
+          // Collision detected
+          result[0] =(int) (pLine1.x1 + (t * s1_x));
+          result[1] = (int) (pLine1.y1 + (t * s1_y));
+      }   // end if
+
+      return result;
+  }
+
 
   /**
    * Guards
@@ -711,22 +775,60 @@ public class PlayedGame implements Serializable
   // line 47 "../../../../../Block223States.ump"
    private boolean hitLastBlockAndLastLevel(){
     // TODO implement
-    return false;
+    boolean isLastBV = false;
+	   Game game = getGame();
+	   int nrLevels = game.numberOfLevels();
+	   this.setBounce(null);
+	   
+	   if( nrLevels == currentLevel ) {
+		   int nrBlocks = numberOfBlocks();
+		   
+		   if( nrBlocks == 1 ) {
+			   PlayedBlockAssignment block = getBlock(0);
+			   BouncePoint bp = calculateBouncePointBlock(block);
+			   setBounce(bp);
+			   isLastBV = true;
+			 }
+		  }
+	   
+    return isLastBV;
   }
 
-  // line 52 "../../../../../Block223States.ump"
+  // line 68 "../../../../../Block223States.ump"
    private boolean hitLastBlock(){
     // TODO implement
-    return false;
+    boolean isLastB = false;
+	   int nrBlocks = numberOfBlocks();
+	   setBounce(null);
+	   
+	   if( nrBlocks == 1 ) {
+		   PlayedBlockAssignment block = getBlock(0);
+		   BouncePoint bp = calculateBouncePointBlock(block);
+		   setBounce(bp);
+		   isLastB = true;
+	   }
+	   return isLastB;
   }
 
-  // line 57 "../../../../../Block223States.ump"
+  // line 83 "../../../../../Block223States.ump"
    private boolean hitBlock(){
     // TODO implement
-    return false;
+   int nrBlocks = numberOfBlocks();
+	   setBounce(null);
+	   
+	   for ( int i = 0 ; i < nrBlocks ; i++ ) {
+		   PlayedBlockAssignment block = getBlock(i);
+		   BouncePoint bp = calculateBouncePointBlock(block);
+		   BouncePoint bounce = getBounce();
+		   boolean closer = isCloser(bp,bounce);
+		   if(closer) {
+			   setBounce(bp);
+		   }
+	   }
+    return getBounce() != null;
   }
 
-  // line 62 "../../../../../Block223States.ump"
+  // line 100 "../../../../../Block223States.ump"
    private boolean hitWall(){
     // TODO implement
     return false;
@@ -736,37 +838,52 @@ public class PlayedGame implements Serializable
   /**
    * Actions
    */
-  // line 69 "../../../../../Block223States.ump"
+  // line 107 "../../../../../Block223States.ump"
    private void doSetup(){
     // TODO implement
   }
 
-  // line 73 "../../../../../Block223States.ump"
+  // line 111 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
     // TODO implement
   }
 
-  // line 77 "../../../../../Block223States.ump"
+  // line 115 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     // TODO implement
   }
 
-  // line 81 "../../../../../Block223States.ump"
+  // line 119 "../../../../../Block223States.ump"
    private void doHitBlock(){
     // TODO implement
+    int score = getScore();
+	   BouncePoint bounce = getBounce();
+	   PlayedBlockAssignment pblock = bounce.getHitBlock();
+	   int bscore = pblock.getBlock().getPoints();
+	   setScore(score + bscore);
+	   pblock.delete();
+	   bounceBall();
   }
 
-  // line 85 "../../../../../Block223States.ump"
+  // line 130 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     // TODO implement
+    doHitBlock();
+	   int level = getCurrentLevel();
+	   setCurrentLevel(level++);
+	   int paddleLength = getGame().getPaddle().getMaxPaddleLength() - 
+			   			( getGame().getPaddle().getMaxPaddleLength() - getGame().getPaddle().getMinPaddleLength() ) /
+			   			( getGame().numberOfLevels() - 1 ) * ( getCurrentLevel() - 1 ) ;
+	   setCurrentPaddleLength(paddleLength);
+	   setWaitTime( INITIAL_WAIT_TIME * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(), ( getCurrentLevel() - 1 )));
   }
 
-  // line 89 "../../../../../Block223States.ump"
+  // line 142 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     // TODO implement
   }
 
-  // line 93 "../../../../../Block223States.ump"
+  // line 146 "../../../../../Block223States.ump"
    private void doGameOver(){
     // TODO implement
   }

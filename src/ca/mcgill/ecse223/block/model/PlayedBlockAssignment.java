@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 
 // line 102 "../../../../../Block223Persistence.ump"
-// line 47 "../../../../../Block223PlayMode.ump"
+// line 106 "../../../../../Block223PlayMode.ump"
 public class PlayedBlockAssignment implements Serializable
 {
 
