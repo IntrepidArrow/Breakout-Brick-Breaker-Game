@@ -950,7 +950,7 @@ public class Block223Controller {
 		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
 			throw new InvalidInputException("Only the admin who created the game can test it.");
 		}
-		String username = User.findUsername(admin); //TODO: Implement findUsername String type method in User class as static method
+		String username = User.findUsername(admin); 
 		Block223 block223 = Block223Application.getBlock223();
 
 		PlayedGame pgame = new PlayedGame(username, game, block223);
@@ -958,5 +958,23 @@ public class Block223Controller {
 		Block223Application.setCurrentPlayableGame(pgame);
 
 		Block223Controller.startGame(ui);
+	}
+
+	public static void publishGame() throws InvalidInputException {
+		if (!(Block223Application.getCurrentUserRole() instanceof Admin)){
+			throw new InvalidInputException("Admin privileges are required to publish a game.");
+		}
+		if(Block223Application.getCurrentGame() == null){
+			throw new InvalidInputException("A game must be selected to publish it.");
+		}
+		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
+			throw new InvalidInputException("Only the admin who created the game can publish it.");
+		}
+		Game game = Block223Application.getCurrentGame();
+		if (game.getBlocks().size() < 1){
+			throw new InvalidInputException("At least one block must be defined for a game to be published.");
+		}
+
+		game.setPublished(true);
 	}
 }
