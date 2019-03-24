@@ -58,6 +58,15 @@ class PlayedGame {
    * -- 1 Game game;
    1 <@>- * PlayedBlockAssignment blocks;
    0..1 -> 0..1 BouncePoint bounce;
+   
+   //helper, returns the sign of the argument
+   private double signum(double a) {
+	   if(a>=0)
+		   return 1;
+	   else
+		   return -1;
+	   
+   }
 
    private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block) {
 	int xBlock = block.getX();
@@ -200,7 +209,7 @@ private void bounceBall() {
 	   }
 	   else if( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_Y ) {
 		   // ball direction updated
-		   newDirectionX = ballDirectionX + Math.signum(ballDirectionX)*(0.1)*Math.abs(ballDirectionY) ;
+		   newDirectionX = ballDirectionX + signum(ballDirectionX)*(0.1)*Math.abs(ballDirectionY) ;
 		   newDirectionY = (-1)*ballDirectionY ;
 		   // current ball position updated
 		   currentBallX = bounce.getX() + (remDistY/ballDirectionY) * newDirectionX ;
@@ -209,7 +218,7 @@ private void bounceBall() {
 	   else if ( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_X ) {
 		   // ball direction updated
 		   newDirectionX = (-1)*ballDirectionX ;
-		   newDirectionY = ballDirectionY + Math.signum(ballDirectionY)*(0.1)*Math.abs(ballDirectionX);
+		   newDirectionY = ballDirectionY + signum(ballDirectionY)*(0.1)*Math.abs(ballDirectionX);
 		   // current ball position updated
 		   currentBallX = bounce.getX() + (remDistY/ballDirectionX) * newDirectionX ;
 		   currentBallY = bounce.getY() + (remDistX/ballDirectionX) * newDirectionY ;

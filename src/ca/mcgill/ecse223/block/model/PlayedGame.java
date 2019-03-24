@@ -80,7 +80,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 392 "../../../../../Block223PlayMode.ump"
+    // line 401 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -720,7 +720,19 @@ public class PlayedGame implements Serializable
     }
   }
 
-  // line 63 "../../../../../Block223PlayMode.ump"
+
+  /**
+   * helper, returns the sign of the argument
+   */
+  // line 64 "../../../../../Block223PlayMode.ump"
+   private double signum(double a){
+    if(a>=0)
+		   return 1;
+	   else
+		   return -1;
+  }
+
+  // line 72 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
     int xBlock = block.getX();
 	int yBlock = block.getY();
@@ -842,7 +854,7 @@ public class PlayedGame implements Serializable
 				}
   }
 
-  // line 185 "../../../../../Block223PlayMode.ump"
+  // line 194 "../../../../../Block223PlayMode.ump"
    private void bounceBall(){
     BouncePoint bounce = getBounce();
 	   double newDirectionX = 0;
@@ -862,7 +874,7 @@ public class PlayedGame implements Serializable
 	   }
 	   else if( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_Y ) {
 		   // ball direction updated
-		   newDirectionX = ballDirectionX + Math.signum(ballDirectionX)*(0.1)*Math.abs(ballDirectionY) ;
+		   newDirectionX = ballDirectionX + signum(ballDirectionX)*(0.1)*Math.abs(ballDirectionY) ;
 		   newDirectionY = (-1)*ballDirectionY ;
 		   // current ball position updated
 		   currentBallX = bounce.getX() + (remDistY/ballDirectionY) * newDirectionX ;
@@ -871,7 +883,7 @@ public class PlayedGame implements Serializable
 	   else if ( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_X ) {
 		   // ball direction updated
 		   newDirectionX = (-1)*ballDirectionX ;
-		   newDirectionY = ballDirectionY + Math.signum(ballDirectionY)*(0.1)*Math.abs(ballDirectionX);
+		   newDirectionY = ballDirectionY + signum(ballDirectionY)*(0.1)*Math.abs(ballDirectionX);
 		   // current ball position updated
 		   currentBallX = bounce.getX() + (remDistY/ballDirectionX) * newDirectionX ;
 		   currentBallY = bounce.getY() + (remDistX/ballDirectionX) * newDirectionY ;
@@ -889,13 +901,13 @@ public class PlayedGame implements Serializable
 	   ballDirectionY = newDirectionY;
   }
 
-  // line 232 "../../../../../Block223PlayMode.ump"
+  // line 241 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointWall(){
     //TODO
 		return null;
   }
 
-  // line 237 "../../../../../Block223PlayMode.ump"
+  // line 246 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointPaddle(){
     ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
 		
@@ -975,7 +987,7 @@ public class PlayedGame implements Serializable
   /**
    * find euclidian distance squared
    */
-  // line 318 "../../../../../Block223PlayMode.ump"
+  // line 327 "../../../../../Block223PlayMode.ump"
    private double distance(double x1, double y1, double x2, double y2){
     return Math.pow(x2-x1, 2) +Math.pow(y2-y1, 2);
   }
@@ -990,7 +1002,7 @@ public class PlayedGame implements Serializable
    * l1 should be the ball path line
    * divisions is the number of segments the arc is divided into, recommend using less than 10 since the arc is very small anyways
    */
-  // line 329 "../../../../../Block223PlayMode.ump"
+  // line 338 "../../../../../Block223PlayMode.ump"
    private Point2D intersectArc(double aX, double aY, double aRadius, double aAngleStart, double aAngleEnd, Line2D l1, double divisions){
     double granularity = (aAngleEnd - aAngleStart) / divisions;
 		
@@ -1013,7 +1025,7 @@ public class PlayedGame implements Serializable
   /**
    * return intersection point of two lines if it exist
    */
-  // line 350 "../../../../../Block223PlayMode.ump"
+  // line 359 "../../../../../Block223PlayMode.ump"
    private Point2D intersectLine(Line2D l1, Line2D l2){
     double a1,a2,c1,c2,x,y;
 		a1=(l1.getY2() - l1.getY1()) / (l1.getX2() - l1.getX1());
@@ -1040,7 +1052,7 @@ public class PlayedGame implements Serializable
 		return intersection;
   }
 
-  // line 377 "../../../../../Block223PlayMode.ump"
+  // line 386 "../../../../../Block223PlayMode.ump"
    private boolean isCloser(BouncePoint first, BouncePoint second){
     boolean isCloser = false;
 	   if(second == null) {
