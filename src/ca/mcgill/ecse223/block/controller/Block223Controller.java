@@ -937,4 +937,26 @@ public class Block223Controller {
 	public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
 		return null;
 	}
+
+	public static void testGame(Block223PlayModeInterface ui) throws InvalidInputException {
+		Game game = Block223Application.getCurrentGame();
+		if(game == null){
+			throw new InvalidInputException("A game must be selected to test it.");
+		}
+		UserRole admin = Block223Application.getCurrentUserRole();
+		if (!(admin instanceof Admin)){
+			throw new InvalidInputException("Admin privileges are required to test a game.");
+		}
+		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
+			throw new InvalidInputException("Only the admin who created the game can test it.");
+		}
+		String username = User.findUsername(admin); //TODO: Implement findUsername String type method in User class as static method
+		Block223 block223 = Block223Application.getBlock223();
+
+		PlayedGame pgame = new PlayedGame(username, game, block223);
+		pgame.setPlayer(null);
+		Block223Application.setCurrentPlayableGame(pgame);
+
+		Block223Controller.startGame(ui);
+	}
 }
