@@ -523,7 +523,7 @@ public class Block223Controller {
 			}
 		}
 
-		throw new InvalidInputException("The username and password do not match..");
+		throw new InvalidInputException("The username and password do not match.");
 
 	}
 
@@ -928,8 +928,10 @@ public class Block223Controller {
 	}
 
 	public static TOHallOfFame getHallOfFame(int start, int end) throws InvalidInputException {
+		return null;
 	}
 
 	public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
+		return null;
 	}
 }

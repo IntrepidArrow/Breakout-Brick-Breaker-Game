@@ -3,6 +3,7 @@
 
 package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
+import java.awt.geom.*;
 import java.util.*;
 
 // line 101 "../../../../../Block223Persistence.ump"
@@ -79,7 +80,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 61 "../../../../../Block223PlayMode.ump"
+    // line 197 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -719,47 +720,198 @@ public class PlayedGame implements Serializable
     }
   }
 
+  // line 57 "../../../../../Block223PlayMode.ump"
+   private BouncePoint calculateBouncePointWall(){
+    //TODO
+		return null;
+  }
+
+  // line 62 "../../../../../Block223PlayMode.ump"
+   private BouncePoint calculateBouncePointPaddle(){
+    ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
+		
+		Rectangle2D paddle = new Rectangle2D.Double(getCurrentPaddleX(),getCurrentPaddleY(),getCurrentPaddleLength(),Paddle.PADDLE_WIDTH);
+		
+		Line2D path = new Line2D.Double(getCurrentBallX(), getCurrentBallY(), getBallDirectionX(), getBallDirectionY());
+		
+		if(paddle.intersectsLine(path)) {
+			return null;
+		}
+		
+		Line2D sectA = new Line2D.Double(
+				getCurrentPaddleX(),getCurrentPaddleY() - Ball.BALL_DIAMETER,
+				getCurrentPaddleX() + getCurrentPaddleLength(), getCurrentPaddleY() - Ball.BALL_DIAMETER);
+		
+		Line2D sectB = new Line2D.Double(
+				getCurrentPaddleX() - Ball.BALL_DIAMETER,getCurrentPaddleY(),
+				getCurrentPaddleX() - Ball.BALL_DIAMETER, getCurrentPaddleY() + Paddle.PADDLE_WIDTH);
+		
+		Line2D sectC = new Line2D.Double(
+				getCurrentPaddleX() + getCurrentPaddleLength() + Ball.BALL_DIAMETER,getCurrentPaddleY(),
+				getCurrentPaddleX() + getCurrentPaddleLength() + Ball.BALL_DIAMETER, getCurrentPaddleY() + Paddle.PADDLE_WIDTH);
+		
+		//intersect the ball path line with sectors A,B,C and add computed intersections to list of intersected lines
+		Point2D interA = intersectLine(sectA, path);
+		if(interA != null) {
+			allIntersections.add(new BouncePoint(interA.getX(),interA.getY(),BouncePoint.BounceDirection.FLIP_Y));
+		}
+		Point2D interB = intersectLine(sectB, path);
+		if(interB != null) {
+			allIntersections.add( new BouncePoint(interB.getX(),interB.getY(),BouncePoint.BounceDirection.FLIP_X));
+		}
+		Point2D interC = intersectLine(sectC, path);
+		if(interC != null) {
+			allIntersections.add( new BouncePoint(interC.getX(),interC.getY(),BouncePoint.BounceDirection.FLIP_X));
+		}
+		
+		//intersect the ball path line with sectors E,F and add computed intersections to list of intersected lines
+
+		Point2D interLeftE = intersectArc(getCurrentPaddleX(),getCurrentPaddleY(),Paddle.PADDLE_WIDTH,Math.PI*0.75,Math.PI,path,10);
+		if(interLeftE != null) {
+			allIntersections.add( new BouncePoint(interLeftE.getX(),interLeftE.getY(),BouncePoint.BounceDirection.FLIP_X));
+		}
+		Point2D interRightE = intersectArc(getCurrentPaddleX(),getCurrentPaddleY(),Paddle.PADDLE_WIDTH,Math.PI*0.5,Math.PI*0.75,path,10);
+		if(interRightE != null) {
+			allIntersections.add( new BouncePoint(interRightE.getX(),interRightE.getY(),BouncePoint.BounceDirection.FLIP_Y));
+		}
+		
+		Point2D interLeftF = intersectArc(getCurrentPaddleX()+getCurrentPaddleLength(),getCurrentPaddleY(),Paddle.PADDLE_WIDTH,0.0,Math.PI*0.25,path,10);
+		if(interLeftF != null) {
+			allIntersections.add( new BouncePoint(interLeftF.getX(),interLeftF.getY(),BouncePoint.BounceDirection.FLIP_Y));
+		}
+		Point2D interRightF = intersectArc(getCurrentPaddleX()+getCurrentPaddleLength(),getCurrentPaddleY(),Paddle.PADDLE_WIDTH,Math.PI*0.25,Math.PI*0.5,path,10);
+		if(interRightF != null) {
+			allIntersections.add( new BouncePoint(interRightF.getX(),interRightF.getY(),BouncePoint.BounceDirection.FLIP_X));
+		}
+		
+		//return the nearest intersection
+		if(allIntersections.isEmpty()) {
+			return null;
+		}else {
+			double dist;
+			int minIndex = 0;
+			double min= Double.MAX_VALUE;
+			for(int i=0;i<allIntersections.size(); i++) {
+				dist=distance(allIntersections.get(i).getX(),allIntersections.get(i).getY(),getCurrentBallX(),getCurrentBallY());
+				if(dist<min) {
+					min=dist;
+					minIndex=i;
+				}
+			}
+			return allIntersections.get(minIndex);
+		}
+  }
+
+
+  /**
+   * find euclidian distance squared
+   */
+  // line 143 "../../../../../Block223PlayMode.ump"
+   private double distance(double x1, double y1, double x2, double y2){
+    return Math.pow(x2-x1, 2) +Math.pow(y2-y1, 2);
+  }
+
+
+  /**
+   * intersect line with an arc by dividing the arc into smaller segments which are then checked for intersection using intersectLine
+   * higher divisions means greater intersection accuracy
+   */
+  // line 149 "../../../../../Block223PlayMode.ump"
+   private Point2D intersectArc(double aX, double aY, double aRadius, double aAngleStart, double aAngleEnd, Line2D l1, double divisions){
+    double granularity = (aAngleEnd - aAngleStart) / divisions;
+		
+		//arc is divided into divisions number of segments then segments are intersected counterclockwise until
+		//having covered the entire arc, special case with two intersections with one arc needs to handled?
+		for( double rad = aAngleStart; rad<=(aAngleEnd-granularity); rad+=granularity) {
+			Line2D arcSection = new Line2D.Double(
+					aRadius * Math.cos(rad) + aX, aRadius * Math.sin(rad) + aY,
+					aRadius * Math.cos(rad+granularity) + aX, aRadius * Math.sin(rad+granularity) + aY);
+			
+			return intersectLine(arcSection, l1);
+			
+		}
+		
+		
+		return null;
+  }
+
+
+  /**
+   * return intersection point of two lines if it exist
+   */
+  // line 170 "../../../../../Block223PlayMode.ump"
+   private Point2D intersectLine(Line2D l1, Line2D l2){
+    double a1,a2,c1,c2,x,y;
+		a1=(l1.getY2() - l1.getY1()) / (l1.getX2() - l1.getX1());
+		a2=(l2.getY2() - l2.getY1()) / (l2.getX2() - l2.getX1());
+		c1= l1.getY1() - a1 * l1.getX1();
+		c2= l2.getY1() - a2 * l2.getX1();
+		
+		if(a1==a2) {
+			return null;
+		}
+		x=(c2 - c1) / (a1 - a2);
+		if((Math.min(l1.getX1(),l1.getX2()) <= x && x <= Math.max(l1.getX1(),l1.getX2()))
+				&& (Math.min(l2.getX1(),l2.getX2()) <= x && x <= Math.max(l2.getX1(),l2.getX2()))) {
+			
+		}else {
+			return null;
+		}
+		
+		y=a1 * x + c1;
+		
+		
+		Point2D intersection = new Point2D.Double(x,y);
+		
+		return intersection;
+  }
+
 
   /**
    * Guards
    */
   // line 32 "../../../../../Block223States.ump"
    private boolean hitPaddle(){
-    // TODO implement
-    return false;
+    BouncePoint bp = calculateBouncePointPaddle();
+	if(bp == null){
+		return false;
+	}
+	setBounce(bp);	
+
+    return true;
   }
 
-  // line 37 "../../../../../Block223States.ump"
+  // line 42 "../../../../../Block223States.ump"
    private boolean isOutOfBoundsAndLastLife(){
     // TODO implement
     return false;
   }
 
-  // line 42 "../../../../../Block223States.ump"
+  // line 47 "../../../../../Block223States.ump"
    private boolean isOutOfBounds(){
     // TODO implement
     return false;
   }
 
-  // line 47 "../../../../../Block223States.ump"
+  // line 52 "../../../../../Block223States.ump"
    private boolean hitLastBlockAndLastLevel(){
     // TODO implement
     return false;
   }
 
-  // line 52 "../../../../../Block223States.ump"
+  // line 57 "../../../../../Block223States.ump"
    private boolean hitLastBlock(){
     // TODO implement
     return false;
   }
 
-  // line 57 "../../../../../Block223States.ump"
+  // line 62 "../../../../../Block223States.ump"
    private boolean hitBlock(){
     // TODO implement
     return false;
   }
 
-  // line 62 "../../../../../Block223States.ump"
+  // line 67 "../../../../../Block223States.ump"
    private boolean hitWall(){
     // TODO implement
     return false;
@@ -769,7 +921,7 @@ public class PlayedGame implements Serializable
   /**
    * Actions
    */
-  // line 69 "../../../../../Block223States.ump"
+  // line 74 "../../../../../Block223States.ump"
    private void doSetup(){
     this.resetCurrentBallX();
     this.resetCurrentBallY();
@@ -814,22 +966,22 @@ public class PlayedGame implements Serializable
     // TODO implement
   }
 
-  // line 112 "../../../../../Block223States.ump"
+  // line 82 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     // TODO implement
   }
 
-  // line 116 "../../../../../Block223States.ump"
+  // line 86 "../../../../../Block223States.ump"
    private void doHitBlock(){
     // TODO implement
   }
 
-  // line 120 "../../../../../Block223States.ump"
+  // line 90 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     // TODO implement
   }
 
-  // line 124 "../../../../../Block223States.ump"
+  // line 94 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     double x = getCurrentBallX();
     double y = getCurrentBallY();
@@ -839,7 +991,7 @@ public class PlayedGame implements Serializable
     setCurrentBallY(y+dy);
   }
 
-  // line 133 "../../../../../Block223States.ump"
+  // line 103 "../../../../../Block223States.ump"
    private void doGameOver(){
     // TODO implement
   }
