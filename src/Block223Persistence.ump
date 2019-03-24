@@ -48,10 +48,11 @@ class Game {
   isA Serializable;
   private static final long serialVersionUID = -210105651472293481L;
   public static void reinitializeUniqueName(List<Game> games) {
-    Map<String, Game> gamesByName = new HashMap<String, Game>();
+    Map<String, Game> tmpGamesByName = new HashMap<String, Game>();
     for (Game g : games) {
-      gamesByName.put(g.getName(), g);
+      tmpGamesByName.put(g.getName(), g);
     }
+    Game.gamesByName=tmpGamesByName;
   }
 }
 

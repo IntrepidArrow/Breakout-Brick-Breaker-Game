@@ -891,10 +891,11 @@ public class Game implements Serializable
 
   // line 51 "../../../../../Block223Persistence.ump"
    public static  void reinitializeUniqueName(List<Game> games){
-    Map<String, Game> gamesByName = new HashMap<String, Game>();
+    Map<String, Game> tmpGamesByName = new HashMap<String, Game>();
     for (Game g : games) {
-      gamesByName.put(g.getName(), g);
+      tmpGamesByName.put(g.getName(), g);
     }
+    Game.gamesByName=tmpGamesByName;
   }
 
   // line 19 "../../../../../Block223PlayMode.ump"

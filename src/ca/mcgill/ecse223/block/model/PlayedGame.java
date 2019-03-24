@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.awt.geom.*;
 import java.util.*;
 
-// line 101 "../../../../../Block223Persistence.ump"
+// line 102 "../../../../../Block223Persistence.ump"
 // line 25 "../../../../../Block223PlayMode.ump"
 // line 1 "../../../../../Block223States.ump"
 public class PlayedGame implements Serializable
@@ -1027,7 +1027,7 @@ public class PlayedGame implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 104 "../../../../../Block223Persistence.ump"
+  // line 105 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 8597675110221231714L ;
 
   
