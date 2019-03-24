@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 16 "../../../../../Block223Persistence.ump"
+// line 89 "../../../../../Block223PlayMode.ump"
 // line 22 "../../../../../Block223.ump"
 public class User implements Serializable
 {
@@ -263,6 +264,15 @@ public class User implements Serializable
       tmpUsersByUsername.put(u.getUsername(), u);
     }
     User.usersByUsername=tmpUsersByUsername;
+  }
+
+  // line 91 "../../../../../Block223PlayMode.ump"
+   public static  String findUsername(UserRole userRole){
+    for (String key : usersByUsername.keySet()) {
+         if (usersByUsername.get(key).getRoles().contains(userRole))
+            return key;
+      }
+      return null;
   }
 
 

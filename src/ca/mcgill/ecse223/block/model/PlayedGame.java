@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 101 "../../../../../Block223Persistence.ump"
-// line 11 "../../../../../Block223PlayMode.ump"
+// line 19 "../../../../../Block223PlayMode.ump"
 // line 1 "../../../../../Block223States.ump"
 public class PlayedGame implements Serializable
 {
@@ -79,7 +79,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 47 "../../../../../Block223PlayMode.ump"
+    // line 55 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
