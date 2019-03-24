@@ -786,8 +786,8 @@ public class PlayedGame implements Serializable
     }
     while (numberOfBlocks() < game.getNrBlocksPerLevel()) {
 	  Random rand = new Random();
-	  int x = rand.nextInt(game.getMaxNumberVerticalBlocks()) + 1;
-	  int y = rand.nextInt(game.getMaxNumberHorizontalBlocks()) + 1;
+	  int x = rand.nextInt(game.getMaxNumberHorizontalBlocks()) + 1;
+	  int y = rand.nextInt(game.getMaxNumberVerticalBlocks()) + 1;
 	  while (true) {
 		final int finalX = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (x - 1);
 		final int finalY = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (y - 1);
@@ -795,9 +795,9 @@ public class PlayedGame implements Serializable
 		  PlayedBlockAssignment p = new PlayedBlockAssignment(finalX, finalY, game.getRandomBlock(), this);
 		  break;
 		}
-		if (x < game.getMaxNumberVerticalBlocks())
+		if (x < game.getMaxNumberHorizontalBlocks())
 		  x++;
-		else if (y < game.getMaxNumberHorizontalBlocks()) {
+		else if (y < game.getMaxNumberVerticalBlocks()) {
 		  y++;
 		  x = 1;
 		}
