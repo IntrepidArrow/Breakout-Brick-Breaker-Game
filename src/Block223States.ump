@@ -29,8 +29,13 @@ class PlayedGame {
   // Guards
   
   private boolean hitPaddle() {
-    // TODO implement
-    return false;
+	BouncePoint bp = calculateBouncePointPaddle();
+	if(bp == null){
+		return false;
+	}
+	setBounce(bp);	
+
+    return true;
   }
 
   private boolean isOutOfBoundsAndLastLife() {
