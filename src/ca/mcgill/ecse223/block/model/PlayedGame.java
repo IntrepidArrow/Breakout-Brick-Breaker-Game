@@ -80,7 +80,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 208 "../../../../../Block223PlayMode.ump"
+    // line 246 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -720,14 +720,50 @@ public class PlayedGame implements Serializable
     }
   }
 
-
   // line 63 "../../../../../Block223PlayMode.ump"
+   private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
+    BouncePoint bp = null;
+	//BounceDirection br = null;
+	int xBlock = block.getX();
+	int yBlock = block.getY();
+	int sideBlock = Block.SIZE;
+	int ballRadius = Ball.BALL_DIAMETER / 2 ;
+	Rectangle2D blockShape = new Rectangle2D.Double(xBlock,yBlock,sideBlock,sideBlock);
+	Line2D ballTrajectory = new Line2D.Double(currentBallX,currentBallY,currentBallX + ballDirectionX, currentBallY + ballDirectionY);
+	if(blockShape.intersectsLine(ballTrajectory)) {
+		// segments representing the sides of the block
+		Line2D blockTopLine = new Line2D.Double(xBlock,yBlock - ballRadius, xBlock + sideBlock, yBlock - ballRadius);
+		Line2D blockBottomLine = new Line2D.Double(xBlock,yBlock + ballRadius + sideBlock, xBlock + sideBlock, yBlock + ballRadius + sideBlock);
+		Line2D blockRightLine = new Line2D.Double(xBlock + ballRadius + sideBlock ,yBlock, xBlock + ballRadius + sideBlock, yBlock + sideBlock);
+		Line2D blockLeftLine = new Line2D.Double(xBlock - ballRadius ,yBlock, xBlock - ballRadius, yBlock + sideBlock) ;
+		QuadCurve2D upLeftCorner = new QuadCurve2D.Double(xBlock - ballRadius, yBlock,xBlock - ballRadius, yBlock - ballRadius,  xBlock, yBlock - ballRadius);
+		QuadCurve2D upRightCorner = new QuadCurve2D.Double(xBlock + ballRadius + sideBlock, yBlock,xBlock + sideBlock + ballRadius, 
+        		yBlock - ballRadius,  xBlock + sideBlock, yBlock - ballRadius); 
+		QuadCurve2D lowRightCorner = new QuadCurve2D.Double(xBlock + sideBlock, yBlock + sideBlock + ballRadius,
+        		xBlock + sideBlock + ballRadius, yBlock + sideBlock + ballRadius,  xBlock + sideBlock + ballRadius, yBlock + sideBlock);
+		QuadCurve2D lowLeftCorner = new QuadCurve2D.Double(xBlock - ballRadius, yBlock + sideBlock,
+        		xBlock - ballRadius, yBlock + sideBlock + ballRadius,  xBlock, yBlock + sideBlock + ballRadius);
+		
+		// check if hit the top of block
+		
+		// check if hit the bottom of block
+		
+		// check if hit the right side of block
+		
+		// check if hit the left side of block
+		
+		}
+	
+	return bp;
+  }
+
+  // line 101 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointWall(){
     //TODO
 		return null;
   }
 
-  // line 68 "../../../../../Block223PlayMode.ump"
+  // line 106 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointPaddle(){
     ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
 		
@@ -807,7 +843,7 @@ public class PlayedGame implements Serializable
   /**
    * find euclidian distance squared
    */
-  // line 149 "../../../../../Block223PlayMode.ump"
+  // line 187 "../../../../../Block223PlayMode.ump"
    private double distance(double x1, double y1, double x2, double y2){
     return Math.pow(x2-x1, 2) +Math.pow(y2-y1, 2);
   }
@@ -822,7 +858,7 @@ public class PlayedGame implements Serializable
    * l1 should be the ball path line
    * divisions is the number of segments the arc is divided into, recommend using less than 10 since the arc is very small anyways
    */
-  // line 160 "../../../../../Block223PlayMode.ump"
+  // line 198 "../../../../../Block223PlayMode.ump"
    private Point2D intersectArc(double aX, double aY, double aRadius, double aAngleStart, double aAngleEnd, Line2D l1, double divisions){
     double granularity = (aAngleEnd - aAngleStart) / divisions;
 		
@@ -845,7 +881,7 @@ public class PlayedGame implements Serializable
   /**
    * return intersection point of two lines if it exist
    */
-  // line 181 "../../../../../Block223PlayMode.ump"
+  // line 219 "../../../../../Block223PlayMode.ump"
    private Point2D intersectLine(Line2D l1, Line2D l2){
     double a1,a2,c1,c2,x,y;
 		a1=(l1.getY2() - l1.getY1()) / (l1.getX2() - l1.getX1());
@@ -902,7 +938,6 @@ public class PlayedGame implements Serializable
   // line 52 "../../../../../Block223States.ump"
    private boolean hitLastBlockAndLastLevel(){
     // TODO implement
-
     boolean isLastBV = false;
 	   Game game = getGame();
 	   int nrLevels = game.numberOfLevels();
@@ -922,7 +957,7 @@ public class PlayedGame implements Serializable
     return isLastBV;
   }
 
-  // line 68 "../../../../../Block223States.ump"
+  // line 73 "../../../../../Block223States.ump"
    private boolean hitLastBlock(){
     // TODO implement
     boolean isLastB = false;
@@ -938,7 +973,7 @@ public class PlayedGame implements Serializable
 	   return isLastB;
   }
 
-  // line 83 "../../../../../Block223States.ump"
+  // line 88 "../../../../../Block223States.ump"
    private boolean hitBlock(){
     // TODO implement
    int nrBlocks = numberOfBlocks();
@@ -956,8 +991,7 @@ public class PlayedGame implements Serializable
     return getBounce() != null;
   }
 
-  // line 100 "../../../../../Block223States.ump"
-    
+  // line 105 "../../../../../Block223States.ump"
    private boolean hitWall(){
     // TODO implement
     return false;
@@ -967,8 +1001,7 @@ public class PlayedGame implements Serializable
   /**
    * Actions
    */
-
-  // line 74 "../../../../../Block223States.ump"
+  // line 112 "../../../../../Block223States.ump"
    private void doSetup(){
     this.resetCurrentBallX();
     this.resetCurrentBallY();
@@ -1008,21 +1041,17 @@ public class PlayedGame implements Serializable
 	}
   }
 
-  // line 113 "../../../../../Block223States.ump"
+  // line 151 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
     // TODO implement
   }
 
-
-  // line 117 "../../../../../Block223States.ump"
-
+  // line 155 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     // TODO implement
   }
 
-
-
-  // line 121 "../../../../../Block223States.ump"
+  // line 159 "../../../../../Block223States.ump"
    private void doHitBlock(){
     // TODO implement
     int score = getScore();
@@ -1034,9 +1063,7 @@ public class PlayedGame implements Serializable
 	   bounceBall();
   }
 
-
-
-  // line 125 "../../../../../Block223States.ump"
+  // line 170 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     // TODO implement
     doHitBlock();
@@ -1049,8 +1076,7 @@ public class PlayedGame implements Serializable
 	   setWaitTime( INITIAL_WAIT_TIME * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(), ( getCurrentLevel() - 1 )));
   }
 
-
-  // line 129 "../../../../../Block223States.ump"
+  // line 182 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     double x = getCurrentBallX();
     double y = getCurrentBallY();
@@ -1060,9 +1086,7 @@ public class PlayedGame implements Serializable
     setCurrentBallY(y+dy);
   }
 
-
-  // line 138 "../../../../../Block223States.ump"
-
+  // line 191 "../../../../../Block223States.ump"
    private void doGameOver(){
     // TODO implement
   }
