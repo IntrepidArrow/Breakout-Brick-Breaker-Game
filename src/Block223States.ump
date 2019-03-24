@@ -81,8 +81,8 @@ class PlayedGame {
     }
     while (numberOfBlocks() < game.getNrBlocksPerLevel()) {
 	  Random rand = new Random();
-	  int x = rand.nextInt(game.getMaxNumberVerticalBlocks() + 1) + 1;
-	  int y = rand.nextInt(game.getMaxNumberHorizontalBlocks() + 1) + 1;
+	  int x = rand.nextInt(game.getMaxNumberVerticalBlocks()) + 1;
+	  int y = rand.nextInt(game.getMaxNumberHorizontalBlocks()) + 1;
 	  while (true) {
 		final int finalX = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (x - 1);
 		final int finalY = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (y - 1);
@@ -90,9 +90,9 @@ class PlayedGame {
 		  PlayedBlockAssignment p = new PlayedBlockAssignment(finalX, finalY, game.getRandomBlock(), this);
 		  break;
 		}
-		if (x < game.getMaxNumberVerticalBlocks() + 1)
+		if (x < game.getMaxNumberVerticalBlocks())
 		  x++;
-		else if (y < game.getMaxNumberHorizontalBlocks() + 1) {
+		else if (y < game.getMaxNumberHorizontalBlocks()) {
 		  y++;
 		  x = 1;
 		}
