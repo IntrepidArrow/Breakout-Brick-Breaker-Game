@@ -102,8 +102,13 @@ class PlayedGame {
   }
   
   private boolean hitWall() {
-    // TODO implement
-    return false;
+   	BouncePoint bp = calculateBouncePointWall();
+	if(bp == null){
+		return false;
+	}
+	setBounce(bp);	
+
+    return true;
   }
   
   // Actions
