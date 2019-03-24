@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 101 "../../../../../Block223Persistence.ump"
-// line 19 "../../../../../Block223PlayMode.ump"
+// line 25 "../../../../../Block223PlayMode.ump"
 // line 1 "../../../../../Block223States.ump"
 public class PlayedGame implements Serializable
 {
@@ -79,7 +79,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 55 "../../../../../Block223PlayMode.ump"
+    // line 61 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -771,30 +771,65 @@ public class PlayedGame implements Serializable
    */
   // line 69 "../../../../../Block223States.ump"
    private void doSetup(){
-    // TODO implement
+    this.resetCurrentBallX();
+    this.resetCurrentBallY();
+    this.resetBallDirectionX();
+    this.resetBallDirectionY();
+    this.resetCurrentPaddleX();
+    Level level = game.getLevel(currentLevel - 1);
+    List<BlockAssignment> blockAssignments = level.getBlockAssignments();
+    for (BlockAssignment a : blockAssignments) {
+	  PlayedBlockAssignment p = new PlayedBlockAssignment(
+		Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (a.getGridHorizontalPosition() - 1),
+		Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING) * (a.getGridVerticalPosition() - 1),
+		a.getBlock(), this);
+    }
+    while (numberOfBlocks() < game.getNrBlocksPerLevel()) {
+	  Random rand = new Random();
+	  int x = rand.nextInt(Game.PLAY_AREA_SIDE + 1) + 1;
+	  int y = rand.nextInt(Game.PLAY_AREA_SIDE + 1) + 1;
+	  while (true) {
+		final int finalX = x;
+		final int finalY = y;
+		if (blocks.stream().noneMatch(b -> (b.getX() == finalX && b.getY() == finalY))) {
+		  PlayedBlockAssignment p = new PlayedBlockAssignment(x, y, game.getRandomBlock(), this);
+		  break;
+		}
+		if (x < Game.PLAY_AREA_SIDE + 1)
+		  x++;
+		else if (y < Game.PLAY_AREA_SIDE + 1) {
+		  y++;
+		  x = 1;
+		}
+		else {
+		  x = 1;
+		  y = 1;
+		}
+	  }
+	}
   }
 
-  // line 73 "../../../../../Block223States.ump"
+  // line 108 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
     // TODO implement
   }
 
-  // line 77 "../../../../../Block223States.ump"
+  // line 112 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     // TODO implement
   }
 
-  // line 81 "../../../../../Block223States.ump"
+  // line 116 "../../../../../Block223States.ump"
    private void doHitBlock(){
     // TODO implement
   }
 
-  // line 85 "../../../../../Block223States.ump"
+  // line 120 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     // TODO implement
   }
 
-  // line 89 "../../../../../Block223States.ump"
+  // line 124 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     double x = getCurrentBallX();
     double y = getCurrentBallY();
@@ -804,7 +839,7 @@ public class PlayedGame implements Serializable
     setCurrentBallY(y+dy);
   }
 
-  // line 98 "../../../../../Block223States.ump"
+  // line 133 "../../../../../Block223States.ump"
    private void doGameOver(){
     // TODO implement
   }
