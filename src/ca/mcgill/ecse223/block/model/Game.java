@@ -897,6 +897,13 @@ public class Game implements Serializable
     }
   }
 
+  // line 19 "../../../../../Block223PlayMode.ump"
+   public Block getRandomBlock(){
+    Random rand = new Random();
+      int index = rand.nextInt(blocks.size());
+      return blocks.get(index);
+  }
+
   // line 72 "../../../../../Block223.ump"
    public Block findBlock(int id){
     Block foundBlock = null;
