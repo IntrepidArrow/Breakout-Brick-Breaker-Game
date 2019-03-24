@@ -1,6 +1,14 @@
 class Block223 {
    1 <@>- * PlayedGame playedGames;
    1 <@>- * HallOfFameEntry entries;
+   
+   public PlayedGame findPlayableGame(int id) {
+      for (PlayedGame game : playedGames) {
+         if (game.getId() == id)
+            return game;
+      }
+      return null;
+   }
 }
 
 class Game {
@@ -76,4 +84,14 @@ class BouncePoint {
    enum BounceDirection { FLIP_X, FLIP_Y, FLIP_BOTH }
    BounceDirection direction;
    0..1 -> 0..1 PlayedBlockAssignment hitBlock;
+}
+
+class User {
+   public static String findUsername(UserRole userRole) {
+      for (String key : usersByUsername.keySet()) {
+         if (usersByUsername.get(key).getRoles().contains(userRole))
+            return key;
+      }
+      return null;
+   }
 }

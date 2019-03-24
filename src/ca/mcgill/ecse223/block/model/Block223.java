@@ -595,6 +595,15 @@ public class Block223 implements Serializable
 	Block.reinitializeAutoUniqueId(this.getGames());
   }
 
+  // line 6 "../../../../../Block223PlayMode.ump"
+   public PlayedGame findPlayableGame(int id){
+    for (PlayedGame game : playedGames) {
+         if (game.getId() == id)
+            return game;
+      }
+      return null;
+  }
+
   // line 13 "../../../../../Block223.ump"
    public Game findGame(String name){
     List<Game> games = this.getGames();
