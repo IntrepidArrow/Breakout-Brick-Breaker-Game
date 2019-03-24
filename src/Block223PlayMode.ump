@@ -58,6 +58,44 @@ class PlayedGame {
    * -- 1 Game game;
    1 <@>- * PlayedBlockAssignment blocks;
    0..1 -> 0..1 BouncePoint bounce;
+
+   private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block) {
+	BouncePoint bp = null;
+	//BounceDirection br = null;
+	int xBlock = block.getX();
+	int yBlock = block.getY();
+	int sideBlock = Block.SIZE;
+	int ballRadius = Ball.BALL_DIAMETER / 2 ;
+	Rectangle2D blockShape = new Rectangle2D.Double(xBlock,yBlock,sideBlock,sideBlock);
+	Line2D ballTrajectory = new Line2D.Double(currentBallX,currentBallY,currentBallX + ballDirectionX, currentBallY + ballDirectionY);
+	if(blockShape.intersectsLine(ballTrajectory)) {
+		// segments representing the sides of the block
+		Line2D blockTopLine = new Line2D.Double(xBlock,yBlock - ballRadius, xBlock + sideBlock, yBlock - ballRadius);
+		Line2D blockBottomLine = new Line2D.Double(xBlock,yBlock + ballRadius + sideBlock, xBlock + sideBlock, yBlock + ballRadius + sideBlock);
+		Line2D blockRightLine = new Line2D.Double(xBlock + ballRadius + sideBlock ,yBlock, xBlock + ballRadius + sideBlock, yBlock + sideBlock);
+		Line2D blockLeftLine = new Line2D.Double(xBlock - ballRadius ,yBlock, xBlock - ballRadius, yBlock + sideBlock) ;
+		QuadCurve2D upLeftCorner = new QuadCurve2D.Double(xBlock - ballRadius, yBlock,xBlock - ballRadius, yBlock - ballRadius,  xBlock, yBlock - ballRadius);
+		QuadCurve2D upRightCorner = new QuadCurve2D.Double(xBlock + ballRadius + sideBlock, yBlock,xBlock + sideBlock + ballRadius, 
+        		yBlock - ballRadius,  xBlock + sideBlock, yBlock - ballRadius); 
+		QuadCurve2D lowRightCorner = new QuadCurve2D.Double(xBlock + sideBlock, yBlock + sideBlock + ballRadius,
+        		xBlock + sideBlock + ballRadius, yBlock + sideBlock + ballRadius,  xBlock + sideBlock + ballRadius, yBlock + sideBlock);
+		QuadCurve2D lowLeftCorner = new QuadCurve2D.Double(xBlock - ballRadius, yBlock + sideBlock,
+        		xBlock - ballRadius, yBlock + sideBlock + ballRadius,  xBlock, yBlock + sideBlock + ballRadius);
+		
+		// check if hit the top of block
+		
+		// check if hit the bottom of block
+		
+		// check if hit the right side of block
+		
+		// check if hit the left side of block
+		
+		}
+	
+	return bp;
+	
+}
+
    
 	private BouncePoint calculateBouncePointWall(){
 		//TODO
@@ -211,6 +249,7 @@ class PlayedGame {
          throw new RuntimeException("Unable to create playedGame due to game");
       }
    }
+
 }
 
 class PlayedBlockAssignment {

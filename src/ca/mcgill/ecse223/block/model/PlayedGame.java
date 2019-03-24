@@ -720,6 +720,7 @@ public class PlayedGame implements Serializable
     }
   }
 
+
   // line 63 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointWall(){
     //TODO
@@ -901,22 +902,62 @@ public class PlayedGame implements Serializable
   // line 52 "../../../../../Block223States.ump"
    private boolean hitLastBlockAndLastLevel(){
     // TODO implement
-    return false;
+
+    boolean isLastBV = false;
+	   Game game = getGame();
+	   int nrLevels = game.numberOfLevels();
+	   this.setBounce(null);
+	   
+	   if( nrLevels == currentLevel ) {
+		   int nrBlocks = numberOfBlocks();
+		   
+		   if( nrBlocks == 1 ) {
+			   PlayedBlockAssignment block = getBlock(0);
+			   BouncePoint bp = calculateBouncePointBlock(block);
+			   setBounce(bp);
+			   isLastBV = true;
+			 }
+		  }
+	   
+    return isLastBV;
   }
 
-  // line 57 "../../../../../Block223States.ump"
+  // line 68 "../../../../../Block223States.ump"
    private boolean hitLastBlock(){
     // TODO implement
-    return false;
+    boolean isLastB = false;
+	   int nrBlocks = numberOfBlocks();
+	   setBounce(null);
+	   
+	   if( nrBlocks == 1 ) {
+		   PlayedBlockAssignment block = getBlock(0);
+		   BouncePoint bp = calculateBouncePointBlock(block);
+		   setBounce(bp);
+		   isLastB = true;
+	   }
+	   return isLastB;
   }
 
-  // line 62 "../../../../../Block223States.ump"
+  // line 83 "../../../../../Block223States.ump"
    private boolean hitBlock(){
     // TODO implement
-    return false;
+   int nrBlocks = numberOfBlocks();
+	   setBounce(null);
+	   
+	   for ( int i = 0 ; i < nrBlocks ; i++ ) {
+		   PlayedBlockAssignment block = getBlock(i);
+		   BouncePoint bp = calculateBouncePointBlock(block);
+		   BouncePoint bounce = getBounce();
+		   boolean closer = isCloser(bp,bounce);
+		   if(closer) {
+			   setBounce(bp);
+		   }
+	   }
+    return getBounce() != null;
   }
 
-  // line 67 "../../../../../Block223States.ump"
+  // line 100 "../../../../../Block223States.ump"
+    
    private boolean hitWall(){
     // TODO implement
     return false;
@@ -926,6 +967,7 @@ public class PlayedGame implements Serializable
   /**
    * Actions
    */
+
   // line 74 "../../../../../Block223States.ump"
    private void doSetup(){
     this.resetCurrentBallX();
@@ -971,20 +1013,42 @@ public class PlayedGame implements Serializable
     // TODO implement
   }
 
+
   // line 117 "../../../../../Block223States.ump"
+
    private void doOutOfBounds(){
     // TODO implement
   }
 
+
+
   // line 121 "../../../../../Block223States.ump"
    private void doHitBlock(){
     // TODO implement
+    int score = getScore();
+	   BouncePoint bounce = getBounce();
+	   PlayedBlockAssignment pblock = bounce.getHitBlock();
+	   int bscore = pblock.getBlock().getPoints();
+	   setScore(score + bscore);
+	   pblock.delete();
+	   bounceBall();
   }
+
+
 
   // line 125 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     // TODO implement
+    doHitBlock();
+	   int level = getCurrentLevel();
+	   setCurrentLevel(level++);
+	   int paddleLength = getGame().getPaddle().getMaxPaddleLength() - 
+			   			( getGame().getPaddle().getMaxPaddleLength() - getGame().getPaddle().getMinPaddleLength() ) /
+			   			( getGame().numberOfLevels() - 1 ) * ( getCurrentLevel() - 1 ) ;
+	   setCurrentPaddleLength(paddleLength);
+	   setWaitTime( INITIAL_WAIT_TIME * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(), ( getCurrentLevel() - 1 )));
   }
+
 
   // line 129 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
@@ -996,7 +1060,9 @@ public class PlayedGame implements Serializable
     setCurrentBallY(y+dy);
   }
 
+
   // line 138 "../../../../../Block223States.ump"
+
    private void doGameOver(){
     // TODO implement
   }
