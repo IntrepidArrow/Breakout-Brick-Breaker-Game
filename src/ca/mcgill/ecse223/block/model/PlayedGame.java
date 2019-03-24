@@ -80,7 +80,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 246 "../../../../../Block223PlayMode.ump"
+    // line 392 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -722,48 +722,180 @@ public class PlayedGame implements Serializable
 
   // line 63 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
-    BouncePoint bp = null;
-	//BounceDirection br = null;
-	int xBlock = block.getX();
+    int xBlock = block.getX();
 	int yBlock = block.getY();
 	int sideBlock = Block.SIZE;
 	int ballRadius = Ball.BALL_DIAMETER / 2 ;
+	
+	 ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
+	
 	Rectangle2D blockShape = new Rectangle2D.Double(xBlock,yBlock,sideBlock,sideBlock);
-	Line2D ballTrajectory = new Line2D.Double(currentBallX,currentBallY,currentBallX + ballDirectionX, currentBallY + ballDirectionY);
-	if(blockShape.intersectsLine(ballTrajectory)) {
+	
+	Line2D path = new Line2D.Double(currentBallX,currentBallY,currentBallX + ballDirectionX, currentBallY + ballDirectionY);
+	
+	if(!blockShape.intersectsLine(path)) {
+		return null;
+	}
 		// segments representing the sides of the block
-		Line2D blockTopLine = new Line2D.Double(xBlock,yBlock - ballRadius, xBlock + sideBlock, yBlock - ballRadius);
-		Line2D blockBottomLine = new Line2D.Double(xBlock,yBlock + ballRadius + sideBlock, xBlock + sideBlock, yBlock + ballRadius + sideBlock);
-		Line2D blockRightLine = new Line2D.Double(xBlock + ballRadius + sideBlock ,yBlock, xBlock + ballRadius + sideBlock, yBlock + sideBlock);
-		Line2D blockLeftLine = new Line2D.Double(xBlock - ballRadius ,yBlock, xBlock - ballRadius, yBlock + sideBlock) ;
-		QuadCurve2D upLeftCorner = new QuadCurve2D.Double(xBlock - ballRadius, yBlock,xBlock - ballRadius, yBlock - ballRadius,  xBlock, yBlock - ballRadius);
-		QuadCurve2D upRightCorner = new QuadCurve2D.Double(xBlock + ballRadius + sideBlock, yBlock,xBlock + sideBlock + ballRadius, 
-        		yBlock - ballRadius,  xBlock + sideBlock, yBlock - ballRadius); 
-		QuadCurve2D lowRightCorner = new QuadCurve2D.Double(xBlock + sideBlock, yBlock + sideBlock + ballRadius,
-        		xBlock + sideBlock + ballRadius, yBlock + sideBlock + ballRadius,  xBlock + sideBlock + ballRadius, yBlock + sideBlock);
-		QuadCurve2D lowLeftCorner = new QuadCurve2D.Double(xBlock - ballRadius, yBlock + sideBlock,
-        		xBlock - ballRadius, yBlock + sideBlock + ballRadius,  xBlock, yBlock + sideBlock + ballRadius);
+		Line2D blockTopLine = new Line2D.Double(xBlock,yBlock - ballRadius,
+				xBlock + sideBlock, yBlock - ballRadius);
+		
+		Line2D blockBottomLine = new Line2D.Double(xBlock,yBlock + ballRadius + sideBlock,
+				xBlock + sideBlock, yBlock + ballRadius + sideBlock);
+		
+		Line2D blockRightLine = new Line2D.Double(xBlock + ballRadius + sideBlock ,yBlock,
+				xBlock + ballRadius + sideBlock, yBlock + sideBlock);
+		
+		Line2D blockLeftLine = new Line2D.Double(xBlock - ballRadius ,yBlock,
+				xBlock - ballRadius, yBlock + sideBlock) ;
+		
 		
 		// check if hit the top of block
-		
-		// check if hit the bottom of block
-		
-		// check if hit the right side of block
-		
-		// check if hit the left side of block
-		
+		Point2D interA = intersectLine(blockTopLine, path);
+		if(interA != null) {
+			allIntersections.add(new BouncePoint(interA.getX(),interA.getY(),BouncePoint.BounceDirection.FLIP_Y));
 		}
-	
-	return bp;
+
+		// check if hit the bottom of block
+		Point2D interD = intersectLine(blockBottomLine, path);	
+		if(interA != null) {
+			allIntersections.add(new BouncePoint(interD.getX(),interD.getY(),BouncePoint.BounceDirection.FLIP_Y));
+		}
+
+
+		// check if hit the right side of block
+		Point2D interC = intersectLine(blockRightLine, path);
+		if(interC != null) {
+			allIntersections.add( new BouncePoint(interC.getX(),interC.getY(),BouncePoint.BounceDirection.FLIP_X));
+		}
+
+		// check if hit the left side of block
+		Point2D interB = intersectLine(blockLeftLine, path);
+		if(interB != null) {
+			allIntersections.add( new BouncePoint(interB.getX(),interB.getY(),BouncePoint.BounceDirection.FLIP_X));
+		}
+		
+		// Check if hit the left upper corner from the left
+		Point2D interLeftE = intersectArc(xBlock,yBlock,ballRadius,Math.PI*0.75,Math.PI,path,10);
+		if(interLeftE != null) {
+			allIntersections.add( new BouncePoint(interLeftE.getX(),interLeftE.getY(),BouncePoint.BounceDirection.FLIP_X));
+		}
+		
+		// Check if hit the left upper corner from the right
+		Point2D interRightE = intersectArc(xBlock,yBlock,ballRadius,Math.PI*0.5,Math.PI*0.75,path,10);
+		if(interRightE != null) {
+			allIntersections.add( new BouncePoint(interRightE.getX(),interRightE.getY(),BouncePoint.BounceDirection.FLIP_Y));
+		}
+		
+		// Check if hit the right upper corner from the left
+		Point2D interLeftF = intersectArc(xBlock + sideBlock ,yBlock,ballRadius,Math.PI*0.25,Math.PI*0.5,path,10);
+		if(interLeftF != null) {
+			allIntersections.add( new BouncePoint(interLeftF.getX(),interLeftF.getY(),BouncePoint.BounceDirection.FLIP_Y));
+		}
+		
+		// Check if hit the right upper corner from the right
+		Point2D interRightF = intersectArc(xBlock + sideBlock ,yBlock,ballRadius,0,Math.PI*0.25,path,10);
+		if(interRightF != null) {
+			allIntersections.add( new BouncePoint(interRightF.getX(),interRightF.getY(),BouncePoint.BounceDirection.FLIP_X));
+		}
+		
+		// Check if hit the left lower corner from the left
+		Point2D interLeftG = intersectArc(xBlock,yBlock + sideBlock,ballRadius,Math.PI,Math.PI*1.25,path,10);
+		if(interLeftG != null) {
+			allIntersections.add( new BouncePoint(interLeftG.getX(),interLeftG.getY(),BouncePoint.BounceDirection.FLIP_X));
+		}
+
+		// Check if hit the left lower corner from the right
+		Point2D interRightG = intersectArc(xBlock,yBlock + sideBlock,ballRadius,Math.PI*1.25,Math.PI*1.5,path,10);
+		if(interRightG != null) {
+			allIntersections.add( new BouncePoint(interRightG.getX(),interRightG.getY(),BouncePoint.BounceDirection.FLIP_Y));
+		}
+
+		// Check if hit the right lower corner from the left
+		Point2D interLeftH = intersectArc(xBlock + sideBlock ,yBlock + sideBlock,ballRadius,Math.PI*1.5,Math.PI*1.75,path,10);
+		if(interLeftH != null) {
+			allIntersections.add( new BouncePoint(interLeftH.getX(),interLeftH.getY(),BouncePoint.BounceDirection.FLIP_Y));
+		}
+
+		// Check if hit the right lower corner from the right
+		Point2D interRightH = intersectArc(xBlock + sideBlock ,yBlock + sideBlock,ballRadius,Math.PI*1.75,Math.PI*2,path,10);
+		if(interRightH != null) {
+			allIntersections.add( new BouncePoint(interRightH.getX(),interRightH.getY(),BouncePoint.BounceDirection.FLIP_X));
+		}
+		
+		
+		//return the nearest intersection
+				if(allIntersections.isEmpty()) {
+					return null;
+				}else {
+					double dist;
+					int minIndex = 0;
+					double min= Double.MAX_VALUE;
+					for(int i=0;i<allIntersections.size(); i++) {
+						dist=distance(allIntersections.get(i).getX(),allIntersections.get(i).getY(),getCurrentBallX(),getCurrentBallY());
+						if(dist<min) {
+							min=dist;
+							minIndex=i;
+						}
+					}
+					return allIntersections.get(minIndex);
+				}
   }
 
-  // line 101 "../../../../../Block223PlayMode.ump"
+  // line 185 "../../../../../Block223PlayMode.ump"
+   private void bounceBall(){
+    BouncePoint bounce = getBounce();
+	   double newDirectionX = 0;
+	   double newDirectionY = 0;
+	   // incoming distance: the distance between the current position of the center of the ball (currentBallX/Y) and the position of the bounce point
+	   double inDistX = bounce.getX() - currentBallX ;
+	   double inDistY = bounce.getY() - currentBallY;
+	   // outcoming distance: the remaining distance after bounce point
+	   double remDistX = ballDirectionX - inDistX;
+	   double remDistY = ballDirectionY - inDistY;
+	   
+	   if(remDistX == 0 && remDistY == 0) { //new ball position is at bounce point
+		   newDirectionX = ballDirectionX;
+		   newDirectionY = ballDirectionY;
+		   currentBallX = bounce.getX();
+		   currentBallY = bounce.getY();
+	   }
+	   else if( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_Y ) {
+		   // ball direction updated
+		   newDirectionX = ballDirectionX + Math.signum(ballDirectionX)*(0.1)*Math.abs(ballDirectionY) ;
+		   newDirectionY = (-1)*ballDirectionY ;
+		   // current ball position updated
+		   currentBallX = bounce.getX() + (remDistY/ballDirectionY) * newDirectionX ;
+		   currentBallY = bounce.getY() + (remDistX/ballDirectionY) * newDirectionY ;
+	   }
+	   else if ( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_X ) {
+		   // ball direction updated
+		   newDirectionX = (-1)*ballDirectionX ;
+		   newDirectionY = ballDirectionY + Math.signum(ballDirectionY)*(0.1)*Math.abs(ballDirectionX);
+		   // current ball position updated
+		   currentBallX = bounce.getX() + (remDistY/ballDirectionX) * newDirectionX ;
+		   currentBallY = bounce.getY() + (remDistX/ballDirectionX) * newDirectionY ;
+	   }
+	   else if ( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_BOTH ){
+		   // ball direction updated
+		   newDirectionX = (-1)*ballDirectionX ;
+		   newDirectionY = (-1)*ballDirectionY ;
+		   // current ball position updated
+		   currentBallX= bounce.getX() + (remDistY/ballDirectionX) * newDirectionX ;
+		   currentBallY = bounce.getY() + (remDistX/ballDirectionY) * newDirectionY ;
+	   }
+
+	   ballDirectionX = newDirectionX;
+	   ballDirectionY = newDirectionY;
+  }
+
+  // line 232 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointWall(){
     //TODO
 		return null;
   }
 
-  // line 106 "../../../../../Block223PlayMode.ump"
+  // line 237 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointPaddle(){
     ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
 		
@@ -843,7 +975,7 @@ public class PlayedGame implements Serializable
   /**
    * find euclidian distance squared
    */
-  // line 187 "../../../../../Block223PlayMode.ump"
+  // line 318 "../../../../../Block223PlayMode.ump"
    private double distance(double x1, double y1, double x2, double y2){
     return Math.pow(x2-x1, 2) +Math.pow(y2-y1, 2);
   }
@@ -858,7 +990,7 @@ public class PlayedGame implements Serializable
    * l1 should be the ball path line
    * divisions is the number of segments the arc is divided into, recommend using less than 10 since the arc is very small anyways
    */
-  // line 198 "../../../../../Block223PlayMode.ump"
+  // line 329 "../../../../../Block223PlayMode.ump"
    private Point2D intersectArc(double aX, double aY, double aRadius, double aAngleStart, double aAngleEnd, Line2D l1, double divisions){
     double granularity = (aAngleEnd - aAngleStart) / divisions;
 		
@@ -881,7 +1013,7 @@ public class PlayedGame implements Serializable
   /**
    * return intersection point of two lines if it exist
    */
-  // line 219 "../../../../../Block223PlayMode.ump"
+  // line 350 "../../../../../Block223PlayMode.ump"
    private Point2D intersectLine(Line2D l1, Line2D l2){
     double a1,a2,c1,c2,x,y;
 		a1=(l1.getY2() - l1.getY1()) / (l1.getX2() - l1.getX1());
@@ -906,6 +1038,21 @@ public class PlayedGame implements Serializable
 		Point2D intersection = new Point2D.Double(x,y);
 		
 		return intersection;
+  }
+
+  // line 377 "../../../../../Block223PlayMode.ump"
+   private boolean isCloser(BouncePoint first, BouncePoint second){
+    boolean isCloser = false;
+	   if(second == null) {
+		   isCloser =  true;
+	   }
+	   else if(first == null) {
+		   isCloser = false;
+	   }
+	   else if(distance(first.getX(),first.getY(),currentBallX,currentBallY) > distance(second.getX(),second.getY(),currentBallX,currentBallY) ) {
+		 isCloser = true;
+	 }
+	   return isCloser;
   }
 
 
