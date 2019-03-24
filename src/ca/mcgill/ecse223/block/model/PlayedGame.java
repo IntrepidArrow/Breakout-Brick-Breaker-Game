@@ -80,7 +80,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 197 "../../../../../Block223PlayMode.ump"
+    // line 208 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -720,13 +720,13 @@ public class PlayedGame implements Serializable
     }
   }
 
-  // line 57 "../../../../../Block223PlayMode.ump"
+  // line 63 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointWall(){
     //TODO
 		return null;
   }
 
-  // line 62 "../../../../../Block223PlayMode.ump"
+  // line 68 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointPaddle(){
     ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
 		
@@ -806,7 +806,7 @@ public class PlayedGame implements Serializable
   /**
    * find euclidian distance squared
    */
-  // line 143 "../../../../../Block223PlayMode.ump"
+  // line 149 "../../../../../Block223PlayMode.ump"
    private double distance(double x1, double y1, double x2, double y2){
     return Math.pow(x2-x1, 2) +Math.pow(y2-y1, 2);
   }
@@ -815,13 +815,18 @@ public class PlayedGame implements Serializable
   /**
    * intersect line with an arc by dividing the arc into smaller segments which are then checked for intersection using intersectLine
    * higher divisions means greater intersection accuracy
+   * parameters:
+   * aX,aY center of circle of radius aRadius
+   * aAngleStart and aAngleEnd define the location of the arc on the circle, angles in radians going from 0 to 2pi counterclockwise
+   * l1 should be the ball path line
+   * divisions is the number of segments the arc is divided into, recommend using less than 10 since the arc is very small anyways
    */
-  // line 149 "../../../../../Block223PlayMode.ump"
+  // line 160 "../../../../../Block223PlayMode.ump"
    private Point2D intersectArc(double aX, double aY, double aRadius, double aAngleStart, double aAngleEnd, Line2D l1, double divisions){
     double granularity = (aAngleEnd - aAngleStart) / divisions;
 		
 		//arc is divided into divisions number of segments then segments are intersected counterclockwise until
-		//having covered the entire arc, special case with two intersections with one arc needs to handled?
+		//having covered the entire arc 
 		for( double rad = aAngleStart; rad<=(aAngleEnd-granularity); rad+=granularity) {
 			Line2D arcSection = new Line2D.Double(
 					aRadius * Math.cos(rad) + aX, aRadius * Math.sin(rad) + aY,
@@ -839,7 +844,7 @@ public class PlayedGame implements Serializable
   /**
    * return intersection point of two lines if it exist
    */
-  // line 170 "../../../../../Block223PlayMode.ump"
+  // line 181 "../../../../../Block223PlayMode.ump"
    private Point2D intersectLine(Line2D l1, Line2D l2){
     double a1,a2,c1,c2,x,y;
 		a1=(l1.getY2() - l1.getY1()) / (l1.getX2() - l1.getX1());
@@ -961,27 +966,27 @@ public class PlayedGame implements Serializable
 	}
   }
 
-  // line 108 "../../../../../Block223States.ump"
+  // line 113 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
     // TODO implement
   }
 
-  // line 82 "../../../../../Block223States.ump"
+  // line 117 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     // TODO implement
   }
 
-  // line 86 "../../../../../Block223States.ump"
+  // line 121 "../../../../../Block223States.ump"
    private void doHitBlock(){
     // TODO implement
   }
 
-  // line 90 "../../../../../Block223States.ump"
+  // line 125 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     // TODO implement
   }
 
-  // line 94 "../../../../../Block223States.ump"
+  // line 129 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     double x = getCurrentBallX();
     double y = getCurrentBallY();
@@ -991,7 +996,7 @@ public class PlayedGame implements Serializable
     setCurrentBallY(y+dy);
   }
 
-  // line 103 "../../../../../Block223States.ump"
+  // line 138 "../../../../../Block223States.ump"
    private void doGameOver(){
     // TODO implement
   }

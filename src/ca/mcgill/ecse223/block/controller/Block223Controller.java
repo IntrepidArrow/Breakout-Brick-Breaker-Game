@@ -466,15 +466,15 @@ public class Block223Controller {
 
 	public static void register(String username, String playerPassword, String adminPassword)
 			throws InvalidInputException {
-		String error = "";
 		if (Block223Application.getCurrentUserRole() != null) {
-			error += "Cannot register a new user while a user is logged in.";
+			throw new InvalidInputException("Cannot register a new user while a user is logged in.");
 		}
+		if(playerPassword==null || playerPassword=="") {
+			throw new InvalidInputException("The player password needs to be specified.");
+		}
+		
 		if (playerPassword.equals(adminPassword)) {
-			error += "The passwords have to be different.";
-		}
-		if (error.length() > 0) {
-			throw new InvalidInputException(error.trim());
+			throw new InvalidInputException("The passwords have to be different.");
 		}
 
 		Block223 block223 = Block223Application.getBlock223();
@@ -485,8 +485,11 @@ public class Block223Controller {
 			user = new User(username, block223, player);
 		} catch (RuntimeException e) {
 			block223.removeRole(player);
+						
+			if(e.getMessage().equals("Cannot create due to duplicate username")) {
+				throw new InvalidInputException("The username has already been taken.");
+				}
 			throw new InvalidInputException(e.getMessage());
-
 		}
 		if (!(adminPassword == null || adminPassword.isEmpty())) {
 			Admin admin = new Admin(adminPassword, block223);

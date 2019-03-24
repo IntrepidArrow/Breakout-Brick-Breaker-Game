@@ -23,13 +23,10 @@ class Block223 {
 class User {
    unique username;
 	   before constructor {
-   	if(aUsername == null || aUsername.isEmpty()){
+   	if(aUsername == null || aUsername == ""){
    	throw new RuntimeException("The username must be specified.");    
    	}
-   	if (!setUsername(aUsername))
-    {
-      throw new RuntimeException("The username has already been taken.");
-    }
+
    }
 	
    1 -> 1..2 UserRole roles;
