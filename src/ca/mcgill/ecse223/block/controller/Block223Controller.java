@@ -802,6 +802,32 @@ public class Block223Controller {
 		return result;
 	}
 
+	public static void selectPlayableGame(String name, int id) throws InvalidInputException {
+		Block223 block223 = Block223Application.getBlock223();
+		UserRole player = Block223Application.getCurrentUserRole();
+
+		if (!(player instanceof Player))
+			throw new InvalidInputException("Player privileges are required to play a game.");
+
+		Game game = block223.findGame(name);
+		PlayedGame pgame;
+
+		if (game != null) {
+			String username = User.findUsername(player);
+			pgame = new PlayedGame(username, game, block223);
+			pgame.setPlayer((Player) player);
+		} else {
+			pgame = block223.findPlayableGame(id);
+
+			if (pgame == null)
+				throw new InvalidInputException("The game does not exist.");
+
+			if (!pgame.getPlayer().equals(player))
+				throw new InvalidInputException("Only the player that started a game can continue a game.");
+		}
+		Block223Application.setCurrentPlayableGame(pgame);
+	}
+
 	public static TOCurrentlyPlayedGame getCurrentPlayableGame() throws InvalidInputException {
 
 		UserRole user = Block223Application.getCurrentUserRole();
@@ -816,7 +842,7 @@ public class Block223Controller {
 		if (user instanceof Admin && pgame.getPlayer() != null)
 			throw new InvalidInputException("Player privileges are required to play a game.");
 
-		if (user instanceof Admin && pgame.getGame().getAdmin() != user)
+		if (user instanceof Admin && pgame.getGame().getAdmin().equals(user))
 			throw new InvalidInputException("Only the admin of a game can test the game.");
 
 		if (user instanceof Player && pgame.getPlayer() == null)
