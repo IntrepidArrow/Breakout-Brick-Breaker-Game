@@ -151,6 +151,11 @@ class PlayedGame {
 	
 	//intersect line with an arc by dividing the arc into smaller segments which are then checked for intersection using intersectLine
 	//higher divisions means greater intersection accuracy
+	//parameters:
+	//aX,aY center of circle of radius aRadius
+	//aAngleStart and aAngleEnd define the location of the arc on the circle, angles in radians going from 0 to 2pi counterclockwise
+	//l1 should be the ball path line
+	//divisions is the number of segments the arc is divided into, recommend using less than 10 since the arc is very small anyways
 	private Point2D intersectArc(double aX,double aY,double aRadius,double aAngleStart,double aAngleEnd,Line2D l1,double divisions) {
 		double granularity = (aAngleEnd - aAngleStart) / divisions;
 		
