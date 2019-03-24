@@ -5,8 +5,8 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 53 "../../../../../Block223Persistence.ump"
-// line 104 "../../../../../Block223.ump"
+// line 59 "../../../../../Block223Persistence.ump"
+// line 102 "../../../../../Block223.ump"
 public class Block implements Serializable
 {
 
@@ -45,22 +45,22 @@ public class Block implements Serializable
 
   public Block(int aRed, int aGreen, int aBlue, int aPoints, Game aGame)
   {
-    // line 113 "../../../../../Block223.ump"
+    // line 111 "../../../../../Block223.ump"
     if((aRed < 0) || (aRed > 255)){
        		throw new RuntimeException("Red must be between 0 and 255.");
        	}
     // END OF UMPLE BEFORE INJECTION
-    // line 119 "../../../../../Block223.ump"
+    // line 117 "../../../../../Block223.ump"
     if((aGreen < 0) || (aGreen > 255)){
        		throw new RuntimeException("Green must be between 0 and 255.");
        	}
     // END OF UMPLE BEFORE INJECTION
-    // line 125 "../../../../../Block223.ump"
+    // line 123 "../../../../../Block223.ump"
     if((aBlue < 0) || (aBlue > 255)){
        		throw new RuntimeException("Blue must be between 0 and 255.");
        	}
     // END OF UMPLE BEFORE INJECTION
-    // line 131 "../../../../../Block223.ump"
+    // line 129 "../../../../../Block223.ump"
     if((aPoints < 1) || (aPoints > 1000)){
        		throw new RuntimeException("Points must be between 1 and 1000.");
        	}
@@ -86,7 +86,7 @@ public class Block implements Serializable
   public boolean setRed(int aRed)
   {
     boolean wasSet = false;
-    // line 113 "../../../../../Block223.ump"
+    // line 111 "../../../../../Block223.ump"
     if((aRed < 0) || (aRed > 255)){
        		throw new RuntimeException("Red must be between 0 and 255.");
        	}
@@ -99,7 +99,7 @@ public class Block implements Serializable
   public boolean setGreen(int aGreen)
   {
     boolean wasSet = false;
-    // line 119 "../../../../../Block223.ump"
+    // line 117 "../../../../../Block223.ump"
     if((aGreen < 0) || (aGreen > 255)){
        		throw new RuntimeException("Green must be between 0 and 255.");
        	}
@@ -112,7 +112,7 @@ public class Block implements Serializable
   public boolean setBlue(int aBlue)
   {
     boolean wasSet = false;
-    // line 125 "../../../../../Block223.ump"
+    // line 123 "../../../../../Block223.ump"
     if((aBlue < 0) || (aBlue > 255)){
        		throw new RuntimeException("Blue must be between 0 and 255.");
        	}
@@ -125,7 +125,7 @@ public class Block implements Serializable
   public boolean setPoints(int aPoints)
   {
     boolean wasSet = false;
-    // line 131 "../../../../../Block223.ump"
+    // line 129 "../../../../../Block223.ump"
     if((aPoints < 1) || (aPoints > 1000)){
        		throw new RuntimeException("Points must be between 1 and 1000.");
        	}
@@ -408,7 +408,7 @@ public class Block implements Serializable
     }
   }
 
-  // line 58 "../../../../../Block223Persistence.ump"
+  // line 64 "../../../../../Block223Persistence.ump"
    public static  void reinitializeAutoUniqueId(List<Game> games){
     nextId=0;
   	for(Game g : games){
@@ -437,7 +437,7 @@ public class Block implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 56 "../../../../../Block223Persistence.ump"
+  // line 62 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 5332292624658907512L ;
 
   

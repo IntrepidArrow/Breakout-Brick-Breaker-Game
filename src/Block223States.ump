@@ -29,8 +29,13 @@ class PlayedGame {
   // Guards
   
   private boolean hitPaddle() {
-    // TODO implement
-    return false;
+	BouncePoint bp = calculateBouncePointPaddle();
+	if(bp == null){
+		return false;
+	}
+	setBounce(bp);	
+
+    return true;
   }
 
   private boolean isOutOfBoundsAndLastLife() {
@@ -104,7 +109,42 @@ class PlayedGame {
   // Actions
   
   private void doSetup() {
-    // TODO implement
+    this.resetCurrentBallX();
+    this.resetCurrentBallY();
+    this.resetBallDirectionX();
+    this.resetBallDirectionY();
+    this.resetCurrentPaddleX();
+    Level level = game.getLevel(currentLevel - 1);
+    List<BlockAssignment> blockAssignments = level.getBlockAssignments();
+    for (BlockAssignment a : blockAssignments) {
+	  PlayedBlockAssignment p = new PlayedBlockAssignment(
+		Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (a.getGridHorizontalPosition() - 1),
+		Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING) * (a.getGridVerticalPosition() - 1),
+		a.getBlock(), this);
+    }
+    while (numberOfBlocks() < game.getNrBlocksPerLevel()) {
+	  Random rand = new Random();
+	  int x = rand.nextInt(Game.PLAY_AREA_SIDE + 1) + 1;
+	  int y = rand.nextInt(Game.PLAY_AREA_SIDE + 1) + 1;
+	  while (true) {
+		final int finalX = x;
+		final int finalY = y;
+		if (blocks.stream().noneMatch(b -> (b.getX() == finalX && b.getY() == finalY))) {
+		  PlayedBlockAssignment p = new PlayedBlockAssignment(x, y, game.getRandomBlock(), this);
+		  break;
+		}
+		if (x < Game.PLAY_AREA_SIDE + 1)
+		  x++;
+		else if (y < Game.PLAY_AREA_SIDE + 1) {
+		  y++;
+		  x = 1;
+		}
+		else {
+		  x = 1;
+		  y = 1;
+		}
+	  }
+	}
   }
   
   private void doHitPaddleOrWall() {
@@ -139,7 +179,12 @@ class PlayedGame {
   }
 
   private void doHitNothingAndNotOutOfBounds() {
-    // TODO implement
+    double x = getCurrentBallX();
+    double y = getCurrentBallY();
+    double dx = getBallDirectionX();
+    double dy = getBallDirectionY();
+    setCurrentBallX(x+dx);
+    setCurrentBallY(y+dy);
   }
 
   private void doGameOver() {

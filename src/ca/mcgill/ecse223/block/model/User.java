@@ -6,7 +6,8 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 16 "../../../../../Block223Persistence.ump"
-// line 22 "../../../../../Block223.ump"
+// line 242 "../../../../../Block223PlayMode.ump"
+// line 23 "../../../../../Block223.ump"
 public class User implements Serializable
 {
 
@@ -33,14 +34,10 @@ public class User implements Serializable
 
   public User(String aUsername, Block223 aBlock223, UserRole... allRoles)
   {
-    // line 25 "../../../../../Block223.ump"
-    if(aUsername == null || aUsername.isEmpty()){
+    // line 26 "../../../../../Block223.ump"
+    if(aUsername == null || aUsername == ""){
        	throw new RuntimeException("The username must be specified.");    
        	}
-       	if (!setUsername(aUsername))
-        {
-          throw new RuntimeException("The username has already been taken.");
-        }
     // END OF UMPLE BEFORE INJECTION
     if (!setUsername(aUsername))
     {
@@ -263,6 +260,15 @@ public class User implements Serializable
       tmpUsersByUsername.put(u.getUsername(), u);
     }
     User.usersByUsername=tmpUsersByUsername;
+  }
+
+  // line 244 "../../../../../Block223PlayMode.ump"
+   public static  String findUsername(UserRole userRole){
+    for (String key : usersByUsername.keySet()) {
+         if (usersByUsername.get(key).getRoles().contains(userRole))
+            return key;
+      }
+      return null;
   }
 
 

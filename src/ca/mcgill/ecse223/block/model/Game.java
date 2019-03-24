@@ -5,9 +5,9 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 41 "../../../../../Block223Persistence.ump"
-// line 6 "../../../../../Block223PlayMode.ump"
-// line 56 "../../../../../Block223.ump"
+// line 46 "../../../../../Block223Persistence.ump"
+// line 14 "../../../../../Block223PlayMode.ump"
+// line 54 "../../../../../Block223.ump"
 public class Game implements Serializable
 {
 
@@ -39,7 +39,7 @@ public class Game implements Serializable
   private boolean published;
   private String name;
   private int nrBlocksPerLevel;
-  private Comparator<HallOfFameEntry> hallOfFameEntriesPriority;
+  transient private Comparator<HallOfFameEntry> hallOfFameEntriesPriority;
 
   //Game Associations
   private HallOfFameEntry mostRecentEntry;
@@ -59,7 +59,7 @@ public class Game implements Serializable
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223)
   {
-    // line 83 "../../../../../Block223.ump"
+    // line 81 "../../../../../Block223.ump"
     if(aNrBlocksPerLevel <= 0){
       		throw new RuntimeException("The number of blocks per level must be greater than zero.");
       		}
@@ -108,7 +108,7 @@ public class Game implements Serializable
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, int aMinBallSpeedXForBall, int aMinBallSpeedYForBall, double aBallSpeedIncreaseFactorForBall, int aMaxPaddleLengthForPaddle, int aMinPaddleLengthForPaddle, Block223 aBlock223)
   {
-    // line 83 "../../../../../Block223.ump"
+    // line 81 "../../../../../Block223.ump"
     if(aNrBlocksPerLevel <= 0){
       		throw new RuntimeException("The number of blocks per level must be greater than zero.");
       		}
@@ -159,7 +159,7 @@ public class Game implements Serializable
   public boolean setName(String aName)
   {
     boolean wasSet = false;
-    // line 88 "../../../../../Block223.ump"
+    // line 86 "../../../../../Block223.ump"
     if(aName == null){
       		throw new RuntimeException("The name of a ame must be specified.");
       	}
@@ -180,7 +180,7 @@ public class Game implements Serializable
   public boolean setNrBlocksPerLevel(int aNrBlocksPerLevel)
   {
     boolean wasSet = false;
-    // line 83 "../../../../../Block223.ump"
+    // line 81 "../../../../../Block223.ump"
     if(aNrBlocksPerLevel <= 0){
       		throw new RuntimeException("The number of blocks per level must be greater than zero.");
       		}
@@ -889,15 +889,23 @@ public class Game implements Serializable
     }
   }
 
-  // line 46 "../../../../../Block223Persistence.ump"
+  // line 51 "../../../../../Block223Persistence.ump"
    public static  void reinitializeUniqueName(List<Game> games){
-    Map<String, Game> gamesByName = new HashMap<String, Game>();
+    Map<String, Game> tmpGamesByName = new HashMap<String, Game>();
     for (Game g : games) {
-      gamesByName.put(g.getName(), g);
+      tmpGamesByName.put(g.getName(), g);
     }
+    Game.gamesByName=tmpGamesByName;
   }
 
-  // line 72 "../../../../../Block223.ump"
+  // line 19 "../../../../../Block223PlayMode.ump"
+   public Block getRandomBlock(){
+    Random rand = new Random();
+      int index = rand.nextInt(blocks.size());
+      return blocks.get(index);
+  }
+
+  // line 70 "../../../../../Block223.ump"
    public Block findBlock(int id){
     Block foundBlock = null;
 	  List<Block> blocks = this.getBlocks();
@@ -909,13 +917,13 @@ public class Game implements Serializable
 	  return foundBlock;
   }
 
-  // line 94 "../../../../../Block223.ump"
+  // line 92 "../../../../../Block223.ump"
    public int getMaxNumberHorizontalBlocks(){
     int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING + COLUMNS_PADDING , (Block.SIZE + COLUMNS_PADDING) );
 	  return maxNbr;
   }
 
-  // line 98 "../../../../../Block223.ump"
+  // line 96 "../../../../../Block223.ump"
    public int getMaxNumberVerticalBlocks(){
     int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - WALL_PADDING - 30 - 5 - 10 , (Block.SIZE + ROW_PADDING) ); 
 	  return maxNbr;
@@ -939,7 +947,7 @@ public class Game implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 44 "../../../../../Block223Persistence.ump"
+  // line 49 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = -210105651472293481L ;
 
   
