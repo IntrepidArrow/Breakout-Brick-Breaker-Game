@@ -237,33 +237,85 @@ private void bounceBall() {
    }
 
    
-	private BouncePoint calculateBouncePointWall(){
-		//TODO
-		return null;
-	}
-	private BouncePoint calculateBouncePointPaddle(){
+   private BouncePoint calculateBouncePointWall(){
+	    ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
+			
+		Line2D path = new Line2D.Double(getCurrentBallX(), getCurrentBallY(), getCurrentBallX()+getBallDirectionX(), getCurrentBallY()+getBallDirectionY());
+
 		
-		ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
+		Line2D sectA = new Line2D.Double(
+				Ball.BALL_DIAMETER/2, Ball.BALL_DIAMETER/2,
+				Ball.BALL_DIAMETER/2, Game.PLAY_AREA_SIDE-Ball.BALL_DIAMETER/2);
+		
+		Line2D sectB = new Line2D.Double(
+				Ball.BALL_DIAMETER/2, Ball.BALL_DIAMETER/2,
+				Game.PLAY_AREA_SIDE-Ball.BALL_DIAMETER/2, Ball.BALL_DIAMETER/2);
+		
+		Line2D sectC = new Line2D.Double(
+				Game.PLAY_AREA_SIDE-Ball.BALL_DIAMETER/2, Ball.BALL_DIAMETER/2,
+				Game.PLAY_AREA_SIDE-Ball.BALL_DIAMETER/2, Game.PLAY_AREA_SIDE-Ball.BALL_DIAMETER/2);
+		
+		//intersect the ball path line with sectors A,B,C and add computed intersections to list of intersected lines
+		Point2D interA = intersectLine(sectA, path);
+		if(interA != null) {
+			allIntersections.add(new BouncePoint(interA.getX(),interA.getY(),BouncePoint.BounceDirection.FLIP_Y));
+		}
+		Point2D interB = intersectLine(sectB, path);
+		if(interB != null) {
+			allIntersections.add( new BouncePoint(interB.getX(),interB.getY(),BouncePoint.BounceDirection.FLIP_X));
+		}
+		Point2D interC = intersectLine(sectC, path);
+		if(interC != null) {
+			allIntersections.add( new BouncePoint(interC.getX(),interC.getY(),BouncePoint.BounceDirection.FLIP_X));
+		}
+		
+		//return the nearest intersection
+		if(allIntersections.isEmpty()) {
+			return null;
+		}else {
+			double dist;
+			int minIndex = 0;
+			double min= Double.MAX_VALUE;
+			for(int i=0;i<allIntersections.size(); i++) {
+				dist=distance(allIntersections.get(i).getX(),allIntersections.get(i).getY(),getCurrentBallX(),getCurrentBallY());
+				if(dist<min) {
+					min=dist;
+					minIndex=i;
+				}
+			}
+			//check if the point is one of the two corners and adjust bounce direction otherwise return nearest intersection
+			if((allIntersections.get(minIndex).getX()==5.0 && allIntersections.get(minIndex).getY()==5.0)||
+					(allIntersections.get(minIndex).getX()==385.0 && allIntersections.get(minIndex).getY()==5.0)) {
+				return new BouncePoint(allIntersections.get(minIndex).getX(),allIntersections.get(minIndex).getY(),BouncePoint.BounceDirection.FLIP_BOTH);
+			}else {
+				return allIntersections.get(minIndex);
+			}
+			 
+		}
+ }
+
+  private BouncePoint calculateBouncePointPaddle(){
+   ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
 		
 		Rectangle2D paddle = new Rectangle2D.Double(getCurrentPaddleX(),getCurrentPaddleY(),getCurrentPaddleLength(),Paddle.PADDLE_WIDTH);
 		
-		Line2D path = new Line2D.Double(getCurrentBallX(), getCurrentBallY(), getBallDirectionX(), getBallDirectionY());
+		Line2D path = new Line2D.Double(getCurrentBallX(), getCurrentBallY(), getCurrentBallX()+getBallDirectionX(), getCurrentBallY()+getBallDirectionY());
 		
-		if(paddle.intersectsLine(path)) {
+		if(!paddle.intersectsLine(path)) {
 			return null;
 		}
 		
 		Line2D sectA = new Line2D.Double(
-				getCurrentPaddleX(),getCurrentPaddleY() - Ball.BALL_DIAMETER,
-				getCurrentPaddleX() + getCurrentPaddleLength(), getCurrentPaddleY() - Ball.BALL_DIAMETER);
+				getCurrentPaddleX(),getCurrentPaddleY() - Ball.BALL_DIAMETER/2,
+				getCurrentPaddleX() + getCurrentPaddleLength(), getCurrentPaddleY() - Ball.BALL_DIAMETER/2);
 		
 		Line2D sectB = new Line2D.Double(
-				getCurrentPaddleX() - Ball.BALL_DIAMETER,getCurrentPaddleY(),
-				getCurrentPaddleX() - Ball.BALL_DIAMETER, getCurrentPaddleY() + Paddle.PADDLE_WIDTH);
+				getCurrentPaddleX() - Ball.BALL_DIAMETER/2,getCurrentPaddleY(),
+				getCurrentPaddleX() - Ball.BALL_DIAMETER/2, getCurrentPaddleY() + Paddle.PADDLE_WIDTH);
 		
 		Line2D sectC = new Line2D.Double(
-				getCurrentPaddleX() + getCurrentPaddleLength() + Ball.BALL_DIAMETER,getCurrentPaddleY(),
-				getCurrentPaddleX() + getCurrentPaddleLength() + Ball.BALL_DIAMETER, getCurrentPaddleY() + Paddle.PADDLE_WIDTH);
+				getCurrentPaddleX() + getCurrentPaddleLength() + Ball.BALL_DIAMETER/2,getCurrentPaddleY(),
+				getCurrentPaddleX() + getCurrentPaddleLength() + Ball.BALL_DIAMETER/2, getCurrentPaddleY() + Paddle.PADDLE_WIDTH);
 		
 		//intersect the ball path line with sectors A,B,C and add computed intersections to list of intersected lines
 		Point2D interA = intersectLine(sectA, path);
@@ -307,7 +359,7 @@ private void bounceBall() {
 			int minIndex = 0;
 			double min= Double.MAX_VALUE;
 			for(int i=0;i<allIntersections.size(); i++) {
-				dist=distance(allIntersections.get(i).getX(),allIntersections.get(i).getY(),getCurrentBallX(),getCurrentBallY());
+				dist=distance(allIntersections.get(i).getX(),allIntersections.get(i).getY(),getCurrentBallX(), getCurrentBallY());
 				if(dist<min) {
 					min=dist;
 					minIndex=i;
@@ -315,12 +367,7 @@ private void bounceBall() {
 			}
 			return allIntersections.get(minIndex);
 		}
-		
-		
-		
-		
-		
-	}
+ }
 	
 	//find euclidian distance squared
 	private double distance(double x1,double y1,double x2,double y2) {

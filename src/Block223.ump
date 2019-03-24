@@ -83,8 +83,8 @@ class Game {
   		}
   	}
   before setName {
-  	if(aName == null){
-  		throw new RuntimeException("The name of a ame must be specified.");
+  	if(aName == null || aName == ""){
+  		throw new RuntimeException("The name of a game must be specified.");
   	}
   }
   	
@@ -183,17 +183,17 @@ class Ball {
    Double ballSpeedIncreaseFactor;
    
    before setMinBallSpeedX, constructor{
-   		if(aMinBallSpeedX <= 0){
+   		if(aMinBallSpeedX < 0){
    			throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
    		}
    }
    before setMinBallSpeedY, constructor{
-   		if(aMinBallSpeedY <= 0){
+   		if(aMinBallSpeedY < 0){
    			throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
    		}
    }
    before setBallSpeedIncreaseFactor, constructor {
-   		if(aBallSpeedIncreaseFactor <= 0){
+   		if(aBallSpeedIncreaseFactor < 0){
    			throw new RuntimeException("The speed increase factor of the ball must be greater than zero.");
    		}
    }

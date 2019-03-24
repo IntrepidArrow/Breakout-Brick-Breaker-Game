@@ -160,8 +160,8 @@ public class Game implements Serializable
   {
     boolean wasSet = false;
     // line 86 "../../../../../Block223.ump"
-    if(aName == null){
-      		throw new RuntimeException("The name of a ame must be specified.");
+    if(aName == null || aName == ""){
+      		throw new RuntimeException("The name of a game must be specified.");
       	}
     // END OF UMPLE BEFORE INJECTION
     String anOldName = getName();
@@ -184,6 +184,15 @@ public class Game implements Serializable
     if(aNrBlocksPerLevel <= 0){
       		throw new RuntimeException("The number of blocks per level must be greater than zero.");
       		}
+    for(Level level : levels) {
+    	
+    	if(level.getBlockAssignments().size() > aNrBlocksPerLevel) {
+    		throw new RuntimeException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");
+    		
+    	}
+    }
+
+
     // END OF UMPLE BEFORE INJECTION
     nrBlocksPerLevel = aNrBlocksPerLevel;
     wasSet = true;
