@@ -153,7 +153,8 @@ class PlayedGame {
   }
   
   private void doHitPaddleOrWall() {
-    // TODO implement
+	bounceBall();
+	return;
   }
 
   private void doOutOfBounds() {
