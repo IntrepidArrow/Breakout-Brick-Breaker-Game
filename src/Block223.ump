@@ -81,6 +81,12 @@ class Game {
   	if(aNrBlocksPerLevel <= 0){
   		throw new RuntimeException("The number of blocks per level must be greater than zero.");
   		}
+  		 for(Level level : levels) {
+    	
+    	if(level.getBlockAssignments().size() > aNrBlocksPerLevel) {
+    		throw new RuntimeException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");
+    		
+    	}
   	}
   before setName {
   	if(aName == null || aName == ""){
