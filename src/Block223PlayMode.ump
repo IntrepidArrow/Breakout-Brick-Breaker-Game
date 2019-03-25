@@ -297,9 +297,6 @@ private void bounceBall() {
  
  
  
- // this is the new implementation of my method 
- 
- 
  
  
  
@@ -311,7 +308,7 @@ private void bounceBall() {
 		
 		private boolean isBallOutOfBounds() { //check whether the ball is out of bounds or not by checking if it intersects the bottom line of the play area. ASK CHARBEL
 		boolean outofbounds = false; 
-		if(CurrentGame.getCurrentBallY()+ CurrentGame.getBallDirectionY() +5 > 355) {
+		if(CurrentGame.getCurrentBallY()+ CurrentGame.getBallDirectionY() +5 > 390){
 			outofbounds = true;
 		}
 		return outofbounds; 
@@ -325,7 +322,7 @@ private boolean isOutOfBOundsAndLastLife() {
 	return false;
 }
 
-private boolean doOutOfBounds() {
+private void doOutOfBounds() {
 	int lives = CurrentGame.getLives();
 	CurrentGame.setLives(lives-1);
 	CurrentGame.resetCurrentBallX();
@@ -335,9 +332,10 @@ private boolean doOutOfBounds() {
 	CurrentGame.resetBallDirectionY();		   
 }
 
+
 private boolean isOutOfBounds() {
 	boolean isOutOfBounds = isBallOutOfBounds();
-	
+	return isOutOfBouds;
 }
 
 
