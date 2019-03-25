@@ -293,6 +293,73 @@ private void bounceBall() {
 			 
 		}
  }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 	PlayedGame CurrentGame = Block223Application.getCurrentPlayedGame(); 		//Check with Hank implementation of getCurrentPLayedGame()
+		
+		
+		private boolean isBallOutOfBounds() { //check whether the ball is out of bounds or not by checking if it intersects the bottom line of the play area. ASK CHARBEL
+		boolean outofbounds = false; 
+		if(CurrentGame.getCurrentBallY()+ CurrentGame.getBallDirectionY() +5 > 390){
+			outofbounds = true;
+		}
+		return outofbounds; 
+		}
+	
+private boolean isOutOfBOundsAndLastLife() {
+	boolean outOfBounds = false; 
+	if (CurrentGame.getLives()==1) {
+		return true;
+	}
+	return false;
+}
+
+private void doOutOfBounds() {
+	int lives = CurrentGame.getLives();
+	CurrentGame.setLives(lives-1);
+	CurrentGame.resetCurrentBallX();
+	CurrentGame.resetCurrentBallY();
+	CurrentGame.resetCurrentPaddleX();
+	CurrentGame.resetBallDirectionX(); 			//Check if the implementation of the method is correct at the end of the PlayedGame class
+	CurrentGame.resetBallDirectionY();		   
+}
+
+
+private boolean isOutOfBounds() {
+	boolean isOutOfBounds = isBallOutOfBounds();
+	return isOutOfBouds;
+}
+
+
+private void doGameOver() {
+	Player p;
+	String playername;
+	int score;
+	Block223 block223 = CurrentGame.getBlock223();
+	score = CurrentGame.getScore();
+	playername= CurrentGame.getPlayername();
+	p = CurrentGame.getPlayer();
+	if (p!= null) {
+	Game game_this = CurrentGame.getGame();
+	HallOfFameEntry hof = new HallOfFameEntry (score, playername, p, game_this, block223);
+	game_this.setMostRecentEntry(hof);
+	}
+	
+	CurrentGame.delete();
+}
+
+
+
+ 
+ 
 
   private BouncePoint calculateBouncePointPaddle(){
    ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
