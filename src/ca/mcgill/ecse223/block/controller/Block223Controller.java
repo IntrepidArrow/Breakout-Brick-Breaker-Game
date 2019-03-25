@@ -965,10 +965,10 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 			
 		if(pgame == null) { 
 			
-			throw new InvalidInputException("A game must be selected to play it"); 
+			throw new InvalidInputException("A game must be selected to view its hall of fame"); 
 		} else if(!(Block223Application.getCurrentUserRole() instanceof Player)) {
 			
-			throw new InvalidInputException("Player privileges are required to play a game"); 
+			throw new InvalidInputException("Player privileges are required to access a game's hall of fame."); 
 		} 
 	
 		Game game = pgame.getGame(); // get the game associated to my current play game(the father) 
