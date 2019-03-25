@@ -974,6 +974,7 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		Game game = pgame.getGame(); // get the game associated to my current play game(the father) 
 		TOHallOfFame result = new TOHallOfFame(game.getName());
 		
+		
 		if(start < 1) { 
 			start = 1; 
 		}
@@ -1015,6 +1016,11 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		// does number of entries refers to the number of entries in the hall of fame?  
 		TOHallOfFame result = new TOHallOfFame(game.getName()); 
 		HallOfFameEntry mostRecent = game.getMostRecentEntry(); 
+		if(numberOfEntries <=0 || mostRecent == null) {
+			
+			return result; 
+		}
+		
 		
 		int index = game.indexOfHallOfFameEntry(mostRecent); 
 		// should we cast the numberOfEntries/2? 
