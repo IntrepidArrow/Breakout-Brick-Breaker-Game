@@ -39,7 +39,7 @@ public class Game implements Serializable
   private boolean published;
   private String name;
   private int nrBlocksPerLevel;
-  transient private Comparator<HallOfFameEntry> hallOfFameEntriesPriority;
+  private Comparator<HallOfFameEntry> hallOfFameEntriesPriority;
 
   //Game Associations
   private HallOfFameEntry mostRecentEntry;
@@ -63,6 +63,13 @@ public class Game implements Serializable
     if(aNrBlocksPerLevel <= 0){
       		throw new RuntimeException("The number of blocks per level must be greater than zero.");
       		}
+      		 for(Level level : levels) {
+        	
+        	if(level.getBlockAssignments().size() > aNrBlocksPerLevel) {
+        		throw new RuntimeException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");
+        		
+        	}
+      	}
     // END OF UMPLE BEFORE INJECTION
     published = false;
     nrBlocksPerLevel = aNrBlocksPerLevel;
@@ -112,6 +119,13 @@ public class Game implements Serializable
     if(aNrBlocksPerLevel <= 0){
       		throw new RuntimeException("The number of blocks per level must be greater than zero.");
       		}
+      		 for(Level level : levels) {
+        	
+        	if(level.getBlockAssignments().size() > aNrBlocksPerLevel) {
+        		throw new RuntimeException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");
+        		
+        	}
+      	}
     // END OF UMPLE BEFORE INJECTION
     published = false;
     name = aName;
@@ -159,7 +173,7 @@ public class Game implements Serializable
   public boolean setName(String aName)
   {
     boolean wasSet = false;
-    // line 86 "../../../../../Block223.ump"
+    // line 93 "../../../../../Block223.ump"
     if(aName == null || aName == ""){
       		throw new RuntimeException("The name of a game must be specified.");
       	}
@@ -184,15 +198,13 @@ public class Game implements Serializable
     if(aNrBlocksPerLevel <= 0){
       		throw new RuntimeException("The number of blocks per level must be greater than zero.");
       		}
-    for(Level level : levels) {
-    	
-    	if(level.getBlockAssignments().size() > aNrBlocksPerLevel) {
-    		throw new RuntimeException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");
-    		
-    	}
-    }
-
-
+      		 for(Level level : levels) {
+        	
+        	if(level.getBlockAssignments().size() > aNrBlocksPerLevel) {
+        		throw new RuntimeException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");
+        		
+        	}
+      	}
     // END OF UMPLE BEFORE INJECTION
     nrBlocksPerLevel = aNrBlocksPerLevel;
     wasSet = true;
@@ -926,13 +938,13 @@ public class Game implements Serializable
 	  return foundBlock;
   }
 
-  // line 92 "../../../../../Block223.ump"
+  // line 99 "../../../../../Block223.ump"
    public int getMaxNumberHorizontalBlocks(){
     int maxNbr = Math.floorDiv( PLAY_AREA_SIDE - 2*WALL_PADDING + COLUMNS_PADDING , (Block.SIZE + COLUMNS_PADDING) );
 	  return maxNbr;
   }
 
-  // line 96 "../../../../../Block223.ump"
+  // line 103 "../../../../../Block223.ump"
    public int getMaxNumberVerticalBlocks(){
     int maxNbr = Math.floorDiv(  PLAY_AREA_SIDE - WALL_PADDING - Paddle.VERTICAL_DISTANCE - Paddle.PADDLE_WIDTH - Ball.BALL_DIAMETER
     		, (Block.SIZE + ROW_PADDING) ); 

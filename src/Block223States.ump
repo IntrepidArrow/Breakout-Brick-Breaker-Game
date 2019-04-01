@@ -39,14 +39,17 @@ class PlayedGame {
   }
 
   private boolean isOutOfBoundsAndLastLife() {
-    // TODO implement
-    return false;
-  }
+	boolean outOfBounds = false; 
+	if (getLives()==1) {
+		return true;
+	}
+	return false;
+}
   
-  private boolean isOutOfBounds() {
-    // TODO implement
-    return false;
-  }
+ private boolean isOutOfBounds() {
+	boolean isOutOfBounds = isBallOutOfBounds();
+	return isOutOfBounds;
+}
   
   private boolean hitLastBlockAndLastLevel() {
     // TODO implement
@@ -157,9 +160,16 @@ class PlayedGame {
 	return;
   }
 
-  private void doOutOfBounds() {
-    // TODO implement
-  }
+ private void doOutOfBounds() {
+	int lives = getLives();
+	setLives(lives-1);
+	resetCurrentBallX();
+	resetCurrentBallY();
+	resetCurrentPaddleX();
+	resetBallDirectionX(); 			
+	resetBallDirectionY();		   
+}
+
 
   private void doHitBlock() {
     // TODO implement
@@ -194,7 +204,19 @@ class PlayedGame {
   }
 
   private void doGameOver() {
-    // TODO implement
-  }
+	Player p;
+	String playername;
+	int score;
+	Block223 block223 = getBlock223();
+	score = getScore();
+	playername= getPlayername();
+	p = getPlayer();
+	if (p!= null) {
+	Game game_this = getGame();
+	HallOfFameEntry hof = new HallOfFameEntry (score, playername, p, game_this, block223);
+	game_this.setMostRecentEntry(hof);
+	}
+	delete();
+}
 
 }
