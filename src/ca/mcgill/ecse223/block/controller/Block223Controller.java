@@ -176,16 +176,25 @@ public class Block223Controller {
 				throw new InvalidInputException( "Only the admin who created the game can define its game settings.");
 			}
 		}
-		
+
+		String currentName = game.getName();
 		//check for duplicate game name. Cycle through all games and see if game with that name already exists or not 
-		for(Game checkGame : Block223Application.getBlock223().getGames()){
-			if (checkGame.getName().equals(name)){
+		// for(Game checkGame : Block223Application.getBlock223().getGames()){
+		// 	if (checkGame.getName().equals(name)){
+		// 		throw new InvalidInputException("The name of a game must be unique.");
+		// 	}
+		// }
+
+		if(Block223Application.getBlock223().findGame(name)!=null){
+			if(Block223Application.getBlock223().findGame(name) != game){
 				throw new InvalidInputException("The name of a game must be unique.");
 			}
 		}
+
 			try { 
-				game.setName(name);
-				
+				if(currentName != name){
+					game.setName(name);
+				}
 			} catch(RuntimeException e) {
 				
 				throw new InvalidInputException(e.getMessage());
