@@ -176,13 +176,13 @@ public class Block223Controller {
 				throw new InvalidInputException( "Only the admin who created the game can define its game settings.");
 			}
 		}
-		
-		
+
 		String currentName = game.getName();
 			if( currentName.equals(name)) {
 			
 				throw new InvalidInputException("The name of a game must be unique.");
 			}
+			
 			try { 
 				game.setName(name);
 				
@@ -190,12 +190,6 @@ public class Block223Controller {
 				
 				throw new InvalidInputException(e.getMessage());
 			}
-		
-		
-		
-			
-			
-
 		// TODO check if this is correct '
 		try {
 			setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
@@ -604,6 +598,11 @@ public class Block223Controller {
 		if (selectedGame == null) {
 			
 			throw new InvalidInputException("A game with name " + name + " does not exist.");
+		}
+
+		//This error needs to be reviewed. Realistically, this is not where the error should be thrown from.
+		if (selectedGame.getPublished() == true) {
+			throw new InvalidInputException("A published game cannot be changed.");
 		}
 
 
