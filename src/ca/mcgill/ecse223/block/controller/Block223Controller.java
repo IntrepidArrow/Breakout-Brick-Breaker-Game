@@ -153,6 +153,9 @@ public class Block223Controller {
 		if (!game.getAdmin().equals(admin))
 			throw new InvalidInputException("Only the admin who created the game can delete the game.");
 
+		if(game.getPublished() == true){
+			throw new InvalidInputException("A published game cannot be deleted.");
+		}
 		game.delete();
 		Block223Persistence.save(block223);
 	}
@@ -173,26 +176,29 @@ public class Block223Controller {
 				throw new InvalidInputException( "Only the admin who created the game can define its game settings.");
 			}
 		}
-		
-		
+
 		String currentName = game.getName();
-			if( currentName.equals(name)) {
-			
+		//check for duplicate game name. Cycle through all games and see if game with that name already exists or not 
+		// for(Game checkGame : Block223Application.getBlock223().getGames()){
+		// 	if (checkGame.getName().equals(name)){
+		// 		throw new InvalidInputException("The name of a game must be unique.");
+		// 	}
+		// }
+
+		if(Block223Application.getBlock223().findGame(name)!=null){
+			if(Block223Application.getBlock223().findGame(name) != game){
 				throw new InvalidInputException("The name of a game must be unique.");
 			}
+		}
+
 			try { 
-				game.setName(name);
-				
+				if(currentName != name){
+					game.setName(name);
+				}
 			} catch(RuntimeException e) {
 				
 				throw new InvalidInputException(e.getMessage());
 			}
-		
-		
-		
-			
-			
-
 		// TODO check if this is correct '
 		try {
 			setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
@@ -603,6 +609,11 @@ public class Block223Controller {
 			throw new InvalidInputException("A game with name " + name + " does not exist.");
 		}
 
+		//This error needs to be reviewed. Realistically, this is not where the error should be thrown from.
+		if (selectedGame.getPublished() == true) {
+			throw new InvalidInputException("A published game cannot be changed.");
+		}
+
 
 		Block223Application.setCurrentGame(selectedGame);
 	} 
@@ -647,7 +658,7 @@ public class Block223Controller {
 		for (Game game : games) {
 			Admin gameAdmin = game.getAdmin();
 
-			if (gameAdmin.equals(admin)) {
+			if (gameAdmin.equals(admin) && (game.getPublished()==false)) {
 				TOGame to = new TOGame(game.getName(), game.getLevels().size(), game.getNrBlocksPerLevel(),
 						game.getBall().getMinBallSpeedX(), game.getBall().getMinBallSpeedY(),
 						game.getBall().getBallSpeedIncreaseFactor(), game.getPaddle().getMaxPaddleLength(),
