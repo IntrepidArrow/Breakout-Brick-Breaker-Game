@@ -153,6 +153,9 @@ public class Block223Controller {
 		if (!game.getAdmin().equals(admin))
 			throw new InvalidInputException("Only the admin who created the game can delete the game.");
 
+		if(game.getPublished() == true){
+			throw new InvalidInputException("A published game cannot be deleted.");
+		}
 		game.delete();
 		Block223Persistence.save(block223);
 	}
