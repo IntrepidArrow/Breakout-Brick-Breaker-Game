@@ -912,26 +912,24 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 
 	public static void selectPlayableGame(String name, int id) throws InvalidInputException {
 		Block223 block223 = Block223Application.getBlock223();
-		UserRole player = Block223Application.getCurrentUserRole();
-
-		if (!(player instanceof Player))
+	
+		if (!(Block223Application.getCurrentUserRole() instanceof Player))
 			throw new InvalidInputException("Player privileges are required to play a game.");
 
 		Game game = block223.findGame(name);
 		PlayedGame pgame;
-
 		if (game != null) {
+			UserRole player = Block223Application.getCurrentUserRole();
 			String username = User.findUsername(player);
 			pgame = new PlayedGame(username, game, block223);
 			pgame.setPlayer((Player) player);
 		} else {
 			pgame = block223.findPlayableGame(id);
-
 			if (game == null && pgame == null)
 				throw new InvalidInputException("The game does not exist.");
 
-			if (game == null && (player != pgame.getPlayer()))
-				throw new InvalidInputException("Only the player that started a game can continue a game.");
+			if (game == null && (Block223Application.getCurrentUserRole() != pgame.getPlayer()))
+				throw new InvalidInputException("Only the player that started a game can continue the game.");
 		}
 		Block223Application.setCurrentPlayableGame(pgame);
 	}
@@ -947,10 +945,10 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		if (pgame == null)
 			throw new InvalidInputException("A game must be selected to play it.");
 
-		if (user instanceof Admin && pgame.getPlayer() != null)
+		if ((user instanceof Admin) && (pgame.getPlayer() != null))
 			throw new InvalidInputException("Player privileges are required to play a game.");
 
-		if (user instanceof Admin && pgame.getGame().getAdmin().equals(user))
+		if ((user instanceof Admin) && (Block223Application.getCurrentPlayableGame().getGame().getAdmin() != Block223Application.getCurrentUserRole()))
 			throw new InvalidInputException("Only the admin of a game can test the game.");
 
 		if (user instanceof Player && pgame.getPlayer() == null)
@@ -1069,17 +1067,19 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 
 
 	public static void testGame(Block223PlayModeInterface ui) throws InvalidInputException {
-		Game game = Block223Application.getCurrentGame();
-		if(game == null){
+		
+		if(Block223Application.getCurrentGame() == null){
 			throw new InvalidInputException("A game must be selected to test it.");
 		}
-		UserRole admin = Block223Application.getCurrentUserRole();
-		if (!(admin instanceof Admin)){
+		
+		if (!(Block223Application.getCurrentUserRole() instanceof Admin)){
 			throw new InvalidInputException("Admin privileges are required to test a game.");
 		}
 		if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
 			throw new InvalidInputException("Only the admin who created the game can test it.");
 		}
+		Game game = Block223Application.getCurrentGame();
+		UserRole admin = Block223Application.getCurrentUserRole(); 
 		String username = User.findUsername(admin); 
 		Block223 block223 = Block223Application.getBlock223();
 
