@@ -153,9 +153,6 @@ public class Block223Controller {
 		if (!game.getAdmin().equals(admin))
 			throw new InvalidInputException("Only the admin who created the game can delete the game.");
 
-		if(game.getPublished() == true){
-			throw new InvalidInputException("A published game cannot be deleted.");
-		}
 		game.delete();
 		Block223Persistence.save(block223);
 	}
@@ -176,29 +173,26 @@ public class Block223Controller {
 				throw new InvalidInputException( "Only the admin who created the game can define its game settings.");
 			}
 		}
-
+		
+		
 		String currentName = game.getName();
-		//check for duplicate game name. Cycle through all games and see if game with that name already exists or not 
-		// for(Game checkGame : Block223Application.getBlock223().getGames()){
-		// 	if (checkGame.getName().equals(name)){
-		// 		throw new InvalidInputException("The name of a game must be unique.");
-		// 	}
-		// }
-
-		if(Block223Application.getBlock223().findGame(name)!=null){
-			if(Block223Application.getBlock223().findGame(name) != game){
+			if( currentName.equals(name)) {
+			
 				throw new InvalidInputException("The name of a game must be unique.");
 			}
-		}
-
 			try { 
-				if(currentName != name){
-					game.setName(name);
-				}
+				game.setName(name);
+				
 			} catch(RuntimeException e) {
 				
 				throw new InvalidInputException(e.getMessage());
 			}
+		
+		
+		
+			
+			
+
 		// TODO check if this is correct '
 		try {
 			setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
@@ -609,11 +603,6 @@ public class Block223Controller {
 			throw new InvalidInputException("A game with name " + name + " does not exist.");
 		}
 
-		//This error needs to be reviewed. Realistically, this is not where the error should be thrown from.
-		if (selectedGame.getPublished() == true) {
-			throw new InvalidInputException("A published game cannot be changed.");
-		}
-
 
 		Block223Application.setCurrentGame(selectedGame);
 	} 
@@ -658,7 +647,7 @@ public class Block223Controller {
 		for (Game game : games) {
 			Admin gameAdmin = game.getAdmin();
 
-			if (gameAdmin.equals(admin) && (game.getPublished()==false)) {
+			if (gameAdmin.equals(admin)) {
 				TOGame to = new TOGame(game.getName(), game.getLevels().size(), game.getNrBlocksPerLevel(),
 						game.getBall().getMinBallSpeedX(), game.getBall().getMinBallSpeedY(),
 						game.getBall().getBallSpeedIncreaseFactor(), game.getPaddle().getMaxPaddleLength(),
@@ -838,7 +827,7 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		if (userRole instanceof Admin && game.getPlayer() != null)
 			throw new InvalidInputException("Player privileges are required to play a game.");
 
-		if (userRole instanceof Admin && game.getGame().getAdmin().equals(userRole))
+		if (userRole instanceof Admin && (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()))
 			throw new InvalidInputException("Only the admin of a game can test the game.");
 
 		if (userRole instanceof Player && game.getPlayer() == null)
@@ -929,10 +918,10 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		} else {
 			pgame = block223.findPlayableGame(id);
 
-			if (pgame == null)
+			if (game == null && pgame == null)
 				throw new InvalidInputException("The game does not exist.");
 
-			if (!pgame.getPlayer().equals(player))
+			if (game == null && (player != pgame.getPlayer()))
 				throw new InvalidInputException("Only the player that started a game can continue a game.");
 		}
 		Block223Application.setCurrentPlayableGame(pgame);
@@ -1088,8 +1077,7 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		PlayedGame pgame = new PlayedGame(username, game, block223);
 		pgame.setPlayer(null);
 		Block223Application.setCurrentPlayableGame(pgame);
-
-		Block223Controller.startGame(ui);
+		startGame(ui);
 	}
 
 	public static void publishGame() throws InvalidInputException {
