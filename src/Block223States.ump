@@ -183,6 +183,7 @@ class PlayedGame {
 	   setScore(score + bscore);
 	   pblock.delete();
 	   bounceBall();
+	   setBounce(null);
   }
 
   private void doHitBlockNextLevel() {

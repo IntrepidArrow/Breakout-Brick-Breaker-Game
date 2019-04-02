@@ -69,14 +69,16 @@ class PlayedGame {
    }
 
    private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block) {
-	int xBlock = block.getX();
+	BouncePoint returnedBp = null;
+    int xBlock = block.getX();
 	int yBlock = block.getY();
 	int sideBlock = Block.SIZE;
 	int ballRadius = Ball.BALL_DIAMETER / 2 ;
 	
 	 ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
 	
-	Rectangle2D blockShape = new Rectangle2D.Double(xBlock,yBlock,sideBlock,sideBlock);
+	 // blockshape + yellow line
+	Rectangle2D blockShape = new Rectangle2D.Double(xBlock - ballRadius,yBlock - ballRadius, sideBlock + 2*ballRadius, sideBlock + 2*ballRadius );
 	
 	Line2D path = new Line2D.Double(currentBallX,currentBallY,currentBallX + ballDirectionX, currentBallY + ballDirectionY);
 	
@@ -105,7 +107,7 @@ class PlayedGame {
 
 		// check if hit the bottom of block
 		Point2D interD = intersectLine(blockBottomLine, path);	
-		if(interA != null) {
+		if(interD != null) {
 			allIntersections.add(new BouncePoint(interD.getX(),interD.getY(),BouncePoint.BounceDirection.FLIP_Y));
 		}
 
@@ -185,7 +187,14 @@ class PlayedGame {
 							minIndex=i;
 						}
 					}
-					return allIntersections.get(minIndex);
+					returnedBp = allIntersections.get(minIndex);
+					returnedBp.setHitBlock(block);
+					// return null if bp is exactly at the new ball position
+					if(returnedBp.getX() == currentBallX + ballDirectionY & returnedBp.getY() == currentBallY + ballDirectionY ) {
+						returnedBp = null;
+					}
+					
+					return returnedBp;
 				}
 	
 }
