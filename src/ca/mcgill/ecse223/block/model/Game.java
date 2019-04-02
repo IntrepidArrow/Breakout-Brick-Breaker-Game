@@ -59,18 +59,6 @@ public class Game implements Serializable
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223)
   {
-    // line 81 "../../../../../Block223.ump"
-    if(aNrBlocksPerLevel <= 0){
-      		throw new RuntimeException("The number of blocks per level must be greater than zero.");
-      		}
-      		 for(Level level : levels) {
-        	
-        	if(level.getBlockAssignments().size() > aNrBlocksPerLevel) {
-        		throw new RuntimeException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");
-        		
-        	}
-      	}
-    // END OF UMPLE BEFORE INJECTION
     published = false;
     nrBlocksPerLevel = aNrBlocksPerLevel;
     hallOfFameEntriesPriority = 
@@ -115,18 +103,6 @@ public class Game implements Serializable
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, int aMinBallSpeedXForBall, int aMinBallSpeedYForBall, double aBallSpeedIncreaseFactorForBall, int aMaxPaddleLengthForPaddle, int aMinPaddleLengthForPaddle, Block223 aBlock223)
   {
-    // line 81 "../../../../../Block223.ump"
-    if(aNrBlocksPerLevel <= 0){
-      		throw new RuntimeException("The number of blocks per level must be greater than zero.");
-      		}
-      		 for(Level level : levels) {
-        	
-        	if(level.getBlockAssignments().size() > aNrBlocksPerLevel) {
-        		throw new RuntimeException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");
-        		
-        	}
-      	}
-    // END OF UMPLE BEFORE INJECTION
     published = false;
     name = aName;
     nrBlocksPerLevel = aNrBlocksPerLevel;
