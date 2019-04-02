@@ -53,10 +53,9 @@ class PlayedGame {
   
   private boolean hitLastBlockAndLastLevel() {
     // TODO implement
-    boolean isLastBV = false;
 	   Game game = getGame();
 	   int nrLevels = game.numberOfLevels();
-	   this.setBounce(null);
+	   setBounce(null);
 	   
 	   if( nrLevels == currentLevel ) {
 		   int nrBlocks = numberOfBlocks();
@@ -65,16 +64,18 @@ class PlayedGame {
 			   PlayedBlockAssignment block = getBlock(0);
 			   BouncePoint bp = calculateBouncePointBlock(block);
 			   setBounce(bp);
-			   isLastBV = true;
+			   if(bp != null){
+			   return true;
+			   }
 			 }
 		  }
 	   
-    return isLastBV;
+    return false;
   }
   
   private boolean hitLastBlock(){
     // TODO implement
-    boolean isLastB = false;
+    
 	   int nrBlocks = numberOfBlocks();
 	   setBounce(null);
 	   
@@ -82,9 +83,11 @@ class PlayedGame {
 		   PlayedBlockAssignment block = getBlock(0);
 		   BouncePoint bp = calculateBouncePointBlock(block);
 		   setBounce(bp);
-		   isLastB = true;
+		   if (bp != null){
+		   	return true;
+		   }
 	   }
-	   return isLastB;
+	   return false;
   }
   
   private boolean hitBlock() {
