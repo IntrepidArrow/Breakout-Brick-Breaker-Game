@@ -848,8 +848,9 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 			String userInputs = ui.takeInputs();
 			updatePaddlePosition(userInputs);
 			game.move();
-			if (userInputs.contains(" "))
+			if (userInputs.contains(" ")) {
 				game.pause();
+			}
 			try {
 				TimeUnit.MILLISECONDS.sleep((long) game.getWaitTime());
 			} catch (InterruptedException e) {
@@ -868,20 +869,34 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 	}
 
 	public static void updatePaddlePosition(String userInputs) throws InvalidInputException {
-		String validInputs;
-		if (userInputs.contains(" "))
-			validInputs = userInputs.split(" ")[0];
-		else
-			validInputs = userInputs;
-
+//		String validInputs;
+//		if (userInputs.contains(" "))
+//			validInputs = userInputs.split(" ")[0];
+//		else
+//			validInputs = userInputs;
+//
+//		TOCurrentlyPlayedGame currentGame = getCurrentPlayableGame();
+//		for (char input : validInputs.toCharArray()) {
+//			int d = 0;
+//			if (input == 'l')
+//				d = PlayedGame.PADDLE_MOVE_LEFT;
+//			else if (input == 'r')
+//				d = PlayedGame.PADDLE_MOVE_RIGHT;
+//			currentGame.setCurrentPaddleX(currentGame.getCurrentPaddleLength() + d);
+//		}
+		int playArea = 390;
 		TOCurrentlyPlayedGame currentGame = getCurrentPlayableGame();
-		for (char input : validInputs.toCharArray()) {
-			int d = 0;
-			if (input == 'l')
-				d = PlayedGame.PADDLE_MOVE_LEFT;
-			else if (input == 'r')
-				d = PlayedGame.PADDLE_MOVE_RIGHT;
-			currentGame.setCurrentPaddleX(currentGame.getCurrentPaddleLength() + d);
+		
+		for (char s: userInputs.toCharArray()) {
+			if(s == ' ') break;
+			if(currentGame.getCurrentPaddleX() <= playArea && currentGame.getCurrentPaddleX() >=0) {
+				if(s == 'l') {
+					currentGame.setCurrentPaddleX(currentGame.getCurrentPaddleX() + PlayedGame.PADDLE_MOVE_LEFT);
+				}
+				if(s == 'r') {
+					currentGame.setCurrentPaddleX(currentGame.getCurrentPaddleX() + PlayedGame.PADDLE_MOVE_RIGHT);
+				}
+			}
 		}
 	}
 

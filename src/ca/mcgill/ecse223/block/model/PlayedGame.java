@@ -1316,15 +1316,18 @@ public class PlayedGame implements Serializable
 
   // line 201 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
-    double x = getCurrentBallX();
-    double y = getCurrentBallY();
-    double dx = getBallDirectionX();
-    double dy = getBallDirectionY();
-    setCurrentBallX(x+dx);
-    setCurrentBallY(y+dy);
+    //double x = getCurrentBallX();
+    //double y = getCurrentBallY();
+    //double dx = getBallDirectionX();
+    //double dy = getBallDirectionY();
+    //setCurrentBallX(x+dx);
+    //setCurrentBallY(y+dy);
+    
+    setCurrentBallX(getCurrentBallX() + getBallDirectionX());
+    setCurrentBallY(getCurrentBallY() + getBallDirectionY());
   }
 
-  // line 210 "../../../../../Block223States.ump"
+  // line 213 "../../../../../Block223States.ump"
    private void doGameOver(){
     Player p;
 	String playername;
