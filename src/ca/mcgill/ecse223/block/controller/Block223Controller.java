@@ -884,18 +884,36 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 //				d = PlayedGame.PADDLE_MOVE_RIGHT;
 //			currentGame.setCurrentPaddleX(currentGame.getCurrentPaddleLength() + d);
 //		}
-		int playArea = 390;
-		TOCurrentlyPlayedGame currentGame = getCurrentPlayableGame();
-		
-		for (char s: userInputs.toCharArray()) {
-			if(s == ' ') break;
-			if(currentGame.getCurrentPaddleX() <= playArea && currentGame.getCurrentPaddleX() >=0) {
-				if(s == 'l') {
-					currentGame.setCurrentPaddleX(currentGame.getCurrentPaddleX() + PlayedGame.PADDLE_MOVE_LEFT);
+//		int playArea = 390;
+//		TOCurrentlyPlayedGame currentGame = getCurrentPlayableGame();
+//		
+//		for (char s: userInputs.toCharArray()) {
+//			if(s == ' ') break;
+//			if(currentGame.getCurrentPaddleX() <= playArea && currentGame.getCurrentPaddleX() >=0) {
+//				if(s == 'l') {
+//					currentGame.setCurrentPaddleX(currentGame.getCurrentPaddleX() + PlayedGame.PADDLE_MOVE_LEFT);
+//				}
+//				if(s == 'r') {
+//					currentGame.setCurrentPaddleX(currentGame.getCurrentPaddleX() + PlayedGame.PADDLE_MOVE_RIGHT);
+//				}
+//			}
+//		}
+		for (int i=0; i < userInputs.length(); i++) {
+			Double curPaddlePos = Block223Application.getCurrentPlayableGame().getCurrentPaddleX();
+			if(userInputs.charAt(i) == 'l') {
+				curPaddlePos += PlayedGame.PADDLE_MOVE_LEFT;
+				if(curPaddlePos >= 0) {
+					Block223Application.getCurrentPlayableGame().setCurrentPaddleX(curPaddlePos);
 				}
-				if(s == 'r') {
-					currentGame.setCurrentPaddleX(currentGame.getCurrentPaddleX() + PlayedGame.PADDLE_MOVE_RIGHT);
+			}
+			else if (userInputs.charAt(i) == 'r') {
+				curPaddlePos += PlayedGame.PADDLE_MOVE_RIGHT;
+				if(curPaddlePos <= 370) {
+					Block223Application.getCurrentPlayableGame().setCurrentPaddleX(curPaddlePos);
 				}
+			}
+			else if (userInputs.charAt(i) == ' ') {
+				return;
 			}
 		}
 	}
