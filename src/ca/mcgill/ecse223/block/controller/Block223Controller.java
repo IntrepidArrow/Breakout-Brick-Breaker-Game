@@ -153,6 +153,9 @@ public class Block223Controller {
 		if (!game.getAdmin().equals(admin))
 			throw new InvalidInputException("Only the admin who created the game can delete the game.");
 
+		if(game.getPublished() == true){
+			throw new InvalidInputException("A published game cannot be deleted.");
+		}
 		game.delete();
 		Block223Persistence.save(block223);
 	}
@@ -176,13 +179,15 @@ public class Block223Controller {
 		
 		
 		String currentName = game.getName();
-			if( currentName.equals(name)) {
-			
+		if(Block223Application.getBlock223().findGame(name)!=null){
+			if(Block223Application.getBlock223().findGame(name) != game){
 				throw new InvalidInputException("The name of a game must be unique.");
 			}
-			try { 
-				game.setName(name);
-				
+		}
+			try {
+				if (currentName != name){ 
+					game.setName(name);
+				}
 			} catch(RuntimeException e) {
 				
 				throw new InvalidInputException(e.getMessage());
@@ -603,6 +608,10 @@ public class Block223Controller {
 			throw new InvalidInputException("A game with name " + name + " does not exist.");
 		}
 
+		if(selectedGame.getPublished()== true){
+			throw new InvalidInputException("A published game cannot be changed.");
+		}
+
 
 		Block223Application.setCurrentGame(selectedGame);
 	} 
@@ -647,7 +656,7 @@ public class Block223Controller {
 		for (Game game : games) {
 			Admin gameAdmin = game.getAdmin();
 
-			if (gameAdmin.equals(admin)) {
+			if (gameAdmin.equals(admin) && (game.getPublished() == false)) {
 				TOGame to = new TOGame(game.getName(), game.getLevels().size(), game.getNrBlocksPerLevel(),
 						game.getBall().getMinBallSpeedX(), game.getBall().getMinBallSpeedY(),
 						game.getBall().getBallSpeedIncreaseFactor(), game.getPaddle().getMaxPaddleLength(),
