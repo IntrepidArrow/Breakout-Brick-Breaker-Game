@@ -34,21 +34,6 @@ public class Ball implements Serializable
 
   public Ball(int aMinBallSpeedX, int aMinBallSpeedY, double aBallSpeedIncreaseFactor, Game aGame)
   {
-    // line 193 "../../../../../Block223.ump"
-    if(aMinBallSpeedX < 0){
-       			throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
-       		}
-    // END OF UMPLE BEFORE INJECTION
-    // line 198 "../../../../../Block223.ump"
-    if(aMinBallSpeedY < 0){
-       			throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
-       		}
-    // END OF UMPLE BEFORE INJECTION
-    // line 203 "../../../../../Block223.ump"
-    if(aBallSpeedIncreaseFactor < 0){
-       			throw new RuntimeException("The speed increase factor of the ball must be greater than zero.");
-       		}
-    // END OF UMPLE BEFORE INJECTION
     minBallSpeedX = aMinBallSpeedX;
     minBallSpeedY = aMinBallSpeedY;
     ballSpeedIncreaseFactor = aBallSpeedIncreaseFactor;
@@ -61,21 +46,6 @@ public class Ball implements Serializable
 
   public Ball(int aMinBallSpeedX, int aMinBallSpeedY, double aBallSpeedIncreaseFactor, String aNameForGame, int aNrBlocksPerLevelForGame, Admin aAdminForGame, Paddle aPaddleForGame, Block223 aBlock223ForGame)
   {
-    // line 193 "../../../../../Block223.ump"
-    if(aMinBallSpeedX < 0){
-       			throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
-       		}
-    // END OF UMPLE BEFORE INJECTION
-    // line 198 "../../../../../Block223.ump"
-    if(aMinBallSpeedY < 0){
-       			throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
-       		}
-    // END OF UMPLE BEFORE INJECTION
-    // line 203 "../../../../../Block223.ump"
-    if(aBallSpeedIncreaseFactor < 0){
-       			throw new RuntimeException("The speed increase factor of the ball must be greater than zero.");
-       		}
-    // END OF UMPLE BEFORE INJECTION
     minBallSpeedX = aMinBallSpeedX;
     minBallSpeedY = aMinBallSpeedY;
     ballSpeedIncreaseFactor = aBallSpeedIncreaseFactor;

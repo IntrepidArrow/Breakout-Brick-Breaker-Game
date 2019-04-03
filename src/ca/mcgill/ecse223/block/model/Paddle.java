@@ -34,16 +34,6 @@ public class Paddle implements Serializable
 
   public Paddle(int aMaxPaddleLength, int aMinPaddleLength, Game aGame)
   {
-    // line 216 "../../../../../Block223.ump"
-    if((aMaxPaddleLength <= 0) || aMaxPaddleLength > 390){
-       			throw new RuntimeException("The maximum length of the paddle must be greater than zero and less than or equal to 390.");
-       		}
-    // END OF UMPLE BEFORE INJECTION
-    // line 221 "../../../../../Block223.ump"
-    if(aMinPaddleLength <= 0){
-       			throw new RuntimeException("The minimum length of the paddle must be greater than zero.");
-       		}
-    // END OF UMPLE BEFORE INJECTION
     maxPaddleLength = aMaxPaddleLength;
     minPaddleLength = aMinPaddleLength;
     if (aGame == null || aGame.getPaddle() != null)
@@ -55,16 +45,6 @@ public class Paddle implements Serializable
 
   public Paddle(int aMaxPaddleLength, int aMinPaddleLength, String aNameForGame, int aNrBlocksPerLevelForGame, Admin aAdminForGame, Ball aBallForGame, Block223 aBlock223ForGame)
   {
-    // line 216 "../../../../../Block223.ump"
-    if((aMaxPaddleLength <= 0) || aMaxPaddleLength > 390){
-       			throw new RuntimeException("The maximum length of the paddle must be greater than zero and less than or equal to 390.");
-       		}
-    // END OF UMPLE BEFORE INJECTION
-    // line 221 "../../../../../Block223.ump"
-    if(aMinPaddleLength <= 0){
-       			throw new RuntimeException("The minimum length of the paddle must be greater than zero.");
-       		}
-    // END OF UMPLE BEFORE INJECTION
     maxPaddleLength = aMaxPaddleLength;
     minPaddleLength = aMinPaddleLength;
     game = new Game(aNameForGame, aNrBlocksPerLevelForGame, aAdminForGame, aBallForGame, this, aBlock223ForGame);
