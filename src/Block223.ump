@@ -189,17 +189,17 @@ class Ball {
    Integer minBallSpeedY;
    Double ballSpeedIncreaseFactor;
    
-   before setMinBallSpeedX, constructor{
+   before setMinBallSpeedX {
    		if(aMinBallSpeedX < 0){
    			throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
    		}
    }
-   before setMinBallSpeedY, constructor{
+   before setMinBallSpeedY {
    		if(aMinBallSpeedY < 0){
    			throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
    		}
    }
-   before setBallSpeedIncreaseFactor, constructor {
+   before setBallSpeedIncreaseFactor  {
    		if(aBallSpeedIncreaseFactor < 0){
    			throw new RuntimeException("The speed increase factor of the ball must be greater than zero.");
    		}
@@ -212,12 +212,12 @@ class Paddle {
    Integer maxPaddleLength;
    Integer minPaddleLength;
    
-   before setMaxPaddleLength, constructor {
+   before setMaxPaddleLength {
    		if((aMaxPaddleLength <= 0) || aMaxPaddleLength > 390){
    			throw new RuntimeException("The maximum length of the paddle must be greater than zero and less than or equal to 390.");
    		}
    }
-   before setMinPaddleLength, constructor {
+   before setMinPaddleLength {
    		if(aMinPaddleLength <= 0){
    			throw new RuntimeException("The minimum length of the paddle must be greater than zero.");
    		}
