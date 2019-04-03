@@ -1001,14 +1001,14 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		return result;
 	}
 
-	public static TOHallOfFame getHallOfFame(int start, int end) throws InvalidInputException {
+public static TOHallOfFame getHallOfFame(int start, int end) throws InvalidInputException {
 		
 		//TODO check the type problem, I think there is no specific game
 		PlayedGame pgame = Block223Application.getCurrentPlayableGame();
 			
 		if(pgame == null) { 
 			
-			throw new InvalidInputException("A game must be selected to view its hall of fame"); 
+			throw new InvalidInputException("A game must be selected to view its hall of fame."); 
 		} else if(!(Block223Application.getCurrentUserRole() instanceof Player)) {
 			
 			throw new InvalidInputException("Player privileges are required to access a game's hall of fame."); 
@@ -1024,77 +1024,75 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		
 		if(end > game.numberOfHallOfFameEntries()) { 
 			
+			
 			end = game.numberOfHallOfFameEntries(); 
-			start = start -1; 
-			end = end -1; 
-			
 		}
-		
-		for( int i =start; i<= end;i++) { 
+		// umple sorts scores in ascending order therefore the highest score is at the end of the list and the lowest score
+		// is at index 0. 
+		 
+			start = game.numberOfHallOfFameEntries() -start; 
+			end = game.numberOfHallOfFameEntries() - end; 
 			
-			 new TOHallOfFameEntry(i+1, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
+		
+		
+		for( int i =start; i>=end;i--) { 
+			
+			TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
 		}
 		
 		return result; 	
 	}
 
 
-
-	public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
+public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
+	
+	PlayedGame pgame = Block223Application.getCurrentPlayableGame(); 
+	if(pgame == null) {
 		
-		PlayedGame pgame = Block223Application.getCurrentPlayableGame(); 
-		if(pgame == null) {
-			
-			throw new InvalidInputException("A game must be selected to view its hall of fame."); 
-			
-		}
+		throw new InvalidInputException("A game must be selected to view its hall of fame."); 
+	}
+	
+	if(!(Block223Application.getCurrentUserRole() instanceof Player)) {
 		
-		if(!(Block223Application.getCurrentUserRole() instanceof Player)) {
-			
-			throw new InvalidInputException("Player privileges are required to access a game's hall of fame.");
-			
-		}
+		throw new InvalidInputException("Player privileges are required to access a game's hall of fame.");
+	}
+	
+	Game game = pgame.getGame(); 
+	// does number of entries refers to the number of entries in the hall of fame?  
+	TOHallOfFame result = new TOHallOfFame(game.getName()); 
+	HallOfFameEntry mostRecent = game.getMostRecentEntry(); 
+	if(numberOfEntries <=0 || mostRecent == null) {
 		
-		Game game = pgame.getGame(); 
-		// does number of entries refers to the number of entries in the hall of fame?  
-		TOHallOfFame result = new TOHallOfFame(game.getName()); 
-		HallOfFameEntry mostRecent = game.getMostRecentEntry(); 
-		if(numberOfEntries <=0 || mostRecent == null) {
-			
-			return result; 
-		}
-		
-		
-		int index = game.indexOfHallOfFameEntry(mostRecent); 
-		// should we cast the numberOfEntries/2? 
-		
-		int start = index - numberOfEntries/2;
-		if(start < 1) {
-			
-			start =1; 
-			
-		}
-		int end = start + numberOfEntries -1; 
-		if(end >game.numberOfHallOfFameEntries()) {
-			
-			end = game.numberOfHallOfFameEntries(); 
-			
-		}
-		start -=1; 
-		end -=1;
-		
-		for( int i = start; i<=end ;i++) {
-			
-			//TODO add the method getPlayerName() in the user class
-			
-			// we do index+1 to make sure to add after the most recent entry
-			// ask why are we just updating a part of the hall of fame 
-			// and how is the sorting working? is it done automatically after we add it to the ? 
-			
-			 new TOHallOfFameEntry(i+1, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
-		}
 		return result; 
 	}
+	
+	int index = game.indexOfHallOfFameEntry(mostRecent); 
+	// should we cast the numberOfEntries/2? 
+	
+	int start = index - numberOfEntries/2;
+	if(start < 1) {
+		
+		start =1; 
+	} 
+	if(start > game.numberOfHallOfFameEntries()-1) {
+		start = game.numberOfHallOfFameEntries()-1;
+	}
+	 int end = start - numberOfEntries +1; 
+	if(end < 0) {
+		
+		end = 0; 
+	}
+	for( int i = start; i>=end ;i--) {
+		
+		//TODO add the method getPlayerName() in the user class
+		
+		// we do index+1 to make sure to add after the most recent entry
+		
+		
+		TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
+	}
+	return result; 
+}
 
 
 
