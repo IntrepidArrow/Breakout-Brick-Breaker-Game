@@ -1226,7 +1226,11 @@ public class PlayedGame implements Serializable
     return getBounce() != null;
   }
 
-  // line 111 "../../../../../Block223States.ump"
+
+  /**
+   * line 111 "../../../../../Block223States.ump"
+   */
+  // line 112 "../../../../../Block223States.ump"
    private boolean hitWall(){
     BouncePoint bp = calculateBouncePointWall();
 	if(bp == null){
@@ -1241,7 +1245,7 @@ public class PlayedGame implements Serializable
   /**
    * Actions
    */
-  // line 123 "../../../../../Block223States.ump"
+  // line 124 "../../../../../Block223States.ump"
    private void doSetup(){
     this.resetCurrentBallX();
     this.resetCurrentBallY();
@@ -1281,13 +1285,13 @@ public class PlayedGame implements Serializable
 	}
   }
 
-  // line 162 "../../../../../Block223States.ump"
+  // line 163 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
     bounceBall();
 	return;
   }
 
-  // line 167 "../../../../../Block223States.ump"
+  // line 168 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     int lives = getLives();
 	setLives(lives-1);
@@ -1298,7 +1302,7 @@ public class PlayedGame implements Serializable
 	resetBallDirectionY();
   }
 
-  // line 178 "../../../../../Block223States.ump"
+  // line 179 "../../../../../Block223States.ump"
    private void doHitBlock(){
     // TODO implement
     int score = getScore();
@@ -1311,12 +1315,12 @@ public class PlayedGame implements Serializable
 	   setBounce(null);
   }
 
-  // line 190 "../../../../../Block223States.ump"
+  // line 191 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     // TODO implement
     doHitBlock();
 	   int level = getCurrentLevel();
-	   setCurrentLevel(level++);
+	   setCurrentLevel(++level);
 	   int paddleLength = getGame().getPaddle().getMaxPaddleLength() - 
 			   			( getGame().getPaddle().getMaxPaddleLength() - getGame().getPaddle().getMinPaddleLength() ) /
 			   			( getGame().numberOfLevels() - 1 ) * ( getCurrentLevel() - 1 ) ;
@@ -1324,7 +1328,7 @@ public class PlayedGame implements Serializable
 	   setWaitTime( INITIAL_WAIT_TIME * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(), ( getCurrentLevel() - 1 )));
   }
 
-  // line 202 "../../../../../Block223States.ump"
+  // line 204 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     //double x = getCurrentBallX();
     //double y = getCurrentBallY();
@@ -1337,7 +1341,7 @@ public class PlayedGame implements Serializable
     setCurrentBallY(getCurrentBallY() + getBallDirectionY());
   }
 
-  // line 214 "../../../../../Block223States.ump"
+  // line 216 "../../../../../Block223States.ump"
    private void doGameOver(){
     Player p;
 	String playername;
