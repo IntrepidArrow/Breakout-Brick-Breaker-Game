@@ -185,7 +185,12 @@ class PlayedGame {
 							minIndex=i;
 						}
 					}
+				if(allIntersections.get(minIndex).getX()==(currentBallX+ballDirectionX) &&
+						allIntersections.get(minIndex).getY()==(currentBallY+ballDirectionY)) {
+					return null;
+				}else {
 					return allIntersections.get(minIndex);
+				}
 				}
 	
 }
@@ -212,24 +217,24 @@ private void bounceBall() {
 		   newDirectionX = ballDirectionX + signum(ballDirectionX)*(0.1)*Math.abs(ballDirectionY) ;
 		   newDirectionY = (-1)*ballDirectionY ;
 		   // current ball position updated
-		   currentBallX = bounce.getX() + (remDistY/ballDirectionY) * newDirectionX ;
-		   currentBallY = bounce.getY() + (remDistX/ballDirectionY) * newDirectionY ;
+		   currentBallX = bounce.getX() + Math.abs((remDistX/ballDirectionX) * newDirectionX) ;
+		   currentBallY = bounce.getY() + (remDistY/ballDirectionY) * newDirectionY ;
 	   }
 	   else if ( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_X ) {
 		   // ball direction updated
 		   newDirectionX = (-1)*ballDirectionX ;
 		   newDirectionY = ballDirectionY + signum(ballDirectionY)*(0.1)*Math.abs(ballDirectionX);
 		   // current ball position updated
-		   currentBallX = bounce.getX() + (remDistY/ballDirectionX) * newDirectionX ;
-		   currentBallY = bounce.getY() + (remDistX/ballDirectionX) * newDirectionY ;
+		   currentBallX = bounce.getX() + (remDistX/ballDirectionX) * newDirectionX ;
+		   currentBallY = bounce.getY() + Math.abs((remDistY/ballDirectionY) * newDirectionY) ;
 	   }
 	   else if ( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_BOTH ){
 		   // ball direction updated
 		   newDirectionX = (-1)*ballDirectionX ;
 		   newDirectionY = (-1)*ballDirectionY ;
 		   // current ball position updated
-		   currentBallX= bounce.getX() + (remDistY/ballDirectionX) * newDirectionX ;
-		   currentBallY = bounce.getY() + (remDistX/ballDirectionY) * newDirectionY ;
+		   currentBallX= bounce.getX() + (remDistX/ballDirectionX) * newDirectionX ;
+		   currentBallY = bounce.getY() + (remDistY/ballDirectionY) * newDirectionY ;
 	   }
 
 	   ballDirectionX = newDirectionX;
@@ -258,11 +263,11 @@ private void bounceBall() {
 		//intersect the ball path line with sectors A,B,C and add computed intersections to list of intersected lines
 		Point2D interA = intersectLine(sectA, path);
 		if(interA != null) {
-			allIntersections.add(new BouncePoint(interA.getX(),interA.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add(new BouncePoint(interA.getX(),interA.getY(),BouncePoint.BounceDirection.FLIP_X));
 		}
 		Point2D interB = intersectLine(sectB, path);
 		if(interB != null) {
-			allIntersections.add( new BouncePoint(interB.getX(),interB.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interB.getX(),interB.getY(),BouncePoint.BounceDirection.FLIP_Y));
 		}
 		Point2D interC = intersectLine(sectC, path);
 		if(interC != null) {
@@ -283,12 +288,20 @@ private void bounceBall() {
 					minIndex=i;
 				}
 			}
+			BouncePoint closest;
 			//check if the point is one of the two corners and adjust bounce direction otherwise return nearest intersection
 			if((allIntersections.get(minIndex).getX()==5.0 && allIntersections.get(minIndex).getY()==5.0)||
 					(allIntersections.get(minIndex).getX()==385.0 && allIntersections.get(minIndex).getY()==5.0)) {
-				return new BouncePoint(allIntersections.get(minIndex).getX(),allIntersections.get(minIndex).getY(),BouncePoint.BounceDirection.FLIP_BOTH);
+				closest= new BouncePoint(allIntersections.get(minIndex).getX(),allIntersections.get(minIndex).getY(),BouncePoint.BounceDirection.FLIP_BOTH);
 			}else {
-				return allIntersections.get(minIndex);
+				closest=allIntersections.get(minIndex);
+			}
+			
+			if(closest.getX()==(currentBallX+ballDirectionX) &&
+					closest.getY()==(currentBallY+ballDirectionY)) {
+				return null;
+			}else {
+				return closest;
 			}
 			 
 		}
@@ -379,7 +392,12 @@ private void bounceBall() {
 					minIndex=i;
 				}
 			}
-			return allIntersections.get(minIndex);
+			if(allIntersections.get(minIndex).getX()==(currentBallX+ballDirectionX) &&
+					allIntersections.get(minIndex).getY()==(currentBallY+ballDirectionY)) {
+				return null;
+			}else {
+				return allIntersections.get(minIndex);
+			}
 		}
  }
 	
