@@ -311,9 +311,8 @@ private void bounceBall() {
 
   private BouncePoint calculateBouncePointPaddle(){
    ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
-		
-		Rectangle2D paddle = new Rectangle2D.Double(getCurrentPaddleX(),getCurrentPaddleY(),getCurrentPaddleLength(),Paddle.PADDLE_WIDTH);
-		
+		Rectangle2D paddle = new Rectangle2D.Double(getCurrentPaddleX()- Ball.BALL_DIAMETER/2,getCurrentPaddleY()- Ball.BALL_DIAMETER/2,getCurrentPaddleLength()+ Ball.BALL_DIAMETER,Paddle.PADDLE_WIDTH+ Ball.BALL_DIAMETER/2);
+				
 		Line2D path = new Line2D.Double(getCurrentBallX(), getCurrentBallY(), getCurrentBallX()+getBallDirectionX(), getCurrentBallY()+getBallDirectionY());
 		
 		if(!paddle.intersectsLine(path)) {
@@ -406,7 +405,10 @@ private void bounceBall() {
 					aRadius * Math.cos(rad) + aX, aRadius * Math.sin(rad) + aY,
 					aRadius * Math.cos(rad+granularity) + aX, aRadius * Math.sin(rad+granularity) + aY);
 			
-			return intersectLine(arcSection, l1);
+			Point2D inter=intersectLine(arcSection, l1);
+			if(inter!=null) {
+				return inter; 
+			}
 			
 		}
 		
@@ -416,9 +418,52 @@ private void bounceBall() {
 	}
 	
 	//return intersection point of two lines if it exist
-	private Point2D intersectLine(Line2D l1, Line2D l2 ) {
+   private Point2D intersectLine(Line2D l1, Line2D l2){
+    double a1,a2,c1,c2,x,y;
+    double vertY;
+    	if(l1.getX1()==l1.getX2() && l2.getX1()==l2.getX2()) {
+    		return null;
+    	}
+    	if(l1.getX1()==l1.getX2()) {
+    		a2=(l2.getY2() - l2.getY1()) / (l2.getX2() - l2.getX1());
+    		c2= l2.getY1() - a2 * l2.getX1();
+    		//y=x*a+c
+    		vertY=l1.getX1()*a2+c2;
+    		
+    		if((Math.min(l1.getX1(),l1.getX2()) <= l1.getX1() && l1.getX1() <= Math.max(l1.getX1(),l1.getX2()))
+    				&& (Math.min(l2.getX1(),l2.getX2()) <= l1.getX1() && l1.getX1() <= Math.max(l2.getX1(),l2.getX2()))
+    				&& (Math.min(l1.getY1(),l1.getY2()) <= vertY && vertY <= Math.max(l1.getY1(),l1.getY2()))
+    				&& (Math.min(l2.getY1(),l2.getY2()) <= vertY && vertY <= Math.max(l2.getY1(),l2.getY2()))) {
+    			
+    			Point2D intersection = new Point2D.Double(l1.getX1(),vertY);
+    			
+    			return intersection;
+    		}else {
+    			return null;
+    		}
+    		
+    	}
+    	if(l2.getX1()==l2.getX2()) {
 
-		double a1,a2,c1,c2,x,y;
+    		a1=(l1.getY2() - l1.getY1()) / (l1.getX2() - l1.getX1());
+    		c1= l1.getY1() - a1 * l1.getX1();
+    		//y=x*a+c
+    		vertY=l2.getX1()*a1+c1;
+    		
+    		if((Math.min(l1.getX1(),l1.getX2()) <= l2.getX1() && l2.getX1() <= Math.max(l1.getX1(),l1.getX2()))
+    				&& (Math.min(l2.getX1(),l2.getX2()) <= l2.getX1() && l2.getX1() <= Math.max(l2.getX1(),l2.getX2()))
+    				&& (Math.min(l1.getY1(),l1.getY2()) <= vertY && vertY <= Math.max(l1.getY1(),l1.getY2()))
+    				&& (Math.min(l2.getY1(),l2.getY2()) <= vertY && vertY <= Math.max(l2.getY1(),l2.getY2()))) {
+    			
+    			Point2D intersection = new Point2D.Double(l2.getX1(),vertY);
+    			
+    			return intersection;
+    		}else {
+    			return null;
+    		}
+    		
+    	}
+    
 		a1=(l1.getY2() - l1.getY1()) / (l1.getX2() - l1.getX1());
 		a2=(l2.getY2() - l2.getY1()) / (l2.getX2() - l2.getX1());
 		c1= l1.getY1() - a1 * l1.getX1();
@@ -431,18 +476,17 @@ private void bounceBall() {
 		if((Math.min(l1.getX1(),l1.getX2()) <= x && x <= Math.max(l1.getX1(),l1.getX2()))
 				&& (Math.min(l2.getX1(),l2.getX2()) <= x && x <= Math.max(l2.getX1(),l2.getX2()))) {
 			
+			y=a1 * x + c1;
+
+			Point2D intersection = new Point2D.Double(x,y);
+			
+			return intersection;
 		}else {
 			return null;
 		}
 		
-		y=a1 * x + c1;
-		
-		
-		Point2D intersection = new Point2D.Double(x,y);
-		
-		return intersection;
-		
-	}
+
+  }
 	
 	private boolean isCloser(BouncePoint first, BouncePoint second) {
 	   boolean isCloser = false;
