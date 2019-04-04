@@ -217,7 +217,7 @@ private void bounceBall() {
 		   newDirectionX = ballDirectionX + signum(ballDirectionX)*(0.1)*Math.abs(ballDirectionY) ;
 		   newDirectionY = (-1)*ballDirectionY ;
 		   // current ball position updated
-		   currentBallX = bounce.getX() + Math.abs((remDistX/ballDirectionX) * newDirectionX) ;
+		   currentBallX = bounce.getX() + Math.abs((remDistX/ballDirectionY) * newDirectionX) ;
 		   currentBallY = bounce.getY() + (remDistY/ballDirectionY) * newDirectionY ;
 	   }
 	   else if ( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_X ) {
@@ -226,7 +226,7 @@ private void bounceBall() {
 		   newDirectionY = ballDirectionY + signum(ballDirectionY)*(0.1)*Math.abs(ballDirectionX);
 		   // current ball position updated
 		   currentBallX = bounce.getX() + (remDistX/ballDirectionX) * newDirectionX ;
-		   currentBallY = bounce.getY() + Math.abs((remDistY/ballDirectionY) * newDirectionY) ;
+		   currentBallY = bounce.getY() + Math.abs((remDistY/ballDirectionX) * newDirectionY) ;
 	   }
 	   else if ( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_BOTH ){
 		   // ball direction updated
