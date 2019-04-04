@@ -195,18 +195,20 @@ class PlayedGame {
 	
 }
 
-private void bounceBall() {
-	   BouncePoint bounce = getBounce();
+   private void bounceBall(){
+    BouncePoint bounce = getBounce();
 	   double newDirectionX = 0;
 	   double newDirectionY = 0;
+		//computing euclidian distance
 	   // incoming distance: the distance between the current position of the center of the ball (currentBallX/Y) and the position of the bounce point
-	   double inDistX = bounce.getX() - currentBallX ;
-	   double inDistY = bounce.getY() - currentBallY;
-	   // outcoming distance: the remaining distance after bounce point
-	   double remDistX = ballDirectionX - inDistX;
-	   double remDistY = ballDirectionY - inDistY;
+	   double inDist = Math.pow((bounce.getX() - currentBallX),2) +Math.pow((bounce.getY() - currentBallY),2);
+	   inDist = Math.sqrt(inDist);
 	   
-	   if(remDistX == 0 && remDistY == 0) { //new ball position is at bounce point
+	   // outcoming distance: the remaining distance after bounce point
+	   double totalDist=Math.sqrt((ballDirectionX*ballDirectionX +ballDirectionY*ballDirectionY));
+	   double remDist = totalDist-inDist;
+	   
+	   if(remDist == 0) { //new ball position is at bounce point
 		   newDirectionX = ballDirectionX;
 		   newDirectionY = ballDirectionY;
 		   currentBallX = bounce.getX();
@@ -217,29 +219,29 @@ private void bounceBall() {
 		   newDirectionX = ballDirectionX + signum(ballDirectionX)*(0.1)*Math.abs(ballDirectionY) ;
 		   newDirectionY = (-1)*ballDirectionY ;
 		   // current ball position updated
-		   currentBallX = bounce.getX() + Math.abs((remDistX/ballDirectionY) * newDirectionX) ;
-		   currentBallY = bounce.getY() + (remDistY/ballDirectionY) * newDirectionY ;
+		   currentBallX = bounce.getX() + (remDist/totalDist) * newDirectionX ;
+		   currentBallY = bounce.getY() + (remDist/totalDist) * newDirectionY ;
 	   }
 	   else if ( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_X ) {
 		   // ball direction updated
 		   newDirectionX = (-1)*ballDirectionX ;
 		   newDirectionY = ballDirectionY + signum(ballDirectionY)*(0.1)*Math.abs(ballDirectionX);
 		   // current ball position updated
-		   currentBallX = bounce.getX() + (remDistX/ballDirectionX) * newDirectionX ;
-		   currentBallY = bounce.getY() + Math.abs((remDistY/ballDirectionX) * newDirectionY) ;
+		   currentBallX = bounce.getX() + (remDist/totalDist) * newDirectionX ;
+		   currentBallY = bounce.getY() + (remDist/totalDist) * newDirectionY ;
 	   }
 	   else if ( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_BOTH ){
 		   // ball direction updated
 		   newDirectionX = (-1)*ballDirectionX ;
 		   newDirectionY = (-1)*ballDirectionY ;
 		   // current ball position updated
-		   currentBallX= bounce.getX() + (remDistX/ballDirectionX) * newDirectionX ;
-		   currentBallY = bounce.getY() + (remDistY/ballDirectionY) * newDirectionY ;
+		   currentBallX = bounce.getX() + (remDist/totalDist) * newDirectionX ;
+		   currentBallY = bounce.getY() + (remDist/totalDist) * newDirectionY ;
 	   }
 
 	   ballDirectionX = newDirectionX;
 	   ballDirectionY = newDirectionY;
-   }
+  }
 
    
    private BouncePoint calculateBouncePointWall(){
