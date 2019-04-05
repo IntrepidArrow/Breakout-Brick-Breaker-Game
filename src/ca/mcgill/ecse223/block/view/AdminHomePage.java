@@ -29,6 +29,7 @@ import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -182,6 +183,8 @@ public class AdminHomePage extends JFrame {
 								"Publish Game", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 						if(option == JOptionPane.OK_OPTION) {
 							Block223Controller.publishGame();
+							refreshData();
+							Block223Controller.saveGame();	//Should the Game be saved?
 							//JOptionPane.showMessageDialog(null, "Game succesfully published");	
 						} 
 						if (option == JOptionPane.OK_CANCEL_OPTION) {
@@ -213,9 +216,13 @@ public class AdminHomePage extends JFrame {
 		// refresh game list
 		List<String> gameNames = new ArrayList<>();
 		List<TOGame> designableGames = null;
+		
+		List<String> publishedGameNames = new ArrayList<>();
+		List<TOGame> publishedGames = null;
 
 		try {
 			designableGames = Block223Controller.getDesignableGames();
+			publishedGames = Block223Controller.getPublishedGames();
 		} catch (InvalidInputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -224,6 +231,12 @@ public class AdminHomePage extends JFrame {
 		for (TOGame game : designableGames)
 			gameNames.add(game.getName());
 
+		for (TOGame game2 : publishedGames) {
+			publishedGameNames.add(game2.getName());
+			designableGames.remove(game2);
+		}
+		
 		designableGamesList.setListData(gameNames.toArray());
+		publishedGameList.setListData(publishedGameNames.toArray());
 	}
 }
