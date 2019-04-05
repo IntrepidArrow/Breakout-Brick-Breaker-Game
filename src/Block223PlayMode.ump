@@ -187,7 +187,6 @@ class PlayedGame {
 							minIndex=i;
 						}
 					}
-
 					returnedBp = allIntersections.get(minIndex);
 					returnedBp.setHitBlock(block);
 					// return null if bp is exactly at the new ball position
@@ -196,11 +195,9 @@ class PlayedGame {
 					}
 					
 					return returnedBp;
+				}
+  }
 
-				}
-				}
-	
-}
 
    private void bounceBall(){
     BouncePoint bounce = getBounce();
