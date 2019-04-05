@@ -247,10 +247,10 @@ public class EditLevel extends JFrame {
 														blockConfigurationLbl).addGap(263)
 														.addComponent(lblBlocksAvailable))
 										.addGroup(groupLayout.createSequentialGroup().addGap(53)
-												//.addComponent(playAreaVisualizer, GroupLayout.PREFERRED_SIZE, 428,
-												//GroupLayout.PREFERRED_SIZE)
-												.addComponent(blockAreaList).addPreferredGap(ComponentPlacement.RELATED,
-														6, Short.MAX_VALUE)
+												.addComponent(playAreaVisualizer, GroupLayout.PREFERRED_SIZE, 428,
+												GroupLayout.PREFERRED_SIZE)
+												//.addComponent(blockAreaList).addPreferredGap(ComponentPlacement.RELATED,
+														//6, Short.MAX_VALUE)
 												.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 														.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 																.addComponent(blockList, GroupLayout.PREFERRED_SIZE,
@@ -297,8 +297,8 @@ public class EditLevel extends JFrame {
 										.addComponent(levelList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 												GroupLayout.PREFERRED_SIZE)
 										)
-								.addComponent(blockAreaList)
-								//.addComponent(playAreaVisualizer)
+								//.addComponent(blockAreaList)
+								.addComponent(playAreaVisualizer)
 								.addGroup(groupLayout.createSequentialGroup()
 										.addComponent(blockList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 												GroupLayout.PREFERRED_SIZE)
@@ -376,7 +376,7 @@ public class EditLevel extends JFrame {
 	}
 
 	private void refreshPlayAreaVisualizer(int level) {
-		//playAreaVisualizer.setLevel(levelList.getSelectedIndex());
+		playAreaVisualizer.setLevel(levelList.getSelectedIndex());
 		int index = 0;
 		blocksInArea = new HashMap<Integer, TOGridCell>();
 		blockAreaList.removeAllItems();
