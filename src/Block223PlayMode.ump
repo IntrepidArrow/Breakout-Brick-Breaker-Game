@@ -69,7 +69,8 @@ class PlayedGame {
    }
 
    private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block) {
-	BouncePoint returnedBp = null;
+	
+    BouncePoint returnedBp = null;
     int xBlock = block.getX();
 	int yBlock = block.getY();
 	int sideBlock = Block.SIZE;
@@ -127,49 +128,49 @@ class PlayedGame {
 		// Check if hit the left upper corner from the left
 		Point2D interLeftE = intersectArc(xBlock,yBlock,ballRadius,Math.PI*0.75,Math.PI,path,10);
 		if(interLeftE != null) {
-			allIntersections.add( new BouncePoint(interLeftE.getX(),interLeftE.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interLeftE.getX(),interLeftE.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_Y:BouncePoint.BounceDirection.FLIP_X));
 		}
 		
 		// Check if hit the left upper corner from the right
 		Point2D interRightE = intersectArc(xBlock,yBlock,ballRadius,Math.PI*0.5,Math.PI*0.75,path,10);
 		if(interRightE != null) {
-			allIntersections.add( new BouncePoint(interRightE.getX(),interRightE.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add( new BouncePoint(interRightE.getX(),interRightE.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_Y:BouncePoint.BounceDirection.FLIP_X));
 		}
 		
 		// Check if hit the right upper corner from the left
 		Point2D interLeftF = intersectArc(xBlock + sideBlock ,yBlock,ballRadius,Math.PI*0.25,Math.PI*0.5,path,10);
 		if(interLeftF != null) {
-			allIntersections.add( new BouncePoint(interLeftF.getX(),interLeftF.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add( new BouncePoint(interLeftF.getX(),interLeftF.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_X:BouncePoint.BounceDirection.FLIP_Y));
 		}
 		
 		// Check if hit the right upper corner from the right
 		Point2D interRightF = intersectArc(xBlock + sideBlock ,yBlock,ballRadius,0,Math.PI*0.25,path,10);
 		if(interRightF != null) {
-			allIntersections.add( new BouncePoint(interRightF.getX(),interRightF.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interRightF.getX(),interRightF.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_X:BouncePoint.BounceDirection.FLIP_Y));
 		}
 		
 		// Check if hit the left lower corner from the left
 		Point2D interLeftG = intersectArc(xBlock,yBlock + sideBlock,ballRadius,Math.PI,Math.PI*1.25,path,10);
 		if(interLeftG != null) {
-			allIntersections.add( new BouncePoint(interLeftG.getX(),interLeftG.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interLeftG.getX(),interLeftG.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_Y:BouncePoint.BounceDirection.FLIP_X));
 		}
 
 		// Check if hit the left lower corner from the right
 		Point2D interRightG = intersectArc(xBlock,yBlock + sideBlock,ballRadius,Math.PI*1.25,Math.PI*1.5,path,10);
 		if(interRightG != null) {
-			allIntersections.add( new BouncePoint(interRightG.getX(),interRightG.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add( new BouncePoint(interRightG.getX(),interRightG.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_Y:BouncePoint.BounceDirection.FLIP_X));
 		}
 
 		// Check if hit the right lower corner from the left
 		Point2D interLeftH = intersectArc(xBlock + sideBlock ,yBlock + sideBlock,ballRadius,Math.PI*1.5,Math.PI*1.75,path,10);
 		if(interLeftH != null) {
-			allIntersections.add( new BouncePoint(interLeftH.getX(),interLeftH.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add( new BouncePoint(interLeftH.getX(),interLeftH.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_X:BouncePoint.BounceDirection.FLIP_Y));
 		}
 
 		// Check if hit the right lower corner from the right
 		Point2D interRightH = intersectArc(xBlock + sideBlock ,yBlock + sideBlock,ballRadius,Math.PI*1.75,Math.PI*2,path,10);
 		if(interRightH != null) {
-			allIntersections.add( new BouncePoint(interRightH.getX(),interRightH.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interRightH.getX(),interRightH.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_X:BouncePoint.BounceDirection.FLIP_Y));
 		}
 		
 		
@@ -190,12 +191,13 @@ class PlayedGame {
 					returnedBp = allIntersections.get(minIndex);
 					returnedBp.setHitBlock(block);
 					// return null if bp is exactly at the new ball position
-					if(returnedBp.getX() == currentBallX + ballDirectionY & returnedBp.getY() == currentBallY + ballDirectionY ) {
+					if(returnedBp.getX() == currentBallX + ballDirectionX & returnedBp.getY() == currentBallY + ballDirectionY ) {
 						returnedBp = null;
 					}
 					
 					return returnedBp;
 				}
+  
   }
 
 
