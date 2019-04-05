@@ -160,6 +160,20 @@ public class AdminHomePage extends JFrame {
 		contentPane.add(deleteButton);
 
 		publishedGameList = new JList();
+		publishedGameList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent evt) {
+				if(publishedGameList != null) {
+					if(evt.getClickCount() == 2 && publishedGameList.getSelectedValue() != null) {
+						try {
+							Block223Controller.selectGame((String) publishedGameList.getSelectedValue());
+						} catch (InvalidInputException e) {
+							JOptionPane.showMessageDialog(null, e.getMessage());
+						}
+					}
+				}
+			}
+		});
 		publishedGameList.setBounds(37, 404, 600, 207);
 		contentPane.add(publishedGameList);
 
