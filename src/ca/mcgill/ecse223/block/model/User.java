@@ -262,6 +262,8 @@ public class User implements Serializable
     User.usersByUsername=tmpUsersByUsername;
   }
 
+
+
   // line 567 "../../../../../Block223PlayMode.ump"
    public static  String findUsername(UserRole userRole){
     for (String key : usersByUsername.keySet()) {

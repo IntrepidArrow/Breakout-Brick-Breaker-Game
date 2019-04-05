@@ -8,9 +8,11 @@ import java.io.Serializable;
  * this class needs to be specified but the use of it is optional; it is also not added to the persistence file
  * you may implement bounce behavior differently
  */
+
 // line 120 "../../../../../Block223Persistence.ump"
 // line 557 "../../../../../Block223PlayMode.ump"
 public class BouncePoint implements Serializable
+
 {
 
   //------------------------

@@ -91,7 +91,7 @@ class PlayedGame {
   }
   
   private boolean hitBlock() {
-    // TODO implement
+   // TODO implement
    int nrBlocks = numberOfBlocks();
 	   setBounce(null);
 	   
@@ -106,9 +106,10 @@ class PlayedGame {
 	   }
     return getBounce() != null;
   }
-  
-  private boolean hitWall() {
-   	BouncePoint bp = calculateBouncePointWall();
+
+  // line 111 "../../../../../Block223States.ump"
+   private boolean hitWall(){
+    BouncePoint bp = calculateBouncePointWall();
 	if(bp == null){
 		return false;
 	}
@@ -183,19 +184,21 @@ class PlayedGame {
 	   setScore(score + bscore);
 	   pblock.delete();
 	   bounceBall();
+	   setBounce(null);
   }
 
   private void doHitBlockNextLevel() {
     // TODO implement
     doHitBlock();
 	   int level = getCurrentLevel();
-	   setCurrentLevel(level++);
+	   setCurrentLevel(++level);
 	   int paddleLength = getGame().getPaddle().getMaxPaddleLength() - 
 			   			( getGame().getPaddle().getMaxPaddleLength() - getGame().getPaddle().getMinPaddleLength() ) /
 			   			( getGame().numberOfLevels() - 1 ) * ( getCurrentLevel() - 1 ) ;
 	   setCurrentPaddleLength(paddleLength);
 	   setWaitTime( INITIAL_WAIT_TIME * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(), ( getCurrentLevel() - 1 )));
   }
+
 
   private void doHitNothingAndNotOutOfBounds() {
     //double x = getCurrentBallX();
