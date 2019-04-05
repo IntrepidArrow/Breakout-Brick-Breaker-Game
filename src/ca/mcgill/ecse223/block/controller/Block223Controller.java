@@ -667,6 +667,34 @@ public class Block223Controller {
 
 		return result;
 	}
+	
+	//ABHI - CHECK IF THIS CAN BE DONE OR NOT.
+	public static List<TOGame> getPublishedGames() throws InvalidInputException {
+
+		UserRole admin = Block223Application.getCurrentUserRole();
+
+		if (!(admin instanceof Admin)) {
+			throw new InvalidInputException("Admin privileges are required to access game information.");
+		}
+
+		Block223 block223 = Block223Application.getBlock223();
+		List<TOGame> result = new ArrayList<>();
+		List<Game> games = block223.getGames();
+
+		for (Game game : games) {
+			Admin gameAdmin = game.getAdmin();
+
+			if (gameAdmin.equals(admin) && (game.getPublished() == true)) {
+				TOGame to = new TOGame(game.getName(), game.getLevels().size(), game.getNrBlocksPerLevel(),
+						game.getBall().getMinBallSpeedX(), game.getBall().getMinBallSpeedY(),
+						game.getBall().getBallSpeedIncreaseFactor(), game.getPaddle().getMaxPaddleLength(),
+						game.getPaddle().getMinPaddleLength());
+				result.add(to);
+			}
+		}
+
+		return result;
+	}
 
 public static TOGame getCurrentDesignableGame() throws InvalidInputException {
 

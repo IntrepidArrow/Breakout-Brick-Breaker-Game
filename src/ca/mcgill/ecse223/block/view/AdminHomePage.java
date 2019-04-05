@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.Color;
 
 public class AdminHomePage extends JFrame {
 
@@ -47,7 +48,8 @@ public class AdminHomePage extends JFrame {
 	private JList designableGamesList;
 	private JButton createButton;
 	private JButton deleteButton;
-	private JList list_1;
+	private JList publishedGameList;
+	private JButton btnTestGame;
 
 	public AdminHomePage(String userName) {
 		this.userName = userName;
@@ -104,6 +106,13 @@ public class AdminHomePage extends JFrame {
 						JOptionPane.showMessageDialog(null, ex.getMessage());
 					}
 				}
+				if(evt.getClickCount() == 1) {
+					try {
+						Block223Controller.selectGame((String) designableGamesList.getSelectedValue());
+					} catch (InvalidInputException m) {
+						JOptionPane.showMessageDialog(null, m.getMessage());
+					}
+				}
 			}
 		});
 		contentPane.add(designableGamesList);
@@ -132,6 +141,7 @@ public class AdminHomePage extends JFrame {
 		deleteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				String name = (String) designableGamesList.getSelectedValue();
 				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete game " + name,
 						"Delete Game", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -147,28 +157,54 @@ public class AdminHomePage extends JFrame {
 			}
 		});
 		contentPane.add(deleteButton);
-		
-		list_1 = new JList();
-		list_1.setBounds(37, 404, 600, 207);
-		contentPane.add(list_1);
-		
+
+		publishedGameList = new JList();
+		publishedGameList.setBounds(37, 404, 600, 207);
+		contentPane.add(publishedGameList);
+
 		JLabel lblDesignableGames = new JLabel("Designable Games :");
 		lblDesignableGames.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblDesignableGames.setBounds(37, 113, 166, 24);
 		contentPane.add(lblDesignableGames);
-		
+
 		JLabel publishedGamesList = new JLabel("Published Games :");
 		publishedGamesList.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		publishedGamesList.setBounds(37, 369, 166, 24);
 		contentPane.add(publishedGamesList);
-		
-		JButton btnNewButton = new JButton("Test Game");
+
+		JButton btnNewButton = new JButton("Publish Game");
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent evt) {
+				try {
+					String game = (String) designableGamesList.getSelectedValue();
+					if (game != null) {
+						int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to Publish game " + game,
+								"Publish Game", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+						if(option == JOptionPane.OK_OPTION) {
+							Block223Controller.publishGame();
+							//JOptionPane.showMessageDialog(null, "Game succesfully published");	
+						} 
+						if (option == JOptionPane.OK_CANCEL_OPTION) {
+							refreshData();
+						}
+					}
+				} catch (InvalidInputException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage());
+				}
+
 			}
 		});
-		btnNewButton.setBounds(672, 353, 140, 40);
+		btnNewButton.setBounds(672, 404, 140, 40);
 		contentPane.add(btnNewButton);
+
+		JLabel errorMessage = new JLabel("");
+		errorMessage.setForeground(Color.RED);
+		errorMessage.setBounds(213, 122, 599, 14);
+		contentPane.add(errorMessage);
+		
+		btnTestGame = new JButton("Test Game");
+		btnTestGame.setBounds(672, 353, 140, 40);
+		contentPane.add(btnTestGame);
 
 	}
 
