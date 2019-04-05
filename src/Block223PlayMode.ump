@@ -352,7 +352,7 @@ class PlayedGame {
 			allIntersections.add(new BouncePoint(interA.getX(),interA.getY(),BouncePoint.BounceDirection.FLIP_Y));
 		}
 		Point2D interB = intersectLine(sectB, path);
-		if(interB != null) {
+if(interB != null) {
 			allIntersections.add( new BouncePoint(interB.getX(),interB.getY(),BouncePoint.BounceDirection.FLIP_X));
 		}
 		Point2D interC = intersectLine(sectC, path);
@@ -364,19 +364,19 @@ class PlayedGame {
 
 		Point2D interLeftE = intersectArc(getCurrentPaddleX(),getCurrentPaddleY(),Ball.BALL_DIAMETER/2,Math.PI*0.75,Math.PI,path,20);
 		if(interLeftE != null) {
-			allIntersections.add( new BouncePoint(interLeftE.getX(),interLeftE.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interLeftE.getX(),interLeftE.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_Y:BouncePoint.BounceDirection.FLIP_X));
 		}
 		Point2D interRightE = intersectArc(getCurrentPaddleX(),getCurrentPaddleY(),Ball.BALL_DIAMETER/2,Math.PI*0.5,Math.PI*0.75,path,20);
 		if(interRightE != null) {
-			allIntersections.add( new BouncePoint(interRightE.getX(),interRightE.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add( new BouncePoint(interRightE.getX(),interRightE.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_Y:BouncePoint.BounceDirection.FLIP_X));
 		}
 		Point2D interLeftF = intersectArc(getCurrentPaddleX()+getCurrentPaddleLength(),getCurrentPaddleY(),Ball.BALL_DIAMETER/2,0.0,Math.PI*0.25,path,20);
 		if(interLeftF != null) {
-			allIntersections.add( new BouncePoint(interLeftF.getX(),interLeftF.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add( new BouncePoint(interLeftF.getX(),interLeftF.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_X:BouncePoint.BounceDirection.FLIP_Y));
 		}
 		Point2D interRightF = intersectArc(getCurrentPaddleX()+getCurrentPaddleLength(),getCurrentPaddleY(),Ball.BALL_DIAMETER/2,Math.PI*0.25,Math.PI*0.5,path,20);
 		if(interRightF != null) {
-			allIntersections.add( new BouncePoint(interRightF.getX(),interRightF.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interRightF.getX(),interRightF.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_X:BouncePoint.BounceDirection.FLIP_Y));
 		}
 		
 		//return the nearest intersection
