@@ -44,9 +44,10 @@ public class AdminHomePage extends JFrame {
 	private JButton logoutButton;
 
 	private JLabel titleLabel;
-	private JList gameList;
+	private JList designableGamesList;
 	private JButton createButton;
 	private JButton deleteButton;
+	private JList list_1;
 
 	public AdminHomePage(String userName) {
 		this.userName = userName;
@@ -57,7 +58,7 @@ public class AdminHomePage extends JFrame {
 	public void initComponents() {
 
 		setTitle("Admin Home Page");
-		setBounds(100, 100, 1003, 676);
+		setBounds(100, 100, 851, 676);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
@@ -69,11 +70,11 @@ public class AdminHomePage extends JFrame {
 		setContentPane(contentPane);
 
 		userLabel = new JLabel("Hi, " + userName);
-		userLabel.setBounds(746, 10, 83, 40);
+		userLabel.setBounds(579, 22, 83, 40);
 		contentPane.add(userLabel);
 
 		logoutButton = new JButton("Logout");
-		logoutButton.setBounds(839, 10, 140, 40);
+		logoutButton.setBounds(672, 22, 140, 40);
 		logoutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -86,17 +87,17 @@ public class AdminHomePage extends JFrame {
 
 		titleLabel = new JLabel("My Games");
 		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
-		titleLabel.setBounds(351, 10, 210, 100);
+		titleLabel.setBounds(268, 11, 210, 100);
 		contentPane.add(titleLabel);
 
-		gameList = new JList();
-		gameList.setBounds(145, 108, 600, 500);
-		gameList.addMouseListener(new MouseAdapter() {
+		designableGamesList = new JList();
+		designableGamesList.setBounds(37, 148, 600, 207);
+		designableGamesList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 				JList list = (JList) evt.getSource();
 				if (evt.getClickCount() == 2) {
 					try {
-						Block223Controller.selectGame((String) gameList.getSelectedValue());
+						Block223Controller.selectGame((String) designableGamesList.getSelectedValue());
 						setVisible(false);
 						new GameSettingsPage().setVisible(true);
 					} catch (InvalidInputException ex) {
@@ -105,10 +106,10 @@ public class AdminHomePage extends JFrame {
 				}
 			}
 		});
-		contentPane.add(gameList);
+		contentPane.add(designableGamesList);
 
 		createButton = new JButton("Create");
-		createButton.setBounds(755, 108, 140, 40);
+		createButton.setBounds(672, 251, 140, 40);
 		createButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -127,11 +128,11 @@ public class AdminHomePage extends JFrame {
 		contentPane.add(createButton);
 
 		deleteButton = new JButton("Delete");
-		deleteButton.setBounds(755, 159, 140, 40);
+		deleteButton.setBounds(672, 302, 140, 40);
 		deleteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String name = (String) gameList.getSelectedValue();
+				String name = (String) designableGamesList.getSelectedValue();
 				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete game " + name,
 						"Delete Game", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
@@ -146,6 +147,28 @@ public class AdminHomePage extends JFrame {
 			}
 		});
 		contentPane.add(deleteButton);
+		
+		list_1 = new JList();
+		list_1.setBounds(37, 404, 600, 207);
+		contentPane.add(list_1);
+		
+		JLabel lblDesignableGames = new JLabel("Designable Games :");
+		lblDesignableGames.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblDesignableGames.setBounds(37, 113, 166, 24);
+		contentPane.add(lblDesignableGames);
+		
+		JLabel publishedGamesList = new JLabel("Published Games :");
+		publishedGamesList.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		publishedGamesList.setBounds(37, 369, 166, 24);
+		contentPane.add(publishedGamesList);
+		
+		JButton btnNewButton = new JButton("Test Game");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnNewButton.setBounds(672, 353, 140, 40);
+		contentPane.add(btnNewButton);
 
 	}
 
@@ -165,6 +188,6 @@ public class AdminHomePage extends JFrame {
 		for (TOGame game : designableGames)
 			gameNames.add(game.getName());
 
-		gameList.setListData(gameNames.toArray());
+		designableGamesList.setListData(gameNames.toArray());
 	}
 }
