@@ -8,16 +8,18 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.controller.TOCurrentlyPlayedGame;
 import ca.mcgill.ecse223.block.view.PlayModeListener;
-import ca.mcgill.ecse223.block.view.PlayModeView;
 
 public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 
 	PlayModeListener listener;
-	JTextArea gameArea;
+	JTextArea gameArea; 
+	private PlayModeVisualizer playModeVisualizer; //extends JPanel
 	
 	public PlayModeView() {
 		createAndShowGUI();
@@ -100,6 +102,14 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 	@Override
 	public void refresh() {
 		// TODO Auto-generated method stub
+		try {
+			TOCurrentlyPlayedGame thisGame =  Block223Controller.getCurrentPlayableGame();
+			playModeVisualizer.refreshDrawing(thisGame);
+			} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 	}
 
