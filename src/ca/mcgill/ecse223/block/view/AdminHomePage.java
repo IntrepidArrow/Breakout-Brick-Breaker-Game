@@ -142,8 +142,11 @@ public class AdminHomePage extends JFrame {
 
 				String desGameSelect = (String) designableGamesList.getSelectedValue();
 				String pubGameSelect = (String) publishedGameList.getSelectedValue();
-				if (desGameSelect != null) {
-					try {
+				try {
+					if(designableGamesList != null && desGameSelect == null) {
+						Block223Controller.deleteGame(desGameSelect);
+					}
+					if(desGameSelect != null) {
 						int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete game " + desGameSelect,
 								"Delete Game", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 						if(option == JOptionPane.OK_OPTION) {
@@ -152,17 +155,43 @@ public class AdminHomePage extends JFrame {
 						} else if (option == JOptionPane.OK_CANCEL_OPTION) {
 							refreshData();
 						}
-					} catch (InvalidInputException ex) {
-						JOptionPane.showMessageDialog(null, ex.getMessage());
 					}
-				}
-				if(pubGameSelect != null) {
-					try {
+					
+					if(pubGameSelect != null) {
 						Block223Controller.deleteGame(pubGameSelect);
-					} catch (InvalidInputException ex) {
-						JOptionPane.showMessageDialog(null, ex.getMessage());
 					}
+				} catch (InvalidInputException ex ) {
+					JOptionPane.showMessageDialog(null, ex.getMessage());
 				}
+				
+//				if(desGameSelect == null) {
+//					try {
+//						Block223Controller.deleteGame(desGameSelect);
+//					} catch (InvalidInputException ex) {
+//						JOptionPane.showMessageDialog(null, ex.getMessage());
+//					}
+//				}
+//				if (desGameSelect != null) {
+//					try {
+//						int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete game " + desGameSelect,
+//								"Delete Game", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+//						if(option == JOptionPane.OK_OPTION) {
+//							Block223Controller.deleteGame(desGameSelect);
+//							refreshData();
+//						} else if (option == JOptionPane.OK_CANCEL_OPTION) {
+//							refreshData();
+//						}
+//					} catch (InvalidInputException ex) {
+//						JOptionPane.showMessageDialog(null, ex.getMessage());
+//					}
+//				}
+//				if(pubGameSelect != null) {
+//					try {
+//						Block223Controller.deleteGame(pubGameSelect);
+//					} catch (InvalidInputException ex) {
+//						JOptionPane.showMessageDialog(null, ex.getMessage());
+//					}
+//				}
 			}
 		});
 		contentPane.add(deleteButton);
@@ -204,10 +233,15 @@ public class AdminHomePage extends JFrame {
 			public void actionPerformed(ActionEvent evt) {
 				try {
 					String game = (String) designableGamesList.getSelectedValue();
+					if(game == null) {
+						Block223Controller.publishGame();
+					}
 					if (game != null) {
+						
 						int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to Publish game " + game,
 								"Publish Game", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 						if(option == JOptionPane.OK_OPTION) {
+							Block223Controller.selectGame(game);
 							Block223Controller.publishGame();
 							refreshData();
 							Block223Controller.saveGame();	//Should the Game be saved?
@@ -234,6 +268,31 @@ public class AdminHomePage extends JFrame {
 		btnTestGame = new JButton("Test Game");
 		btnTestGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				String desGame = (String) designableGamesList.getSelectedValue();
+				String pubGame = (String) publishedGameList.getSelectedValue();
+//				if(desGame == null) {
+//					try {
+//						Block223Controller.testGame(ui);
+//					} catch (InvalidInputException ex) {
+//						JOptionPane.showMessageDialog(null, ex.getMessage());
+//					}
+//				}
+				if(desGame != null) {
+					try {
+						Block223Controller.selectGame(desGame);
+//						Block223Controller.testGame(ui);
+					} catch (InvalidInputException ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage());
+					}
+				}
+				if(pubGame != null) {
+					try {
+						Block223Controller.selectGame(pubGame);
+					} catch (InvalidInputException ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage());
+					}
+				}
+				
 			}
 		});
 		btnTestGame.setBounds(672, 353, 140, 40);
