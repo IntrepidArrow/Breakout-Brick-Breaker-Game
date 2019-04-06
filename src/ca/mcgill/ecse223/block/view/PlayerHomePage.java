@@ -10,13 +10,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-
-
 import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOGame;
+import ca.mcgill.ecse223.block.controller.TOPlayableGame;
+import ca.mcgill.ecse223.block.model.Admin;
+import ca.mcgill.ecse223.block.model.Block223;
 import ca.mcgill.ecse223.block.model.Game;
+import ca.mcgill.ecse223.block.model.Player;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
 import javax.swing.DefaultListModel;
@@ -36,7 +38,26 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-public class AdminHomePage extends JFrame {
+public class PlayerHomePage extends JFrame {
+	public static void main(String[] args) {
+		// remove the imports for block223 and for admin.
+		Block223 block223 =  Block223Application.getBlock223(); 
+	    Admin currentUserRole = new Admin("albert", block223);
+	    // create player
+	    Player player1= new Player ("celine", block223);
+	    Block223Application.setCurrentUserRole(currentUserRole);
+	    
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PlayerHomePage window = new PlayerHomePage("celine");
+					window.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	private String userName;
 
@@ -47,10 +68,11 @@ public class AdminHomePage extends JFrame {
 
 	private JLabel titleLabel;
 	private JList gameList;
-	private JButton createButton;
-	private JButton deleteButton;
+	private JList gameList2;
+	private JButton PlayButton;
+	private JButton HallOfFameButton;
 
-	public AdminHomePage(String userName) {
+	public PlayerHomePage(String userName) {
 		this.userName = userName;
 		initComponents();
 		refreshData();
@@ -58,7 +80,7 @@ public class AdminHomePage extends JFrame {
 
 	public void initComponents() {
 
-		setTitle("Admin Home Page");
+		setTitle("Player Home Page");
 		setBounds(100, 100, 1003, 676);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -107,11 +129,31 @@ public class AdminHomePage extends JFrame {
 				}
 			}
 		});
+		
 		contentPane.add(gameList);
+		
+		gameList2 = new JList();
+		gameList2.setBounds(145, 108, 600, 500);
+		gameList2.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				JList list = (JList) evt.getSource();
+				if (evt.getClickCount() == 2) {
+					try {
+						Block223Controller.selectGame((String) gameList2.getSelectedValue());
+						setVisible(false);
+						new GameSettingsPage().setVisible(true);
+					} catch (InvalidInputException ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage());
+					}
+				}
+			}
+		});
+		contentPane.add(gameList2);
+		
 
-		createButton = new JButton("Create");
-		createButton.setBounds(755, 108, 140, 40);
-		createButton.addActionListener(new ActionListener() {
+		PlayButton = new JButton("Play");
+		PlayButton.setBounds(755, 108, 140, 40);
+		PlayButton.addActionListener(new ActionListener() {  //check how to redirect from this actual window to the other window. 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog(null, "Game name:", "Create Game", JOptionPane.PLAIN_MESSAGE);
@@ -126,11 +168,11 @@ public class AdminHomePage extends JFrame {
 				}
 			}
 		});
-		contentPane.add(createButton);
+		contentPane.add(PlayButton);
 
-		deleteButton = new JButton("Delete");
-		deleteButton.setBounds(755, 159, 140, 40);
-		deleteButton.addActionListener(new ActionListener() {
+		HallOfFameButton = new JButton("View Hall Of Fame");
+		HallOfFameButton.setBounds(755, 159, 140, 40);
+		HallOfFameButton.addActionListener(new ActionListener() { // figure out how are you going to display the HallOfFame at this moment. 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = (String) gameList.getSelectedValue();
@@ -147,7 +189,7 @@ public class AdminHomePage extends JFrame {
 				}
 			}
 		});
-		contentPane.add(deleteButton);
+		contentPane.add(HallOfFameButton);
 
 	}
 
@@ -155,7 +197,9 @@ public class AdminHomePage extends JFrame {
 
 		// refresh game list
 		List<String> gameNames = new ArrayList<>();
+		List<String> gameNames2 = new ArrayList<>();
 		List<TOGame> designableGames = null;
+		List<TOPlayableGame> playableGames = null;
 
 		try {
 			designableGames = Block223Controller.getDesignableGames();
@@ -163,10 +207,20 @@ public class AdminHomePage extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			playableGames = Block223Controller.getPlayableGames();
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		for (TOGame game : designableGames)
 			gameNames.add(game.getName());
+		
+		for (TOGame games : designableGames)
+			gameNames2.add(games.getName());
 
 		gameList.setListData(gameNames.toArray());
+		gameList2.setListData(gameNames2.toArray());
 	}
 }
