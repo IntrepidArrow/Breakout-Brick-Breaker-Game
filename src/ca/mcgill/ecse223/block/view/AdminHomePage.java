@@ -164,34 +164,6 @@ public class AdminHomePage extends JFrame {
 					JOptionPane.showMessageDialog(null, ex.getMessage());
 				}
 				
-//				if(desGameSelect == null) {
-//					try {
-//						Block223Controller.deleteGame(desGameSelect);
-//					} catch (InvalidInputException ex) {
-//						JOptionPane.showMessageDialog(null, ex.getMessage());
-//					}
-//				}
-//				if (desGameSelect != null) {
-//					try {
-//						int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete game " + desGameSelect,
-//								"Delete Game", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-//						if(option == JOptionPane.OK_OPTION) {
-//							Block223Controller.deleteGame(desGameSelect);
-//							refreshData();
-//						} else if (option == JOptionPane.OK_CANCEL_OPTION) {
-//							refreshData();
-//						}
-//					} catch (InvalidInputException ex) {
-//						JOptionPane.showMessageDialog(null, ex.getMessage());
-//					}
-//				}
-//				if(pubGameSelect != null) {
-//					try {
-//						Block223Controller.deleteGame(pubGameSelect);
-//					} catch (InvalidInputException ex) {
-//						JOptionPane.showMessageDialog(null, ex.getMessage());
-//					}
-//				}
 			}
 		});
 		contentPane.add(deleteButton);
@@ -233,9 +205,9 @@ public class AdminHomePage extends JFrame {
 			public void actionPerformed(ActionEvent evt) {
 				try {
 					String game = (String) designableGamesList.getSelectedValue();
-					if(game == null) {
-						Block223Controller.publishGame();
-					}
+//					if(game == null) {
+//						Block223Controller.publishGame();
+//					}
 					if (game != null) {
 						
 						int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to Publish game " + game,
