@@ -10,11 +10,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import ca.mcgill.ecse223.block.application.Block223Application;
+//import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOGame;
-import ca.mcgill.ecse223.block.model.Game;
+//import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
 import javax.swing.DefaultListModel;
@@ -98,20 +98,17 @@ public class AdminHomePage extends JFrame {
 		designableGamesList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 				JList list = (JList) evt.getSource();
-				if (evt.getClickCount() == 2) {
+				if(evt.getClickCount()==1 && publishedGameList.getSelectedValue() != null) {
+					refreshData();
+					publishedGameList.setSelectedValue(null, false);
+				}
+				if (evt.getClickCount() == 2 && designableGamesList.getSelectedValue() != null) {
 					try {
 						Block223Controller.selectGame((String) designableGamesList.getSelectedValue());
 						setVisible(false);
 						new GameSettingsPage().setVisible(true);
 					} catch (InvalidInputException ex) {
 						JOptionPane.showMessageDialog(null, ex.getMessage());
-					}
-				}
-				if(evt.getClickCount() == 1) {
-					try {
-						Block223Controller.selectGame((String) designableGamesList.getSelectedValue());
-					} catch (InvalidInputException m) {
-						JOptionPane.showMessageDialog(null, m.getMessage());
 					}
 				}
 			}
@@ -142,15 +139,26 @@ public class AdminHomePage extends JFrame {
 		deleteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				String name = (String) designableGamesList.getSelectedValue();
-				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete game " + name,
-						"Delete Game", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-				if (option == JOptionPane.OK_OPTION) {
+				String desGameSelect = (String) designableGamesList.getSelectedValue();
+				String pubGameSelect = (String) publishedGameList.getSelectedValue();
+				if (desGameSelect != null) {
 					try {
-						Block223Controller.deleteGame(name);
-						refreshData();
+						int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete game " + desGameSelect,
+								"Delete Game", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+						if(option == JOptionPane.OK_OPTION) {
+							Block223Controller.deleteGame(desGameSelect);
+							refreshData();
+						} else if (option == JOptionPane.OK_CANCEL_OPTION) {
+							refreshData();
+						}
+					} catch (InvalidInputException ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage());
+					}
+				}
+				if(pubGameSelect != null) {
+					try {
+						Block223Controller.deleteGame(pubGameSelect);
 					} catch (InvalidInputException ex) {
 						JOptionPane.showMessageDialog(null, ex.getMessage());
 					}
@@ -164,6 +172,10 @@ public class AdminHomePage extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
 				if(publishedGameList != null) {
+					if(evt.getClickCount()==1 && designableGamesList.getSelectedValue() != null) {
+						refreshData();
+						designableGamesList.setSelectedValue(null, false);
+					}
 					if(evt.getClickCount() == 2 && publishedGameList.getSelectedValue() != null) {
 						try {
 							Block223Controller.selectGame((String) publishedGameList.getSelectedValue());
@@ -218,8 +230,12 @@ public class AdminHomePage extends JFrame {
 		errorMessage.setForeground(Color.RED);
 		errorMessage.setBounds(213, 122, 599, 14);
 		contentPane.add(errorMessage);
-		
+
 		btnTestGame = new JButton("Test Game");
+		btnTestGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnTestGame.setBounds(672, 353, 140, 40);
 		contentPane.add(btnTestGame);
 
@@ -230,7 +246,7 @@ public class AdminHomePage extends JFrame {
 		// refresh game list
 		List<String> gameNames = new ArrayList<>();
 		List<TOGame> designableGames = null;
-		
+
 		List<String> publishedGameNames = new ArrayList<>();
 		List<TOGame> publishedGames = null;
 
@@ -249,7 +265,7 @@ public class AdminHomePage extends JFrame {
 			publishedGameNames.add(game2.getName());
 			designableGames.remove(game2);
 		}
-		
+
 		designableGamesList.setListData(gameNames.toArray());
 		publishedGameList.setListData(publishedGameNames.toArray());
 	}
