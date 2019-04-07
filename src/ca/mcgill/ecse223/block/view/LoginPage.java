@@ -87,6 +87,9 @@ public class LoginPage extends JFrame {
 
 				} catch (InvalidInputException e) {
 					JOptionPane.showMessageDialog(null, e.toString());
+					usernameField.setText("");
+					passwordField.setText("");
+					
 				}
 
 			}

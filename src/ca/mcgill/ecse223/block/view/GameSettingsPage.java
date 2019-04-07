@@ -54,11 +54,15 @@ public class GameSettingsPage extends JFrame{
 	  int level = 1; 
 	  int nrLevelCreated = 2; 
 	  try { 
-		  Block223Controller.setGameDetails(nrLevelCreated, 10, 5 ,4, 5.0 , 6,3); 
+		  Block223Controller.setGameDetails(nrLevelCreated, 5, 5 ,4, 5.0 , 6,3); 
 		  Block223Controller.addBlock(200, 30, 10, 40);
 		  Block223Controller.addBlock(40, 30, 200, 65);
-		  Block223Controller.positionBlock(1, level, 3, 4);
-		  Block223Controller.positionBlock(2, level, 6, 10);
+	  Block223Controller.positionBlock(1, level, 3, 4);
+	  Block223Controller.positionBlock(2, level, 6, 10);
+	  Block223Controller.positionBlock(2, level, 7, 10);
+	  Block223Controller.positionBlock(2, level, 8, 10);
+	  Block223Controller.positionBlock(2, level, 9, 10);
+	  Block223Controller.positionBlock(2, level, 5, 10);
 	  }catch (InvalidInputException e) { // TODO Auto-generated catch block 
 		  //error = e.getMessage(); 
 		  e.printStackTrace(); 
