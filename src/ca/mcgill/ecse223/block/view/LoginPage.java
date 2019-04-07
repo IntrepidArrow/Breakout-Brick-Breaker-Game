@@ -82,8 +82,15 @@ public class LoginPage extends JFrame {
 
 					TOUserMode mode = Block223Controller.getUserMode();
 
-					if (mode.getMode().equals(TOUserMode.Mode.Design))
+					if (mode.getMode().equals(TOUserMode.Mode.Design)) {
 						new AdminHomePage(userName).setVisible(true);
+					}
+					
+					if (mode.getMode().equals(TOUserMode.Mode.Play)) {
+						new PlayModeView(userName).setVisible(true);
+
+					}
+
 
 				} catch (InvalidInputException e) {
 					JOptionPane.showMessageDialog(null, e.toString());
