@@ -98,6 +98,7 @@ public class PlayerHomePage extends JFrame {
 		currentGamesList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
+				playableGamesList.clearSelection();
 				gameNameHolder = (String) currentGamesList.getSelectedValue();
 				System.out.println(gameNameHolder);
 			}
@@ -112,10 +113,15 @@ public class PlayerHomePage extends JFrame {
 		playButton.addActionListener(new ActionListener() { //change the content of this method in order for it to redirect you on another page (main UI)
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(!(currentGamesList.getSelectedValue()==null) ) {
-					System.out.println(currentGamesList.getSelectedValue());
-					//TODO: Close Window, and create play game screen (new Play Mode) 
-					
+				if(!(playableGamesList.getSelectedValue()==null) ) {
+					try {
+						Block223Controller.selectPlayableGame((String) playableGamesList.getSelectedValue(), playableGamesList.getSelectedIndex());
+						setVisible(false);
+						PlayModeView playGround = new PlayModeView();
+						Block223Controller.startGame(playGround);
+					} catch (InvalidInputException ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage());
+					}
 				}
 			}
 		});
@@ -138,6 +144,7 @@ public class PlayerHomePage extends JFrame {
 		playableGamesList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
+				currentGamesList.clearSelection();
 				if(playableGamesList != null) {
 					if(evt.getClickCount() == 2 && playableGamesList.getSelectedValue() != null) {
 						try {
@@ -167,9 +174,6 @@ public class PlayerHomePage extends JFrame {
 		errorMessage.setBounds(213, 122, 599, 14);
 		contentPane.add(errorMessage);
 		
-		//btnTestGame = new JButton("Test Game");
-		//btnTestGame.setBounds(672, 353, 140, 40);
-		//contentPane.add(btnTestGame);
 
 	}
 
@@ -198,7 +202,7 @@ public class PlayerHomePage extends JFrame {
 			playedGames.remove(game2);
 		}
 		
-		currentGamesList.setListData(gameNames.toArray());
-		playableGamesList.setListData(publishedGameNames.toArray());
+		currentGamesList.setListData(publishedGameNames.toArray());
+		playableGamesList.setListData(gameNames.toArray());
 	}
 }
