@@ -53,9 +53,7 @@ public class PlayAreaVisualizer extends JPanel {
 				for (Rectangle2D square : squares) {
 					if (square.contains(x, y)) {
 						selectedGridCell = gridCells.get(square);
-						
 						repaint();
-						
 						System.out.println("hello this is block at " + selectedGridCell.getGridHorizontalPosition() + "/" + selectedGridCell.getGridVerticalPosition() );
 						break;
 					}

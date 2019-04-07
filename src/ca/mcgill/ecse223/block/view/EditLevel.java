@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -48,7 +49,6 @@ public class EditLevel extends JFrame {
 	private JComboBox<String> levelList; // maybe change to a table later
 	// block play area
 	private JLabel blockConfigurationLbl;
-	private JPanel areaPanel;
 	private PlayAreaVisualizer playAreaVisualizer;
 	private JComboBox<String> blockAreaList;
 
@@ -127,7 +127,7 @@ public class EditLevel extends JFrame {
 	public EditLevel() {
 		initComponents();
 		refreshData();
-		refreshPlayAreaVisualizer(0);
+		//refreshPlayAreaVisualizer(0);
 	}
 	
 	/**
@@ -156,15 +156,7 @@ public class EditLevel extends JFrame {
 			}
 		});
 		
-		/*
-		 * logoutButton = new JButton("Logout"); //Logout of the game
-		 * logoutButton.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { editLevelWindow.dispose(); new
-		 * LoginPage().setVisible(true);; } });
-		 */
 		
-		
-
 		// elements for levels
 		levelLabel = new JLabel("Select a Level");
 		levelList = new JComboBox();
@@ -178,7 +170,6 @@ public class EditLevel extends JFrame {
 		});
 
 		// elements for play area
-
 		blockConfigurationLbl = new JLabel("Select a Grid Cell");
 		blockAreaList = new JComboBox();
 
@@ -187,10 +178,6 @@ public class EditLevel extends JFrame {
 		  playAreaVisualizer.setMinimumSize(new Dimension(390, 390));
 		  playAreaVisualizer.setBackground(Color.WHITE);
 		 
-
-		areaPanel = new JPanel();
-		areaPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		areaPanel.setBackground(Color.LIGHT_GRAY);
 
 		// elements for blocks available
 		lblBlocksAvailable = new JLabel("Select a Block");
@@ -316,10 +303,6 @@ public class EditLevel extends JFrame {
 										.addComponent(btnMoveBlock).addGap(79).addComponent(btnRemoveBlock)))
 				.addGap(85)));
 		
-		//GroupLayout gl_panel = new GroupLayout(areaPanel);
-		//gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGap(0, 339, Short.MAX_VALUE));
-		//gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGap(0, 375, Short.MAX_VALUE));
-		//areaPanel.setLayout(gl_panel);
 		editLevelWindow.getContentPane().setLayout(groupLayout);
 
 		pack();
@@ -331,7 +314,7 @@ public class EditLevel extends JFrame {
 		txtHorizontal.setText("");
 		txtVertical.setText("");
 
-		errorMessage.setText(error);
+		//errorMessage.setText(error);
 		if (error == null || error.length() == 0) {
 			Integer index = 0;
 
@@ -342,14 +325,11 @@ public class EditLevel extends JFrame {
 			int nrLevels;
 			try {
 				nrLevels = Block223Controller.getCurrentDesignableGame().getNrLevels();
-				// -1 because first index in array of levels not used, level 1 is at index 0
 				for (int i = 0; i < nrLevels; i++) {
 					levels.put(i, i + 1);
 					levelList.addItem("Level " + (i + 1));
 				}
-				//levelList.setSelectedIndex(-1);
 			} catch (InvalidInputException e) {
-				// TODO Auto-generated catch block
 				error = e.getMessage();
 				e.printStackTrace();
 			}
@@ -363,11 +343,13 @@ public class EditLevel extends JFrame {
 				for (TOBlock block : Block223Controller.getBlocksOfCurrentDesignableGame()) {
 					blocksAvailable.put(index, block);
 					blockList.addItem(
-							"#" + block.getId() + ", Points: " + block.getPoints() + ", Color: " + block.getRed());
+							"#" + block.getId() + ", Points: " + block.getPoints() 
+							+ ", R: " + block.getRed()
+							+ ", G: " + block.getGreen()
+							+ ", B: " + block.getBlue());
 					index++;
 				}
 			} catch (InvalidInputException e) {
-				// TODO Auto-generated catch block
 				error = e.getMessage();
 				e.printStackTrace();
 			}
@@ -377,25 +359,27 @@ public class EditLevel extends JFrame {
 
 	private void refreshPlayAreaVisualizer(int level) {
 		playAreaVisualizer.setLevel(levelList.getSelectedIndex());
-		int index = 0;
-		blocksInArea = new HashMap<Integer, TOGridCell>();
-		blockAreaList.removeAllItems();
-		blockAreaList.addItem("No cell selected");
-		if (level != 0 || level != -1) {
-			index = 0;
-			try {
-				for (TOGridCell gridCell : Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level)) {
-					blocksInArea.put(index, gridCell);
-					blockAreaList.addItem("Horizontal: " + gridCell.getGridHorizontalPosition() + ". Vertical: "
-							+ gridCell.getGridVerticalPosition() + ". Block id #" + gridCell.getId());
-					index++;
-				}
-			} catch (InvalidInputException e) {
-				// TODO Auto-generated catch block
-				error = e.getMessage();
-				e.printStackTrace();
-			}
-		}
+		
+		
+//		int index = 0;
+//		blocksInArea = new HashMap<Integer, TOGridCell>();
+//		blockAreaList.removeAllItems();
+//		blockAreaList.addItem("No cell selected");
+//		if (level != 0 || level != -1) {
+//			index = 0;
+//			try {
+//				for (TOGridCell gridCell : Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level)) {
+//					blocksInArea.put(index, gridCell);
+//					blockAreaList.addItem("Horizontal: " + gridCell.getGridHorizontalPosition() + ". Vertical: "
+//							+ gridCell.getGridVerticalPosition() + ". Block id #" + gridCell.getId());
+//					index++;
+//				}
+//			} catch (InvalidInputException e) {
+//				// TODO Auto-generated catch block
+//				error = e.getMessage();
+//				e.printStackTrace();
+//			}
+//		}
 
 		// blockAreaList.setSelectedIndex(-1);
 	}
@@ -417,6 +401,7 @@ public class EditLevel extends JFrame {
 			x = Integer.parseInt(txtHorizontal.getText());
 		} catch (NumberFormatException e) {
 			error = "Horizontal position needs to be a numerical value! ";
+			JOptionPane.showMessageDialog(null, error);
 		}
 
 		int y = 0;
@@ -424,17 +409,20 @@ public class EditLevel extends JFrame {
 			y = Integer.parseInt(txtVertical.getText());
 		} catch (NumberFormatException e) {
 			error = "Vertical position needs to be a numerical value! ";
+			JOptionPane.showMessageDialog(null, error);
 		}
 
 		try {
 			Block223Controller.positionBlock(selectedBlock.getId(), selectedLevel, x, y);
 		} catch (InvalidInputException e) {
-			// TODO Auto-generated catch block
 			error = e.getMessage();
+			JOptionPane.showMessageDialog(null, error);
 			e.printStackTrace();
+
 		}
-		refreshData();
+		//refreshData();
 		refreshPlayAreaVisualizer(selectedLevel);
+		levelList.setSelectedIndex(selectedLevel);
 	}
 
 	// move block button
@@ -445,13 +433,14 @@ public class EditLevel extends JFrame {
 		if (selectedLevel <= 0)
 			error = "Level needs to be selected !";
 
-		TOGridCell selectedGridCell = blocksInArea.get(blockAreaList.getSelectedIndex() - 1);
+		TOGridCell selectedGridCell = playAreaVisualizer.getSelectedGridCell();
 
 		int x = 0;
 		try {
 			x = Integer.parseInt(txtHorizontal.getText());
 		} catch (NumberFormatException e) {
 			error = "Horizontal position needs to be a numerical value! ";
+			JOptionPane.showMessageDialog(null, error);
 		}
 
 		int y = 0;
@@ -459,18 +448,20 @@ public class EditLevel extends JFrame {
 			y = Integer.parseInt(txtVertical.getText());
 		} catch (NumberFormatException e) {
 			error = "Vertical position needs to be a numerical value! ";
+			JOptionPane.showMessageDialog(null, error);
 		}
 
 		try {
 			Block223Controller.moveBlock(selectedLevel, selectedGridCell.getGridHorizontalPosition(),
 					selectedGridCell.getGridVerticalPosition(), x, y);
 		} catch (InvalidInputException e) {
-			// TODO Auto-generated catch block
 			error = e.getMessage();
+			JOptionPane.showMessageDialog(null, error);
 			e.printStackTrace();
 		}
-		refreshData();
+		//refreshData();
 		refreshPlayAreaVisualizer(selectedLevel);
+		levelList.setSelectedIndex(selectedLevel);
 
 	}
 
@@ -480,7 +471,7 @@ public class EditLevel extends JFrame {
 		if (selectedLevel <= 0)
 			error = "Level needs to be selected !";
 
-		TOGridCell selectedGridCell = blocksInArea.get(blockAreaList.getSelectedIndex() - 1);
+		TOGridCell selectedGridCell = playAreaVisualizer.getSelectedGridCell();
 		if (blockList.getSelectedIndex() < 0)
 			error = error + " Grid Cell needs to be selected !";
 
@@ -488,12 +479,14 @@ public class EditLevel extends JFrame {
 			Block223Controller.removeBlock(selectedLevel, selectedGridCell.getGridHorizontalPosition(),
 					selectedGridCell.getGridVerticalPosition());
 		} catch (InvalidInputException e) {
-			// TODO Auto-generated catch block
 			error = e.getMessage();
+			JOptionPane.showMessageDialog(null, error);
 			e.printStackTrace();
 		}
-		refreshData();
+		//refreshData();
 		refreshPlayAreaVisualizer(selectedLevel);
+		levelList.setSelectedIndex(selectedLevel);
+		
 
 	}
 
