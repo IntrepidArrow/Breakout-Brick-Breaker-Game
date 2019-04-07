@@ -40,7 +40,7 @@ import java.awt.Color;
 public class PlayerHomePage extends JFrame {
 
 	private String userName;
-
+	private String gameNameHolder; 
 	private JPanel contentPane;
 
 	private JLabel userLabel;
@@ -96,27 +96,7 @@ public class PlayerHomePage extends JFrame {
 
 		currentGamesList = new JList(); // replaces playedGames list 
 		currentGamesList.setBounds(37, 148, 600, 207);
-		currentGamesList.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent evt) {
-				JList list = (JList) evt.getSource();
-				if (evt.getClickCount() == 2) {
-					try {
-						Block223Controller.selectGame((String) currentGamesList.getSelectedValue());
-						setVisible(false);
-						new GameSettingsPage().setVisible(true);
-					} catch (InvalidInputException ex) {
-						JOptionPane.showMessageDialog(null, ex.getMessage());
-					}
-				}
-				if(evt.getClickCount() == 1) {
-					try {
-						Block223Controller.selectGame((String) currentGamesList.getSelectedValue());
-					} catch (InvalidInputException m) {
-						JOptionPane.showMessageDialog(null, m.getMessage());
-					}
-				}
-			}
-		});
+		gameNameHolder = (String) currentGamesList.getSelectedValue();
 		contentPane.add(currentGamesList);
 
 		playButton = new JButton("Play");
@@ -124,15 +104,10 @@ public class PlayerHomePage extends JFrame {
 		playButton.addActionListener(new ActionListener() { //change the content of this method in order for it to redirect you on another page (main UI)
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String name = JOptionPane.showInputDialog(null, "Game name:", "Create Game", JOptionPane.PLAIN_MESSAGE);
-
-				if (name != null) {
-					try {
-						Block223Controller.createGame(name);
-						refreshData();
-					} catch (InvalidInputException ex) {
-						JOptionPane.showMessageDialog(null, ex.getMessage());
-					}
+				if(!(currentGamesList.getSelectedValue()==null) ) {
+					System.out.println(currentGamesList.getSelectedValue());
+					//TODO: Close Window, and create play game screen (new Play Mode) 
+					
 				}
 			}
 		});
@@ -144,18 +119,9 @@ public class PlayerHomePage extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) { //change the content of this method in order to show the HOF.
 				
-				String name = (String) currentGamesList.getSelectedValue();
-				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete game " + name,
-						"Delete Game", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-				if (option == JOptionPane.OK_OPTION) {
-					try {
-						Block223Controller.deleteGame(name);
-						refreshData();
-					} catch (InvalidInputException ex) {
-						JOptionPane.showMessageDialog(null, ex.getMessage());
-					}
-				}
+				//TODO: Initialize Pop up window for Hall of Fame. 
+				//new HallOfFamePage(gameNameHolder).setVisible(true); // will be resolved when the view of the hof will be added to the project. 
+				
 			}
 		});
 		contentPane.add(HofButton);
