@@ -98,15 +98,15 @@ public class AdminHomePage extends JFrame {
 		designableGamesList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 				JList list = (JList) evt.getSource();
-				if(evt.getClickCount()==1 && publishedGameList.getSelectedValue() != null) {
-					refreshData();
-					publishedGameList.setSelectedValue(null, false);
-				}
+//				if(evt.getClickCount()==1 && publishedGameList.getSelectedValue() != null) {
+//					publishedGameList.clearSelection();
+//				}
+				publishedGameList.clearSelection();
 				if (evt.getClickCount() == 2 && designableGamesList.getSelectedValue() != null) {
 					try {
 
 						Block223Controller.selectGame((String) designableGamesList.getSelectedValue());
-						setVisible(false);
+						dispose();
 						new GameSettingsPage().setVisible(true);
 					} catch (InvalidInputException ex) {
 						JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -173,12 +173,17 @@ public class AdminHomePage extends JFrame {
 		publishedGameList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
-				if(publishedGameList != null) {
-					if(evt.getClickCount()==1 && designableGamesList.getSelectedValue() != null) {
-						refreshData();
-						designableGamesList.setSelectedValue(null, false);
-					}
+//				if(publishedGameList != null) {
+//					if(evt.getClickCount()==1 && designableGamesList.getSelectedValue() != null) {
+//						System.out.println((String) publishedGameList.getSelectedValue());
+//						designableGamesList.setSelectedValue(null, false);
+//						refreshData();
+//						System.out.println((String) publishedGameList.getSelectedValue());
+//
+//					}
+				designableGamesList.clearSelection();
 					if(evt.getClickCount() == 2 && publishedGameList.getSelectedValue() != null) {
+						
 						try {
 							Block223Controller.selectGame((String) publishedGameList.getSelectedValue());
 						} catch (InvalidInputException e) {
@@ -186,7 +191,7 @@ public class AdminHomePage extends JFrame {
 						}
 					}
 				}
-			}
+//			}
 		});
 		publishedGameList.setBounds(37, 404, 600, 207);
 		contentPane.add(publishedGameList);
