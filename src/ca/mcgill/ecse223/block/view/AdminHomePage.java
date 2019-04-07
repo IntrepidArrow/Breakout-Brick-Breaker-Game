@@ -173,14 +173,7 @@ public class AdminHomePage extends JFrame {
 		publishedGameList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
-//				if(publishedGameList != null) {
-//					if(evt.getClickCount()==1 && designableGamesList.getSelectedValue() != null) {
-//						System.out.println((String) publishedGameList.getSelectedValue());
-//						designableGamesList.setSelectedValue(null, false);
-//						refreshData();
-//						System.out.println((String) publishedGameList.getSelectedValue());
-//
-//					}
+
 				designableGamesList.clearSelection();
 					if(evt.getClickCount() == 2 && publishedGameList.getSelectedValue() != null) {
 						
