@@ -97,6 +97,7 @@ public class AdminHomePage extends JFrame {
 				if (evt.getClickCount() == 2) {
 					try {
 						Block223Controller.selectGame((String) gameList.getSelectedValue());
+						
 						setVisible(false);
 						new GameSettingsPage().setVisible(true);
 					} catch (InvalidInputException ex) {

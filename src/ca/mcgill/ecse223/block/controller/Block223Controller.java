@@ -616,10 +616,6 @@ public class Block223Controller {
 		Block223Application.setCurrentGame(selectedGame);
 	} 
 
-
-
-
-
 	// ****************************
 	// Query methods
 	// ****************************
@@ -1044,6 +1040,45 @@ public static TOHallOfFame getHallOfFame(int start, int end) throws InvalidInput
 	}
 
 
+
+
+public static TOHallOfFame getHallOfFameWithGameName(String gameName) throws InvalidInputException {
+		
+Block223 block223 = Block223Application.getBlock223();
+	
+	Game game = block223.findGame(gameName);
+	if(game == null) {
+		
+		throw new InvalidInputException("A game must be selected to view its hall of fame."); // throw the exact error  later.
+		
+	}
+	
+	  if(!(Block223Application.getCurrentUserRole() instanceof Player)) {
+		
+		throw new InvalidInputException("Player privileges are required to access a game's hall of fame."); 
+	} 
+	
+	TOHallOfFame result = new TOHallOfFame(gameName);
+
+		int start = 1;
+		int end = game.numberOfHallOfFameEntries(); 
+
+	// umple sorts scores in ascending order therefore the highest score is at the end of the list and the lowest score
+	// is at index 0. 
+	 
+		start = game.numberOfHallOfFameEntries() -start; 
+		end = game.numberOfHallOfFameEntries() - end; 
+		
+	
+	
+	for( int i =start; i>=end;i--) { 
+		
+		TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
+	}
+	
+	return result; 	
+}
+
 public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
 	
 	PlayedGame pgame = Block223Application.getCurrentPlayableGame(); 
@@ -1084,18 +1119,13 @@ public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries)
 	}
 	for( int i = start; i>=end ;i--) {
 		
-		//TODO add the method getPlayerName() in the user class
 		
 		// we do index+1 to make sure to add after the most recent entry
-		
 		
 		TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
 	}
 	return result; 
 }
-
-
-
 
 	public static void testGame(Block223PlayModeInterface ui) throws InvalidInputException {
 		

@@ -65,7 +65,7 @@ public class GameSettingsPage extends JFrame{
 //	  EventQueue.invokeLater(new Runnable() { 
 //		  public void run() { 
 //			  try { 
-//				  GameSettingsPage window = new GameSettingsPage(); 
+//				  HallOfFame window = new hall(); 
 //				  window.setVisible(true); 
 //				  } catch (Exception e) {
 //				  e.printStackTrace(); 
