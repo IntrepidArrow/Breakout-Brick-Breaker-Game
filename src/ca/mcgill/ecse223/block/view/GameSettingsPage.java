@@ -5,9 +5,6 @@ import java.awt.EventQueue;
 
 import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.*;
-import ca.mcgill.ecse223.block.model.Admin;
-import ca.mcgill.ecse223.block.model.Block223;
-import ca.mcgill.ecse223.block.model.Game;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -43,43 +40,40 @@ public class GameSettingsPage extends JFrame{
 	private JTextField gameNameField;
 
 	// remove all model import
-	  public static void main(String[] args) {
-		  Block223 block223 =  Block223Application.getBlock223(); 
-		  Admin currentUserRole = new Admin("albert", block223);
-	  Block223Application.setCurrentUserRole(currentUserRole); 
-	  Game game = null;
-	  Block223Application.setCurrentGame(game); 
-	  game = new Game("revvy", 10, (Admin) currentUserRole, 5 ,4, 5.0, 6,3, block223);
-	  Block223Application.setCurrentGame(game); 
-	  int level = 1; 
-	  int nrLevelCreated = 2; 
-	  try { 
-		  Block223Controller.setGameDetails(nrLevelCreated, 5, 5 ,4, 5.0 , 6,3); 
-		  Block223Controller.addBlock(200, 30, 10, 40);
-		  Block223Controller.addBlock(40, 30, 200, 65);
-	  Block223Controller.positionBlock(1, level, 3, 4);
-	  Block223Controller.positionBlock(2, level, 6, 10);
-	  Block223Controller.positionBlock(2, level, 7, 10);
-	  Block223Controller.positionBlock(2, level, 8, 10);
-	  Block223Controller.positionBlock(2, level, 9, 10);
-	  Block223Controller.positionBlock(2, level, 5, 10);
-	  }catch (InvalidInputException e) { // TODO Auto-generated catch block 
-		  //error = e.getMessage(); 
-		  e.printStackTrace(); 
-		  }
-	  
-	  
-	  EventQueue.invokeLater(new Runnable() { 
-		  public void run() { 
-			  try { 
-				  GameSettingsPage window = new GameSettingsPage(); 
-				  window.setVisible(true); 
-				  } catch (Exception e) {
-				  e.printStackTrace(); 
-				  } 
-			  } 
-		  }); 
-	  }
+//	  public static void main(String[] args) {
+//		  Block223 block223 =  Block223Application.getBlock223(); 
+//		  Admin currentUserRole = new Admin("albert", block223);
+//	  Block223Application.setCurrentUserRole(currentUserRole); 
+//	  Game game = null;
+//	  Block223Application.setCurrentGame(game); 
+//	  game = new Game("revvy", 10, (Admin) currentUserRole, 5 ,4, 5.0, 6,3, block223);
+//	  Block223Application.setCurrentGame(game); 
+//	  int level = 1; 
+//	  int nrLevelCreated = 2; 
+//	  try { 
+//		  Block223Controller.setGameDetails(nrLevelCreated, 10, 5 ,4, 5.0 , 6,3); 
+//		  Block223Controller.addBlock(200, 30, 10, 40);
+//		  Block223Controller.addBlock(40, 30, 200, 65);
+//		  Block223Controller.positionBlock(1, level, 3, 4);
+//		  Block223Controller.positionBlock(2, level, 6, 10);
+//	  }catch (InvalidInputException e) { // TODO Auto-generated catch block 
+//		  //error = e.getMessage(); 
+//		  e.printStackTrace(); 
+//		  }
+//	  
+//	  
+//	  EventQueue.invokeLater(new Runnable() { 
+//		  public void run() { 
+//			  try { 
+//				  HallOfFame window = new hall(); 
+//				  window.setVisible(true); 
+//				  } catch (Exception e) {
+//				  e.printStackTrace(); 
+//				  } 
+//			  } 
+//		  }); 
+//	  }
+
 
 
 

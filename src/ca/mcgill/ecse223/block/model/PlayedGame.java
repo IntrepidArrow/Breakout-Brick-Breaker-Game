@@ -35,12 +35,12 @@ public class PlayedGame implements Serializable
    * no direct link to Paddle, because the paddle can be found by navigating to PlayedGame, Game, and then Paddle
    * pixels moved when right arrow key is pressed
    */
-  public static final int PADDLE_MOVE_RIGHT = 1;
+  public static final int PADDLE_MOVE_RIGHT = 5;
 
   /**
    * pixels moved when left arrow key is pressed
    */
-  public static final int PADDLE_MOVE_LEFT = -1;
+  public static final int PADDLE_MOVE_LEFT = -5;
 
   //------------------------
   // MEMBER VARIABLES
@@ -80,8 +80,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-
-    // line 530 "../../../../../Block223PlayMode.ump"
+    // line 540 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -733,7 +732,7 @@ public class PlayedGame implements Serializable
 		   return -1;
   }
 
-  // line 72 "../../../../../Block223PlayMode.ump"
+  // line 73 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
     BouncePoint returnedBp = null;
     int xBlock = block.getX();
@@ -793,49 +792,49 @@ public class PlayedGame implements Serializable
 		// Check if hit the left upper corner from the left
 		Point2D interLeftE = intersectArc(xBlock,yBlock,ballRadius,Math.PI*0.75,Math.PI,path,10);
 		if(interLeftE != null) {
-			allIntersections.add( new BouncePoint(interLeftE.getX(),interLeftE.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interLeftE.getX(),interLeftE.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_Y:BouncePoint.BounceDirection.FLIP_X));
 		}
 		
 		// Check if hit the left upper corner from the right
 		Point2D interRightE = intersectArc(xBlock,yBlock,ballRadius,Math.PI*0.5,Math.PI*0.75,path,10);
 		if(interRightE != null) {
-			allIntersections.add( new BouncePoint(interRightE.getX(),interRightE.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add( new BouncePoint(interRightE.getX(),interRightE.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_Y:BouncePoint.BounceDirection.FLIP_X));
 		}
 		
 		// Check if hit the right upper corner from the left
 		Point2D interLeftF = intersectArc(xBlock + sideBlock ,yBlock,ballRadius,Math.PI*0.25,Math.PI*0.5,path,10);
 		if(interLeftF != null) {
-			allIntersections.add( new BouncePoint(interLeftF.getX(),interLeftF.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add( new BouncePoint(interLeftF.getX(),interLeftF.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_X:BouncePoint.BounceDirection.FLIP_Y));
 		}
 		
 		// Check if hit the right upper corner from the right
 		Point2D interRightF = intersectArc(xBlock + sideBlock ,yBlock,ballRadius,0,Math.PI*0.25,path,10);
 		if(interRightF != null) {
-			allIntersections.add( new BouncePoint(interRightF.getX(),interRightF.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interRightF.getX(),interRightF.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_X:BouncePoint.BounceDirection.FLIP_Y));
 		}
 		
 		// Check if hit the left lower corner from the left
 		Point2D interLeftG = intersectArc(xBlock,yBlock + sideBlock,ballRadius,Math.PI,Math.PI*1.25,path,10);
 		if(interLeftG != null) {
-			allIntersections.add( new BouncePoint(interLeftG.getX(),interLeftG.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interLeftG.getX(),interLeftG.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_Y:BouncePoint.BounceDirection.FLIP_X));
 		}
 
 		// Check if hit the left lower corner from the right
 		Point2D interRightG = intersectArc(xBlock,yBlock + sideBlock,ballRadius,Math.PI*1.25,Math.PI*1.5,path,10);
 		if(interRightG != null) {
-			allIntersections.add( new BouncePoint(interRightG.getX(),interRightG.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add( new BouncePoint(interRightG.getX(),interRightG.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_Y:BouncePoint.BounceDirection.FLIP_X));
 		}
 
 		// Check if hit the right lower corner from the left
 		Point2D interLeftH = intersectArc(xBlock + sideBlock ,yBlock + sideBlock,ballRadius,Math.PI*1.5,Math.PI*1.75,path,10);
 		if(interLeftH != null) {
-			allIntersections.add( new BouncePoint(interLeftH.getX(),interLeftH.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add( new BouncePoint(interLeftH.getX(),interLeftH.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_X:BouncePoint.BounceDirection.FLIP_Y));
 		}
 
 		// Check if hit the right lower corner from the right
 		Point2D interRightH = intersectArc(xBlock + sideBlock ,yBlock + sideBlock,ballRadius,Math.PI*1.75,Math.PI*2,path,10);
 		if(interRightH != null) {
-			allIntersections.add( new BouncePoint(interRightH.getX(),interRightH.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interRightH.getX(),interRightH.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_X:BouncePoint.BounceDirection.FLIP_Y));
 		}
 		
 		
@@ -856,23 +855,15 @@ public class PlayedGame implements Serializable
 					returnedBp = allIntersections.get(minIndex);
 					returnedBp.setHitBlock(block);
 					// return null if bp is exactly at the new ball position
-					if(returnedBp.getX() == currentBallX + ballDirectionY & returnedBp.getY() == currentBallY + ballDirectionY ) {
+					if(returnedBp.getX() == currentBallX + ballDirectionX & returnedBp.getY() == currentBallY + ballDirectionY ) {
 						returnedBp = null;
 					}
 					
 					return returnedBp;
-
-				if(allIntersections.get(minIndex).getX()==(currentBallX+ballDirectionX) &&
-						allIntersections.get(minIndex).getY()==(currentBallY+ballDirectionY)) {
-					return null;
-				}else {
-					return allIntersections.get(minIndex);
-				}
 				}
   }
 
-
-  // line 199 "../../../../../Block223PlayMode.ump"
+  // line 205 "../../../../../Block223PlayMode.ump"
    private void bounceBall(){
     BouncePoint bounce = getBounce();
 	   double newDirectionX = 0;
@@ -921,8 +912,7 @@ public class PlayedGame implements Serializable
 	   ballDirectionY = newDirectionY;
   }
 
-
-  // line 248 "../../../../../Block223PlayMode.ump"
+  // line 254 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointWall(){
     ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
 			
@@ -988,8 +978,7 @@ public class PlayedGame implements Serializable
 		}
   }
 
-
-  // line 317 "../../../../../Block223PlayMode.ump"
+  // line 323 "../../../../../Block223PlayMode.ump"
    private boolean isBallOutOfBounds(){
     boolean outofbounds = false; 
 		if(getCurrentBallY()+ getBallDirectionY() +5 > 390){
@@ -998,8 +987,7 @@ public class PlayedGame implements Serializable
 		return outofbounds;
   }
 
-
-  // line 328 "../../../../../Block223PlayMode.ump"
+  // line 334 "../../../../../Block223PlayMode.ump"
    private BouncePoint calculateBouncePointPaddle(){
     ArrayList<BouncePoint> allIntersections = new ArrayList<BouncePoint>();
 		Rectangle2D paddle = new Rectangle2D.Double(getCurrentPaddleX()- Ball.BALL_DIAMETER/2,getCurrentPaddleY()- Ball.BALL_DIAMETER/2,getCurrentPaddleLength()+ Ball.BALL_DIAMETER,Paddle.PADDLE_WIDTH+ Ball.BALL_DIAMETER/2);
@@ -1028,7 +1016,7 @@ public class PlayedGame implements Serializable
 			allIntersections.add(new BouncePoint(interA.getX(),interA.getY(),BouncePoint.BounceDirection.FLIP_Y));
 		}
 		Point2D interB = intersectLine(sectB, path);
-		if(interB != null) {
+if(interB != null) {
 			allIntersections.add( new BouncePoint(interB.getX(),interB.getY(),BouncePoint.BounceDirection.FLIP_X));
 		}
 		Point2D interC = intersectLine(sectC, path);
@@ -1038,22 +1026,21 @@ public class PlayedGame implements Serializable
 		
 		//intersect the ball path line with sectors E,F and add computed intersections to list of intersected lines
 
-		Point2D interLeftE = intersectArc(getCurrentPaddleX(),getCurrentPaddleY(),Paddle.PADDLE_WIDTH,Math.PI*0.75,Math.PI,path,10);
+		Point2D interLeftE = intersectArc(getCurrentPaddleX(),getCurrentPaddleY(),Ball.BALL_DIAMETER/2,Math.PI*0.75,Math.PI,path,20);
 		if(interLeftE != null) {
-			allIntersections.add( new BouncePoint(interLeftE.getX(),interLeftE.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interLeftE.getX(),interLeftE.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_Y:BouncePoint.BounceDirection.FLIP_X));
 		}
-		Point2D interRightE = intersectArc(getCurrentPaddleX(),getCurrentPaddleY(),Paddle.PADDLE_WIDTH,Math.PI*0.5,Math.PI*0.75,path,10);
+		Point2D interRightE = intersectArc(getCurrentPaddleX(),getCurrentPaddleY(),Ball.BALL_DIAMETER/2,Math.PI*0.5,Math.PI*0.75,path,20);
 		if(interRightE != null) {
-			allIntersections.add( new BouncePoint(interRightE.getX(),interRightE.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add( new BouncePoint(interRightE.getX(),interRightE.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_Y:BouncePoint.BounceDirection.FLIP_X));
 		}
-		
-		Point2D interLeftF = intersectArc(getCurrentPaddleX()+getCurrentPaddleLength(),getCurrentPaddleY(),Paddle.PADDLE_WIDTH,0.0,Math.PI*0.25,path,10);
+		Point2D interLeftF = intersectArc(getCurrentPaddleX()+getCurrentPaddleLength(),getCurrentPaddleY(),Ball.BALL_DIAMETER/2,0.0,Math.PI*0.25,path,20);
 		if(interLeftF != null) {
-			allIntersections.add( new BouncePoint(interLeftF.getX(),interLeftF.getY(),BouncePoint.BounceDirection.FLIP_Y));
+			allIntersections.add( new BouncePoint(interLeftF.getX(),interLeftF.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_X:BouncePoint.BounceDirection.FLIP_Y));
 		}
-		Point2D interRightF = intersectArc(getCurrentPaddleX()+getCurrentPaddleLength(),getCurrentPaddleY(),Paddle.PADDLE_WIDTH,Math.PI*0.25,Math.PI*0.5,path,10);
+		Point2D interRightF = intersectArc(getCurrentPaddleX()+getCurrentPaddleLength(),getCurrentPaddleY(),Ball.BALL_DIAMETER/2,Math.PI*0.25,Math.PI*0.5,path,20);
 		if(interRightF != null) {
-			allIntersections.add( new BouncePoint(interRightF.getX(),interRightF.getY(),BouncePoint.BounceDirection.FLIP_X));
+			allIntersections.add( new BouncePoint(interRightF.getX(),interRightF.getY(),getBallDirectionX()<0?BouncePoint.BounceDirection.FLIP_X:BouncePoint.BounceDirection.FLIP_Y));
 		}
 		
 		//return the nearest intersection
@@ -1083,8 +1070,7 @@ public class PlayedGame implements Serializable
   /**
    * find euclidian distance squared
    */
-
-  // line 408 "../../../../../Block223PlayMode.ump"
+  // line 413 "../../../../../Block223PlayMode.ump"
    private double distance(double x1, double y1, double x2, double y2){
     return Math.pow(x2-x1, 2) +Math.pow(y2-y1, 2);
   }
@@ -1099,21 +1085,25 @@ public class PlayedGame implements Serializable
    * l1 should be the ball path line
    * divisions is the number of segments the arc is divided into, recommend using less than 10 since the arc is very small anyways
    */
-
-  // line 419 "../../../../../Block223PlayMode.ump"
+  // line 425 "../../../../../Block223PlayMode.ump"
    private Point2D intersectArc(double aX, double aY, double aRadius, double aAngleStart, double aAngleEnd, Line2D l1, double divisions){
     double granularity = (aAngleEnd - aAngleStart) / divisions;
-		
+
 		//arc is divided into divisions number of segments then segments are intersected counterclockwise until
 		//having covered the entire arc 
 		for( double rad = aAngleStart; rad<=(aAngleEnd-granularity); rad+=granularity) {
 			Line2D arcSection = new Line2D.Double(
-					aRadius * Math.cos(rad) + aX, aRadius * Math.sin(rad) + aY,
-					aRadius * Math.cos(rad+granularity) + aX, aRadius * Math.sin(rad+granularity) + aY);
+					aRadius * Math.cos(rad) + aX, -aRadius * Math.sin(rad) + aY,
+					aRadius * Math.cos(rad+granularity) + aX, -aRadius * Math.sin(rad+granularity) + aY);
 			
 			Point2D inter=intersectLine(arcSection, l1);
+
 			if(inter!=null) {
-				return inter; 
+				double a=Math.round(inter.getX()*10)/10;
+				double b=Math.round(inter.getY()*10)/10;
+				Point2D rounded = new Point2D.Double(a,b);
+				return rounded; 
+				
 			}
 			
 		}
@@ -1126,8 +1116,7 @@ public class PlayedGame implements Serializable
   /**
    * return intersection point of two lines if it exist
    */
-
-  // line 442 "../../../../../Block223PlayMode.ump"
+  // line 452 "../../../../../Block223PlayMode.ump"
    private Point2D intersectLine(Line2D l1, Line2D l2){
     double a1,a2,c1,c2,x,y;
     double vertY;
@@ -1196,8 +1185,7 @@ public class PlayedGame implements Serializable
 		}
   }
 
-
-  // line 512 "../../../../../Block223PlayMode.ump"
+  // line 522 "../../../../../Block223PlayMode.ump"
    private boolean isCloser(BouncePoint first, BouncePoint second){
     boolean isCloser = false;
 	   if(second == null) {

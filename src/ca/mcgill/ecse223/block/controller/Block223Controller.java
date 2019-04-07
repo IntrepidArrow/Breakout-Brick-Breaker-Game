@@ -610,10 +610,6 @@ public class Block223Controller {
 		Block223Application.setCurrentGame(selectedGame);
 	} 
 
-
-
-
-
 	// ****************************
 	// Query methods
 	// ****************************
@@ -651,6 +647,34 @@ public class Block223Controller {
 			Admin gameAdmin = game.getAdmin();
 
 			if (gameAdmin.equals(admin) && (game.getPublished() == false)) {
+				TOGame to = new TOGame(game.getName(), game.getLevels().size(), game.getNrBlocksPerLevel(),
+						game.getBall().getMinBallSpeedX(), game.getBall().getMinBallSpeedY(),
+						game.getBall().getBallSpeedIncreaseFactor(), game.getPaddle().getMaxPaddleLength(),
+						game.getPaddle().getMinPaddleLength());
+				result.add(to);
+			}
+		}
+
+		return result;
+	}
+	
+	//ABHI - CHECK IF THIS CAN BE DONE OR NOT.
+	public static List<TOGame> getPublishedGames() throws InvalidInputException {
+
+		UserRole admin = Block223Application.getCurrentUserRole();
+
+		if (!(admin instanceof Admin)) {
+			throw new InvalidInputException("Admin privileges are required to access game information.");
+		}
+
+		Block223 block223 = Block223Application.getBlock223();
+		List<TOGame> result = new ArrayList<>();
+		List<Game> games = block223.getGames();
+
+		for (Game game : games) {
+			Admin gameAdmin = game.getAdmin();
+
+			if (gameAdmin.equals(admin) && (game.getPublished() == true)) {
 				TOGame to = new TOGame(game.getName(), game.getLevels().size(), game.getNrBlocksPerLevel(),
 						game.getBall().getMinBallSpeedX(), game.getBall().getMinBallSpeedY(),
 						game.getBall().getBallSpeedIncreaseFactor(), game.getPaddle().getMaxPaddleLength(),
@@ -936,7 +960,54 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		}
 		return result;
 	}
+	
+	public static List<TOPlayableGame> getPossiblePlayableGames() throws InvalidInputException { //here starts the implementation of my two methods
+		Block223 block223 = Block223Application.getBlock223();
+		UserRole player = Block223Application.getCurrentUserRole();
 
+		if (!(player instanceof Player))
+			throw new InvalidInputException("Player privileges are required to play a game.");
+
+		List<TOPlayableGame> result = new ArrayList<>();
+
+		List<PlayedGame> playedGames = ((Player) player).getPlayedGames();
+		for (PlayedGame game : playedGames) {
+			TOPlayableGame to = new TOPlayableGame(game.getGame().getName(), game.getId(), game.getCurrentLevel());
+			result.add(to);
+		}
+		return result; 
+	}
+	
+	public static List<TOPlayableGame> getPlayedGames() throws InvalidInputException {
+		Block223 block223 = Block223Application.getBlock223();
+		UserRole player = Block223Application.getCurrentUserRole();
+
+		if (!(player instanceof Player))
+			throw new InvalidInputException("Player privileges are required to play a game.");
+
+		List<TOPlayableGame> result = new ArrayList<>();
+
+		List<Game> games = block223.getGames();
+		for (Game game : games) {
+			if (game.getPublished()) {
+				TOPlayableGame to = new TOPlayableGame(game.getName(), -1, 0);
+				result.add(to);
+			}
+		}
+		return result; 
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void selectPlayableGame(String name, int id) throws InvalidInputException {
 		Block223 block223 = Block223Application.getBlock223();
 	
@@ -1038,6 +1109,45 @@ public static TOHallOfFame getHallOfFame(int start, int end) throws InvalidInput
 	}
 
 
+
+
+public static TOHallOfFame getHallOfFameWithGameName(String gameName) throws InvalidInputException {
+		
+Block223 block223 = Block223Application.getBlock223();
+	
+	Game game = block223.findGame(gameName);
+	if(game == null) {
+		
+		throw new InvalidInputException("A game must be selected to view its hall of fame."); // throw the exact error  later.
+		
+	}
+	
+	  if(!(Block223Application.getCurrentUserRole() instanceof Player)) {
+		
+		throw new InvalidInputException("Player privileges are required to access a game's hall of fame."); 
+	} 
+	
+	TOHallOfFame result = new TOHallOfFame(gameName);
+
+		int start = 1;
+		int end = game.numberOfHallOfFameEntries(); 
+
+	// umple sorts scores in ascending order therefore the highest score is at the end of the list and the lowest score
+	// is at index 0. 
+	 
+		start = game.numberOfHallOfFameEntries() -start; 
+		end = game.numberOfHallOfFameEntries() - end; 
+		
+	
+	
+	for( int i =start; i>=end;i--) { 
+		
+		TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
+	}
+	
+	return result; 	
+}
+
 public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
 	
 	PlayedGame pgame = Block223Application.getCurrentPlayableGame(); 
@@ -1078,18 +1188,13 @@ public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries)
 	}
 	for( int i = start; i>=end ;i--) {
 		
-		//TODO add the method getPlayerName() in the user class
 		
 		// we do index+1 to make sure to add after the most recent entry
-		
 		
 		TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
 	}
 	return result; 
 }
-
-
-
 
 	public static void testGame(Block223PlayModeInterface ui) throws InvalidInputException {
 		

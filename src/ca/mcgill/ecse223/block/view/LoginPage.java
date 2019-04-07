@@ -84,6 +84,10 @@ public class LoginPage extends JFrame {
 
 					if (mode.getMode().equals(TOUserMode.Mode.Design))
 						new AdminHomePage(userName).setVisible(true);
+					
+					else if (!(mode.getMode().equals(TOUserMode.Mode.Design))) { //LOOOOOOOOOKKKKKK ATTTTT THISSSSSSSS
+						new PlayerHomePage(userName).setVisible(true);
+					}
 
 				} catch (InvalidInputException e) {
 					JOptionPane.showMessageDialog(null, e.toString());
