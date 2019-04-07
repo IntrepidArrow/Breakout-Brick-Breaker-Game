@@ -344,7 +344,7 @@ public class Block223Controller {
 				error = error + "The block does not exist. ";
 			}
 			// check if block number reached limit
-			if (actualLevel.getBlockAssignments().size() > game.getNrBlocksPerLevel()) {
+			if (actualLevel.getBlockAssignments().size() >= game.getNrBlocksPerLevel()) {
 				error += "The number of blocks has reached the maximum number (" + game.getNrBlocksPerLevel()
 						+ ") allowed for this game.";
 			}
