@@ -40,6 +40,7 @@ public class GameSettingsPage extends JFrame{
 	private JTextField gameNameField;
 
 	// remove all model import
+<<<<<<< HEAD
 //	  public static void main(String[] args) {
 //		  Block223 block223 =  Block223Application.getBlock223(); 
 //		  Admin currentUserRole = new Admin("albert", block223);
@@ -74,6 +75,41 @@ public class GameSettingsPage extends JFrame{
 //		  }); 
 //	  }
 
+=======
+	  public static void main(String[] args) {
+		  Block223 block223 =  Block223Application.getBlock223(); 
+		  Admin currentUserRole = new Admin("albert", block223);
+	  Block223Application.setCurrentUserRole(currentUserRole); 
+	  Game game = null;
+	  Block223Application.setCurrentGame(game); 
+	  game = new Game("revvy", 10, (Admin) currentUserRole, 5 ,4, 5.0, 6,3, block223);
+	  Block223Application.setCurrentGame(game); 
+	  int level = 1; 
+	  int nrLevelCreated = 2; 
+	  try { 
+		  Block223Controller.setGameDetails(nrLevelCreated, 10, 5 ,4, 5.0 , 6,3); 
+		  Block223Controller.addBlock(200, 30, 10, 40);
+		  Block223Controller.addBlock(40, 30, 200, 65);
+		  Block223Controller.positionBlock(1, level, 3, 4);
+		  Block223Controller.positionBlock(2, level, 6, 10);
+	  }catch (InvalidInputException e) { // TODO Auto-generated catch block 
+		  //error = e.getMessage(); 
+		  e.printStackTrace(); 
+		  }
+	  
+	  
+	  EventQueue.invokeLater(new Runnable() { 
+		  public void run() { 
+			  try { 
+				  GameSettingsPage window = new GameSettingsPage(); 
+				  window.setVisible(true); 
+				  } catch (Exception e) {
+				  e.printStackTrace(); 
+				  } 
+			  } 
+		  }); 
+	  }
+>>>>>>> parent of 0325126... UI fix
 
 
 

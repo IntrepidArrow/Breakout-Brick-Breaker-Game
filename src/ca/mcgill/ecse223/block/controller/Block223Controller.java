@@ -338,13 +338,19 @@ public class Block223Controller {
 				throw new InvalidInputException("Level " + level + " does not exist for the game.");
 			}
 
+			// check if max number of blocks
+			if (actualLevel.getBlockAssignments().size() + 1 == game.getNrBlocksPerLevel()) {
+				error += "The number of blocks has reached the maximum number" + game.getNrBlocksPerLevel()
+						+ " allowed for this game. ";
+			}
+
 			// check block exist
 			block = game.findBlock(id);
 			if (block == null) {
 				error = error + "The block does not exist. ";
 			}
 			// check if block number reached limit
-			if (actualLevel.getBlockAssignments().size() > game.getNrBlocksPerLevel()) {
+			if (actualLevel.getBlockAssignments().size() >= game.getNrBlocksPerLevel()) {
 				error += "The number of blocks has reached the maximum number (" + game.getNrBlocksPerLevel()
 						+ ") allowed for this game.";
 			}
