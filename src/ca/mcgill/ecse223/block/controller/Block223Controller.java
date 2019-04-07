@@ -348,7 +348,6 @@ public class Block223Controller {
 				error += "The number of blocks has reached the maximum number (" + game.getNrBlocksPerLevel()
 						+ ") allowed for this game.";
 			}
-			// check if this block has already been added
 
 			// check if position is taken
 			BlockAssignment takenBlockAssignment = actualLevel.findBlockAssignment(gridHorizontalPosition,
