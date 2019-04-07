@@ -76,6 +76,7 @@ public class GameSettingsPage extends JFrame{
 
 
 
+
 	/**
 	 * Creates the frame.
 	 */

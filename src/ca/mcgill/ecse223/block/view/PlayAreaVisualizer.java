@@ -53,10 +53,14 @@ public class PlayAreaVisualizer extends JPanel {
 				for (Rectangle2D square : squares) {
 					if (square.contains(x, y)) {
 						selectedGridCell = gridCells.get(square);
+						
+						repaint();
+						
+						System.out.println("hello this is block at " + selectedGridCell.getGridHorizontalPosition() + "/" + selectedGridCell.getGridVerticalPosition() );
 						break;
 					}
 				}
-				repaint();
+				
 			}
 		});
 	}
@@ -84,6 +88,7 @@ public class PlayAreaVisualizer extends JPanel {
 				int yPixel = WALL_PADDING + (gridCell.getGridVerticalPosition()-1)*(20+ROW_PADDING);
 			Rectangle2D block = new Rectangle2D.Float(xPixel,yPixel,20,20); 
 			squares.add(block);
+			gridCells.put(block, gridCell);
 			g2d.setColor(new Color(gridCell.getRed(), gridCell.getGreen(), gridCell.getBlue()));
 			if(selectedGridCell == gridCell) {
 				g2d.draw(block);
