@@ -118,7 +118,7 @@ public class HallOfFame extends JFrame {
 		closeBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				dispose();
-			//	new PlayerHomePage(Block223Application.getCurrentUserRole().toString()).setVisible(true); // will be solved when I push
+				new PlayerHomePage(Block223Application.getCurrentUserRole().toString()).setVisible(true); // will be solved when I push
 			}
 		});
 		
