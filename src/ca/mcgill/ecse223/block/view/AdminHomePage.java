@@ -97,16 +97,12 @@ public class AdminHomePage extends JFrame {
 		designableGamesList.setBounds(37, 148, 600, 207);
 		designableGamesList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
-				JList list = (JList) evt.getSource();
-				if(evt.getClickCount()==1 && publishedGameList.getSelectedValue() != null) {
-					refreshData();
-					publishedGameList.setSelectedValue(null, false);
-				}
+				publishedGameList.clearSelection();
 				if (evt.getClickCount() == 2 && designableGamesList.getSelectedValue() != null) {
 					try {
 
 						Block223Controller.selectGame((String) designableGamesList.getSelectedValue());
-						setVisible(false);
+						dispose();
 						new GameSettingsPage().setVisible(true);
 					} catch (InvalidInputException ex) {
 						JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -122,7 +118,6 @@ public class AdminHomePage extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog(null, "Game name:", "Create Game", JOptionPane.PLAIN_MESSAGE);
-
 				if (name != null) {
 					try {
 						Block223Controller.createGame(name);
@@ -144,9 +139,9 @@ public class AdminHomePage extends JFrame {
 				String desGameSelect = (String) designableGamesList.getSelectedValue();
 				String pubGameSelect = (String) publishedGameList.getSelectedValue();
 				try {
-					if(designableGamesList != null && desGameSelect == null) {
-						Block223Controller.deleteGame(desGameSelect);
-					}
+//					if(designableGamesList != null && desGameSelect == null) {
+//						Block223Controller.deleteGame(desGameSelect);
+//					}
 					if(desGameSelect != null) {
 						int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete game " + desGameSelect,
 								"Delete Game", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -173,12 +168,9 @@ public class AdminHomePage extends JFrame {
 		publishedGameList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
-				if(publishedGameList != null) {
-					if(evt.getClickCount()==1 && designableGamesList.getSelectedValue() != null) {
-						refreshData();
-						designableGamesList.setSelectedValue(null, false);
-					}
+				designableGamesList.clearSelection();
 					if(evt.getClickCount() == 2 && publishedGameList.getSelectedValue() != null) {
+						
 						try {
 							Block223Controller.selectGame((String) publishedGameList.getSelectedValue());
 						} catch (InvalidInputException e) {
@@ -186,7 +178,7 @@ public class AdminHomePage extends JFrame {
 						}
 					}
 				}
-			}
+//			}
 		});
 		publishedGameList.setBounds(37, 404, 600, 207);
 		contentPane.add(publishedGameList);
@@ -206,9 +198,6 @@ public class AdminHomePage extends JFrame {
 			public void actionPerformed(ActionEvent evt) {
 				try {
 					String game = (String) designableGamesList.getSelectedValue();
-//					if(game == null) {
-//						Block223Controller.publishGame();
-//					}
 					if (game != null) {
 						
 						int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to Publish game " + game,
@@ -217,8 +206,7 @@ public class AdminHomePage extends JFrame {
 							Block223Controller.selectGame(game);
 							Block223Controller.publishGame();
 							refreshData();
-							Block223Controller.saveGame();	//Should the Game be saved?
-							//JOptionPane.showMessageDialog(null, "Game succesfully published");	
+							Block223Controller.saveGame();	//Should the Game be saved?	
 						} 
 						if (option == JOptionPane.OK_CANCEL_OPTION) {
 							refreshData();
@@ -243,17 +231,11 @@ public class AdminHomePage extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				String desGame = (String) designableGamesList.getSelectedValue();
 				String pubGame = (String) publishedGameList.getSelectedValue();
-//				if(desGame == null) {
-//					try {
-//						Block223Controller.testGame(ui);
-//					} catch (InvalidInputException ex) {
-//						JOptionPane.showMessageDialog(null, ex.getMessage());
-//					}
-//				}
+
 				if(desGame != null) {
 					try {
 						Block223Controller.selectGame(desGame);
-//						Block223Controller.testGame(ui);
+						PlayModeView testGround = new PlayModeView(true);
 					} catch (InvalidInputException ex) {
 						JOptionPane.showMessageDialog(null, ex.getMessage());
 					}
