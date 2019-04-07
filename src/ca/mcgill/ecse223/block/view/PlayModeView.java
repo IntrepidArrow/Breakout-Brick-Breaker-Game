@@ -14,15 +14,18 @@ import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOCurrentlyPlayedGame;
 import ca.mcgill.ecse223.block.view.PlayModeListener;
+import javax.swing.JPanel;
+import java.awt.Color;
 
 public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 
 	PlayModeListener listener;
-	JTextArea gameArea; 
 	private PlayModeVisualizer playModeVisualizer; //extends JPanel
-	
-	public PlayModeView() {
+	String username;
+	boolean isTestGame;
+	public PlayModeView(boolean isTest) {
 		createAndShowGUI();
+		this.isTestGame=isTest;
 	}
 
 	/**
@@ -32,6 +35,7 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 		// Create and set up the window.
 		this.setTitle("Block223 PlayMode Example");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
 
 		// Add components to window pane
 		this.addComponentsToPane();
@@ -44,14 +48,16 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 	private void addComponentsToPane() {
 
 		JButton button = new JButton("Start Game");
-
-		gameArea = new JTextArea();
-		gameArea.setEditable(false);
-		JScrollPane scrollPane = new JScrollPane(gameArea);
-		scrollPane.setPreferredSize(new Dimension(375, 125));
-
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		getContentPane().add(button, BorderLayout.PAGE_END);
+		
+		playModeVisualizer = new PlayModeVisualizer();
+		playModeVisualizer.setName("Block223 PlayMode");
+		playModeVisualizer.setMaximumSize(new Dimension(390, 390));
+		playModeVisualizer.setMinimumSize(new Dimension(390, 390));
+		playModeVisualizer.setBackground(Color.WHITE);
+		playModeVisualizer.setPreferredSize(new Dimension(390, 390));
+		playModeVisualizer.setSize(new Dimension(390, 390));
+		getContentPane().add(playModeVisualizer, BorderLayout.NORTH);
 
 		button.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,7 +68,7 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 					@Override
 					public void run() {
 						// in the actual game, add keyListener to the game window
-						gameArea.addKeyListener(listener);
+						playModeVisualizer.addKeyListener(listener);
 					}
 				};
 				Thread t1 = new Thread(r1);
@@ -79,7 +85,12 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 					@Override
 					public void run() {
 						try {
-							Block223Controller.startGame(PlayModeView.this);
+							System.out.println("starting");
+							if(isTestGame) {
+								Block223Controller.testGame(PlayModeView.this);
+							}else {
+								Block223Controller.startGame(PlayModeView.this);
+							}
 							button.setVisible(true);
 						} catch (InvalidInputException e) {
 						}

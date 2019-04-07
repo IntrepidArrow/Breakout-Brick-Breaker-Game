@@ -93,8 +93,9 @@ public class EditBlocksPage {
 		JButton btnLogout = new JButton("LogOut");	//Logout of the game 
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Block223Controller.logout();
 				frmGameBlockSettings.dispose();
-				new LoginPage().setVisible(true);;
+				new LoginPage().setVisible(true);
 			}
 		});
 
