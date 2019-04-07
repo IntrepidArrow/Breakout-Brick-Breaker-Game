@@ -970,7 +970,54 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		}
 		return result;
 	}
+	
+	public static List<TOPlayableGame> getPossiblePlayableGames() throws InvalidInputException { //here starts the implementation of my two methods
+		Block223 block223 = Block223Application.getBlock223();
+		UserRole player = Block223Application.getCurrentUserRole();
 
+		if (!(player instanceof Player))
+			throw new InvalidInputException("Player privileges are required to play a game.");
+
+		List<TOPlayableGame> result = new ArrayList<>();
+
+		List<PlayedGame> playedGames = ((Player) player).getPlayedGames();
+		for (PlayedGame game : playedGames) {
+			TOPlayableGame to = new TOPlayableGame(game.getGame().getName(), game.getId(), game.getCurrentLevel());
+			result.add(to);
+		}
+		return result; 
+	}
+	
+	public static List<TOPlayableGame> getPlayedGames() throws InvalidInputException {
+		Block223 block223 = Block223Application.getBlock223();
+		UserRole player = Block223Application.getCurrentUserRole();
+
+		if (!(player instanceof Player))
+			throw new InvalidInputException("Player privileges are required to play a game.");
+
+		List<TOPlayableGame> result = new ArrayList<>();
+
+		List<Game> games = block223.getGames();
+		for (Game game : games) {
+			if (game.getPublished()) {
+				TOPlayableGame to = new TOPlayableGame(game.getName(), -1, 0);
+				result.add(to);
+			}
+		}
+		return result; 
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void selectPlayableGame(String name, int id) throws InvalidInputException {
 		Block223 block223 = Block223Application.getBlock223();
 	
