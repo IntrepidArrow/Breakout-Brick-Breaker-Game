@@ -311,8 +311,6 @@ public class EditLevel extends JFrame {
 
 	private void refreshData() {
 		
-		txtHorizontal.setText("");
-		txtVertical.setText("");
 
 		//errorMessage.setText(error);
 		if (error == null || error.length() == 0) {
@@ -358,6 +356,8 @@ public class EditLevel extends JFrame {
 	}
 
 	private void refreshPlayAreaVisualizer(int level) {
+		txtHorizontal.setText("");
+		txtVertical.setText("");
 		playAreaVisualizer.setLevel(levelList.getSelectedIndex());
 		
 		
@@ -483,7 +483,7 @@ public class EditLevel extends JFrame {
 			JOptionPane.showMessageDialog(null, error);
 			e.printStackTrace();
 		}
-		//refreshData();
+	//	refreshData();
 		refreshPlayAreaVisualizer(selectedLevel);
 		levelList.setSelectedIndex(selectedLevel);
 		
