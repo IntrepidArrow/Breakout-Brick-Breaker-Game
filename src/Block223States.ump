@@ -19,6 +19,7 @@ class PlayedGame {
       move / { doHitNothingAndNotOutOfBounds(); } -> Moving;
     }
     Paused {
+    entry / {pause();}
       play -> Moving;
     }
     GameOver {
