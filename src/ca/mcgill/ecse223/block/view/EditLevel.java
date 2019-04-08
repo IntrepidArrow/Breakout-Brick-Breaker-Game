@@ -133,7 +133,7 @@ public class EditLevel extends JFrame {
 
 		editLevelWindow = new JFrame();
 		editLevelWindow.setTitle("Play Area Configuration");
-		editLevelWindow.setBounds(100, 100, 841, 629);
+		editLevelWindow.setBounds(100, 100, 950, 750);
 		editLevelWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		editLevelWindow.setVisible(true);
 		
@@ -172,7 +172,11 @@ public class EditLevel extends JFrame {
 		
 		  playAreaVisualizer = new PlayAreaVisualizer();
 		  playAreaVisualizer.setMinimumSize(new Dimension(390, 390));
+		  playAreaVisualizer.setMaximumSize(new Dimension(390,390));
+		  playAreaVisualizer.setPreferredSize(new Dimension(390, 390));
 		  playAreaVisualizer.setBackground(Color.WHITE);
+			playAreaVisualizer.setSize(new Dimension(390, 390));
+			playAreaVisualizer.setFocusable(true);
 		 
 
 		// elements for blocks available
@@ -215,89 +219,91 @@ public class EditLevel extends JFrame {
 
 		// layout
 		GroupLayout groupLayout = new GroupLayout(editLevelWindow.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-								.createSequentialGroup().addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup().addGap(39).addComponent(
-												levelLabel))
-										.addGroup(groupLayout.createSequentialGroup().addGap(
-												22).addComponent(levelList, GroupLayout.PREFERRED_SIZE, 85,
-														GroupLayout.PREFERRED_SIZE)))
-								.addGroup(groupLayout.createParallelGroup(
-										Alignment.LEADING, false).addGroup(
-												groupLayout.createSequentialGroup().addGap(194).addComponent(
-														blockConfigurationLbl).addGap(263)
-														.addComponent(lblBlocksAvailable))
-										.addGroup(groupLayout.createSequentialGroup().addGap(53)
-												.addComponent(playAreaVisualizer, GroupLayout.PREFERRED_SIZE, 428,
-												GroupLayout.PREFERRED_SIZE)
-												//.addComponent(blockAreaList).addPreferredGap(ComponentPlacement.RELATED,
-														//6, Short.MAX_VALUE)
-												.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-														.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-																.addComponent(blockList, GroupLayout.PREFERRED_SIZE,
-																		106, GroupLayout.PREFERRED_SIZE)
-																.addComponent(btnPositionNewBlock))
-														.addGroup(groupLayout.createSequentialGroup().addGroup(
-																groupLayout.createParallelGroup(Alignment.LEADING)
-																		.addComponent(
-																				btnRemoveBlock)
-																		.addComponent(btnMoveBlock))
-																.addGap(24))
-														.addGroup(groupLayout.createSequentialGroup()
-																.addGroup(groupLayout
-																		.createParallelGroup(Alignment.LEADING)
-																		.addComponent(lblHorizontal)
-																		.addGroup(groupLayout.createSequentialGroup()
-																				.addGap(6).addComponent(lblVertical)))
-																.addPreferredGap(ComponentPlacement.RELATED)
-																.addGroup(groupLayout
-																		.createParallelGroup(Alignment.LEADING)
-																		.addComponent(txtHorizontal,
-																				GroupLayout.PREFERRED_SIZE,
-																				GroupLayout.DEFAULT_SIZE,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addComponent(txtVertical,
-																				GroupLayout.PREFERRED_SIZE,
-																				GroupLayout.DEFAULT_SIZE,
-																				GroupLayout.PREFERRED_SIZE))
-																.addGap(11))))))
-								.addGroup(groupLayout.createSequentialGroup().addContainerGap().addComponent(backButton)
-										.addGap(257).addComponent(errorMessage)))
-						.addContainerGap(14, Short.MAX_VALUE)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addContainerGap()
-				.addGroup(groupLayout
-						.createParallelGroup(Alignment.TRAILING).addComponent(backButton).addComponent(errorMessage))
-				.addGap(36)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(levelLabel)
-						.addComponent(blockConfigurationLbl).addComponent(lblBlocksAvailable))
-				.addGap(18)
-				.addGroup(
-						groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup().addGap(26)
-										.addComponent(levelList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE)
-										)
-								//.addComponent(blockAreaList)
-								.addComponent(playAreaVisualizer)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(22)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(levelList, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+								.addComponent(levelLabel))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(blockList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(41)
-										.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-												.addComponent(txtHorizontal, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblHorizontal))
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-												.addComponent(txtVertical, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblVertical))
-										.addGap(32).addComponent(btnPositionNewBlock).addGap(18)
-										.addComponent(btnMoveBlock).addGap(79).addComponent(btnRemoveBlock)))
-				.addGap(85)));
+									.addGap(160)
+									.addComponent(blockConfigurationLbl)
+									.addGap(297)
+									.addComponent(lblBlocksAvailable))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(12)
+									.addComponent(playAreaVisualizer, GroupLayout.PREFERRED_SIZE, 428, GroupLayout.PREFERRED_SIZE)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGap(47)
+											.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+												.addComponent(btnPositionNewBlock)
+												.addGroup(groupLayout.createSequentialGroup()
+													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+														.addComponent(btnRemoveBlock)
+														.addComponent(btnMoveBlock))
+													.addGap(24))
+												.addGroup(groupLayout.createSequentialGroup()
+													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+														.addComponent(lblHorizontal)
+														.addGroup(groupLayout.createSequentialGroup()
+															.addGap(6)
+															.addComponent(lblVertical)))
+													.addPreferredGap(ComponentPlacement.RELATED)
+													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+														.addComponent(txtHorizontal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addComponent(txtVertical, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+													.addGap(11))))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGap(30)
+											.addComponent(blockList, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(backButton)
+							.addGap(257)
+							.addComponent(errorMessage)))
+					.addContainerGap(18, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(backButton)
+						.addComponent(errorMessage))
+					.addGap(36)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblBlocksAvailable)
+						.addComponent(blockConfigurationLbl)
+						.addComponent(levelLabel))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(26)
+							.addComponent(levelList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(blockList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(41)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(txtHorizontal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblHorizontal))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(txtVertical, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblVertical))
+							.addGap(32)
+							.addComponent(btnPositionNewBlock)
+							.addGap(18)
+							.addComponent(btnMoveBlock)
+							.addGap(79)
+							.addComponent(btnRemoveBlock))
+						.addComponent(playAreaVisualizer, GroupLayout.PREFERRED_SIZE, 387, GroupLayout.PREFERRED_SIZE))
+					.addGap(46))
+		);
 		
 		editLevelWindow.getContentPane().setLayout(groupLayout);
 
