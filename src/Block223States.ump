@@ -223,8 +223,8 @@ class PlayedGame {
 	p = getPlayer();
 	if (p!= null) {
 	Game game_this = getGame();
-	HallOfFameEntry hof = new HallOfFameEntry (score, playername, p, game_this, block223);
-	game_this.setMostRecentEntry(hof);
+	//HallOfFameEntry hof = new HallOfFameEntry (score, playername, p, game_this, block223);
+	//game_this.setMostRecentEntry(hof);
 	}
 	delete();
 }

@@ -20,7 +20,7 @@ public class PlayedGame implements Serializable
   /**
    * at design time, the initial wait time may be adjusted as seen fit
    */
-  public static final int INITIAL_WAIT_TIME = 5;
+  public static final int INITIAL_WAIT_TIME = 10;
   private static int nextId = 1;
   public static final int NR_LIVES = 3;
 
@@ -486,13 +486,14 @@ public class PlayedGame implements Serializable
         // line 7 "../../../../../Block223States.ump"
         doSetup();
         break;
+      case Paused:
+        // line 22 "../../../../../Block223States.ump"
+        pause();
+        break;
       case GameOver:
-        // line 25 "../../../../../Block223States.ump"
+        // line 26 "../../../../../Block223States.ump"
         doGameOver();
         break;
-      case Paused:
-    	  pause();
-    	  break;
     }
   }
   /* Code from template association_GetOne */
@@ -1207,7 +1208,7 @@ if(interB != null) {
   /**
    * Guards
    */
-  // line 32 "../../../../../Block223States.ump"
+  // line 33 "../../../../../Block223States.ump"
    private boolean hitPaddle(){
     BouncePoint bp = calculateBouncePointPaddle();
 	if(bp == null){
@@ -1218,7 +1219,7 @@ if(interB != null) {
     return true;
   }
 
-  // line 42 "../../../../../Block223States.ump"
+  // line 43 "../../../../../Block223States.ump"
    private boolean isOutOfBoundsAndLastLife(){
     boolean outOfBounds = false; 
 	if (getLives()==1) {
@@ -1227,13 +1228,13 @@ if(interB != null) {
 	return false;
   }
 
-  // line 50 "../../../../../Block223States.ump"
+  // line 51 "../../../../../Block223States.ump"
    private boolean isOutOfBounds(){
     boolean isOutOfBounds = isBallOutOfBounds();
 	return isOutOfBounds;
   }
 
-  // line 55 "../../../../../Block223States.ump"
+  // line 56 "../../../../../Block223States.ump"
    private boolean hitLastBlockAndLastLevel(){
     // TODO implement
 	   Game game = getGame();
@@ -1256,7 +1257,7 @@ if(interB != null) {
     return false;
   }
 
-  // line 77 "../../../../../Block223States.ump"
+  // line 78 "../../../../../Block223States.ump"
    private boolean hitLastBlock(){
     // TODO implement
     
@@ -1274,7 +1275,7 @@ if(interB != null) {
 	   return false;
   }
 
-  // line 94 "../../../../../Block223States.ump"
+  // line 95 "../../../../../Block223States.ump"
    private boolean hitBlock(){
     // TODO implement
    int nrBlocks = numberOfBlocks();
@@ -1296,7 +1297,7 @@ if(interB != null) {
   /**
    * line 111 "../../../../../Block223States.ump"
    */
-  // line 112 "../../../../../Block223States.ump"
+  // line 113 "../../../../../Block223States.ump"
    private boolean hitWall(){
     BouncePoint bp = calculateBouncePointWall();
 	if(bp == null){
@@ -1311,7 +1312,7 @@ if(interB != null) {
   /**
    * Actions
    */
-  // line 124 "../../../../../Block223States.ump"
+  // line 125 "../../../../../Block223States.ump"
    private void doSetup(){
     this.resetCurrentBallX();
     this.resetCurrentBallY();
@@ -1332,7 +1333,7 @@ if(interB != null) {
 	  int y = rand.nextInt(game.getMaxNumberVerticalBlocks()) + 1;
 	  while (true) {
 		final int finalX = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (x - 1);
-		final int finalY = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (y - 1);
+		final int finalY = Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING) * (y - 1);
 		if (blocks.stream().noneMatch(b -> (b.getX() == finalX && b.getY() == finalY))) {
 		  PlayedBlockAssignment p = new PlayedBlockAssignment(finalX, finalY, game.getRandomBlock(), this);
 		  break;
@@ -1351,13 +1352,13 @@ if(interB != null) {
 	}
   }
 
-  // line 163 "../../../../../Block223States.ump"
+  // line 164 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
     bounceBall();
 	return;
   }
 
-  // line 168 "../../../../../Block223States.ump"
+  // line 169 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     int lives = getLives();
 	setLives(lives-1);
@@ -1368,7 +1369,7 @@ if(interB != null) {
 	resetBallDirectionY();
   }
 
-  // line 179 "../../../../../Block223States.ump"
+  // line 180 "../../../../../Block223States.ump"
    private void doHitBlock(){
     // TODO implement
     int score = getScore();
@@ -1381,7 +1382,7 @@ if(interB != null) {
 	   setBounce(null);
   }
 
-  // line 191 "../../../../../Block223States.ump"
+  // line 192 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     // TODO implement
     doHitBlock();
@@ -1394,7 +1395,7 @@ if(interB != null) {
 	   setWaitTime( INITIAL_WAIT_TIME * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(), ( getCurrentLevel() - 1 )));
   }
 
-  // line 204 "../../../../../Block223States.ump"
+  // line 205 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     //double x = getCurrentBallX();
     //double y = getCurrentBallY();
@@ -1407,7 +1408,7 @@ if(interB != null) {
     setCurrentBallY(getCurrentBallY() + getBallDirectionY());
   }
 
-  // line 216 "../../../../../Block223States.ump"
+  // line 217 "../../../../../Block223States.ump"
    private void doGameOver(){
     Player p;
 	String playername;
@@ -1418,8 +1419,8 @@ if(interB != null) {
 	p = getPlayer();
 	if (p!= null) {
 	Game game_this = getGame();
-	HallOfFameEntry hof = new HallOfFameEntry (score, playername, p, game_this, block223);
-	game_this.setMostRecentEntry(hof);
+	//HallOfFameEntry hof = new HallOfFameEntry (score, playername, p, game_this, block223);
+	//game_this.setMostRecentEntry(hof);
 	}
 	delete();
   }
