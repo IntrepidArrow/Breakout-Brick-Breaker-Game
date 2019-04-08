@@ -40,7 +40,7 @@ import java.awt.Color;
 public class PlayerHomePage extends JFrame {
 
 	private String userName;
-	private String gameNameHolder; 
+	private String gameNameHolder;
 	private JPanel contentPane;
 
 	private JLabel userLabel;
@@ -94,7 +94,7 @@ public class PlayerHomePage extends JFrame {
 		titleLabel.setBounds(268, 11, 210, 100);
 		contentPane.add(titleLabel);
 
-		currentGamesList = new JList(); // replaces playedGames list 
+		currentGamesList = new JList(); // replaces playedGames list
 		currentGamesList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
@@ -105,7 +105,7 @@ public class PlayerHomePage extends JFrame {
 		});
 		currentGamesList.setBounds(37, 148, 600, 207);
 
-		
+
 		contentPane.add(currentGamesList);
 
 		playButton = new JButton("Play");
@@ -131,15 +131,15 @@ public class PlayerHomePage extends JFrame {
 		HofButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) { //change the content of this method in order to show the HOF.
-				
-				//TODO: Initialize Pop up window for Hall of Fame. 
-				new HallOfFame(gameNameHolder).setVisible(true); // will be resolved when the view of the hof will be added to the project. 
-				
+
+				//TODO: Initialize Pop up window for Hall of Fame.
+				new HallOfFame(gameNameHolder).setVisible(true); // will be resolved when the view of the hof will be added to the project.
+
 			}
 		});
 		contentPane.add(HofButton);
 
-	playableGamesList = new JList(); // replaces published game list. 
+	playableGamesList = new JList(); // replaces published game list.
 		playableGamesList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
@@ -154,7 +154,7 @@ public class PlayerHomePage extends JFrame {
 					}
 				}
 			}
-		}); 
+		});
 		playableGamesList.setBounds(37, 404, 600, 207);
 		contentPane.add(playableGamesList);
 
@@ -172,7 +172,7 @@ public class PlayerHomePage extends JFrame {
 		errorMessage.setForeground(Color.RED);
 		errorMessage.setBounds(213, 122, 599, 14);
 		contentPane.add(errorMessage);
-		
+
 
 	}
 
@@ -181,7 +181,7 @@ public class PlayerHomePage extends JFrame {
 		// refresh game list
 		List<String> gameNames = new ArrayList<>();
 		List<TOPlayableGame> playedGames = null;
-		
+
 		List<String> publishedGameNames = new ArrayList<>();
 		List<TOPlayableGame> playableGames1 = null;
 
@@ -200,7 +200,7 @@ public class PlayerHomePage extends JFrame {
 			publishedGameNames.add(game2.getName());
 			playedGames.remove(game2);
 		}
-		
+
 		currentGamesList.setListData(publishedGameNames.toArray());
 		playableGamesList.setListData(gameNames.toArray());
 	}

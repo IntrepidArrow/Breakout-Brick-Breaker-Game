@@ -29,6 +29,8 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -114,7 +116,7 @@ public class EditBlocksPage {
 				int selectedBlock = selectBlockComboBox.getSelectedIndex();
 
 				if(selectedBlock < 1) {
-					errorMessageToUse.setText("A block needs to be selected to be updated!");
+					//errorMessageToUse.setText("A block needs to be selected to be updated!");
 					return;
 				}
 
@@ -131,9 +133,10 @@ public class EditBlocksPage {
 					Block223Controller.updateBlock(blockToUpdate.getId(), newRedVal, newGreenVal, newBlueVal, newPointsVal);
 					refreshBlockData();
 				} catch (NumberFormatException m) {
-					errorMessageToUse.setText(m.getMessage());
+					JOptionPane.showMessageDialog(null, "All fields must have numerical values.");
 				} catch (InvalidInputException m) {
-					errorMessageToUse.setText(m.getMessage());
+					JOptionPane.showMessageDialog(null, m.getMessage());
+					//errorMessageToUse.setText(m.getMessage());
 				}
 
 			}
@@ -146,7 +149,7 @@ public class EditBlocksPage {
 				int selectedBlock = selectBlockComboBox.getSelectedIndex();
 
 				if(selectedBlock < 1) {
-					errorMessageToUse.setText("A block needs to be selected to be deleted!");
+					//errorMessageToUse.setText("A block needs to be selected to be deleted!");
 					return;
 				}
 
@@ -157,7 +160,8 @@ public class EditBlocksPage {
 					//refresh block list that will be displayed in combo box list
 					refreshBlockData();
 				} catch (InvalidInputException m) {
-					errorMessageToUse.setText(m.getMessage());
+					JOptionPane.showMessageDialog(null, m.getMessage());
+					//errorMessageToUse.setText(m.getMessage());
 				}
 			}
 		});
@@ -231,7 +235,8 @@ public class EditBlocksPage {
 				try {
 					Block223Controller.saveGame();
 				} catch (InvalidInputException m) {
-					errorMessageToUse.setText("");
+					JOptionPane.showMessageDialog(null, m.getMessage());
+					//errorMessageToUse.setText("");
 				}
 			}
 		});
@@ -346,7 +351,8 @@ public class EditBlocksPage {
 				index++;
 			}
 		} catch (InvalidInputException e) {
-			errorMessageToUse.setText(e.getMessage());
+			JOptionPane.showMessageDialog(null, e.getMessage());
+			//errorMessageToUse.setText(e.getMessage());
 		}
 	}
 }
