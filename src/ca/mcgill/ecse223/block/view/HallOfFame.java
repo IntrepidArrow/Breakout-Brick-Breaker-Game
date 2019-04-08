@@ -80,7 +80,8 @@ public class HallOfFame extends JFrame {
 		HofScrollPane.setPreferredSize(new Dimension(d.width, HEIGHT_OVERVIEW_TABLE));
 		HofScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); 
 		
-////		
+////		KEEP IT COMMENTED OUT
+		
 ////		GroupLayout groupLayout = new GroupLayout(this.getContentPane());
 ////		groupLayout.setHorizontalGroup(
 ////			groupLayout.createParallelGroup(Alignment.LEADING)
