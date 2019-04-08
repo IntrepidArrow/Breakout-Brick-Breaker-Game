@@ -880,11 +880,12 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 			ui.refresh();
 		}
 		if (game.getPlayStatus() == PlayStatus.GameOver) {
-			Block223Application.setCurrentPlayableGame(null);
 			if(ui instanceof PlayModeView ) {
 				((PlayModeView) ui).gameIsDone();
 
 			}
+			Block223Application.setCurrentPlayableGame(null);
+
 		}
 		while(game.getPlayStatus() == PlayStatus.Paused) {
 			String userInputs = ui.takeInputs();
