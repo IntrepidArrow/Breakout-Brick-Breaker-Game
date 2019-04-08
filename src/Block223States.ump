@@ -40,12 +40,12 @@ class PlayedGame {
   }
 
   private boolean isOutOfBoundsAndLastLife() {
-	boolean outOfBounds = false; 
-	if (getLives()==0) {
+	 boolean isOutOfBounds = isBallOutOfBounds();
+	if (getLives() == 1  && isOutOfBounds ) {
 		return true;
 	}
 	return false;
-}
+  }
   
  private boolean isOutOfBounds() {
 	boolean isOutOfBounds = isBallOutOfBounds();
@@ -215,18 +215,23 @@ class PlayedGame {
 
   private void doGameOver() {
 	Player p;
-	String playername;
-	int score;
-	Block223 block223 = getBlock223();
-	score = getScore();
-	playername= getPlayername();
-	p = getPlayer();
-	if (p!= null) {
-	Game game_this = getGame();
-	//HallOfFameEntry hof = new HallOfFameEntry (score, playername, p, game_this, block223);
-	//game_this.setMostRecentEntry(hof);
-	}
-	delete();
+		String playername;
+		int score;
+		Block223 block223 = getBlock223();
+		score = getScore();
+		playername= getPlayername();
+		p = getPlayer();
+		if (p!= null) {
+			Game game_this = getGame();
+			try {
+				HallOfFameEntry hof = new HallOfFameEntry (score, playername, p, game_this, block223);
+				game_this.setMostRecentEntry(hof);
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+			}
+		}
+		delete();
 }
 
 }

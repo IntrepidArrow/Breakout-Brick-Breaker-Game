@@ -202,7 +202,7 @@ class PlayedGame {
 
 
    private void bounceBall(){
-   	boolean advancedBounce = true;
+   	boolean advancedBounce = false;
    
     BouncePoint bounce = getBounce();
 	   double newDirectionX = 0;
