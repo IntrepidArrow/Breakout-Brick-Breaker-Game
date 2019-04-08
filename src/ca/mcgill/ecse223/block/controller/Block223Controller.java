@@ -1141,6 +1141,7 @@ Block223 block223 = Block223Application.getBlock223();
 	
 	for( int i =start; i>=end;i--) { 
 		
+		
 		TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
 	}
 	
