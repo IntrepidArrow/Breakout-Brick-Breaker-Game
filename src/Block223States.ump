@@ -141,7 +141,7 @@ class PlayedGame {
 	  int y = rand.nextInt(game.getMaxNumberVerticalBlocks()) + 1;
 	  while (true) {
 		final int finalX = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (x - 1);
-		final int finalY = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (y - 1);
+		final int finalY = Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING) * (y - 1);
 		if (blocks.stream().noneMatch(b -> (b.getX() == finalX && b.getY() == finalY))) {
 		  PlayedBlockAssignment p = new PlayedBlockAssignment(finalX, finalY, game.getRandomBlock(), this);
 		  break;
