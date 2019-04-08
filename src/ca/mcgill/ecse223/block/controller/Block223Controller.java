@@ -1,6 +1,7 @@
 
 package ca.mcgill.ecse223.block.controller;
 
+import java.awt.Window;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -29,6 +30,7 @@ import ca.mcgill.ecse223.block.model.PlayedGame.PlayStatus;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 import ca.mcgill.ecse223.block.view.Block223PlayModeInterface;
 import ca.mcgill.ecse223.block.view.PlayModeView;
+import ca.mcgill.ecse223.block.view.PlayerHomePage;
 
 public class Block223Controller {
 
@@ -879,6 +881,8 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		}
 		if (game.getPlayStatus() == PlayStatus.GameOver) {
 			Block223Application.setCurrentPlayableGame(null);
+			((Window) ui).setVisible(false);
+			new PlayerHomePage("").setVisible(true);
 		}
 //		while(game.getPlayStatus() == PlayStatus.Paused) {
 //			String userInputs = ui.takeInputs();
