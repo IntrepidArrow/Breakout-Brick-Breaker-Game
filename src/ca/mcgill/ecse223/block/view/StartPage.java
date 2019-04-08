@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
 import javax.swing.JButton;

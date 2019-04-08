@@ -10,11 +10,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-//import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOGame;
-//import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
 import javax.swing.DefaultListModel;

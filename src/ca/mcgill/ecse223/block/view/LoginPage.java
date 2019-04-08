@@ -8,12 +8,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOUserMode;
-import ca.mcgill.ecse223.block.model.Admin;
-import ca.mcgill.ecse223.block.model.UserRole;
+
 
 import javax.swing.JButton;
 import java.awt.GridLayout;
