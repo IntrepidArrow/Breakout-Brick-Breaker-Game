@@ -64,7 +64,7 @@ public class PlayModeVisualizer extends JPanel  {
 			//System.out.println(xPixel+" "+yPixel+" "+pBlock.getX()+" "+pBlock.getY());
 			Rectangle2D block = new Rectangle2D.Float(xPixel,yPixel,20,20); 
 			//g2d.setColor(new Color(pBlock.getRed(), pBlock.getGreen(), pBlock.getBlue()));
-			g2d.setColor(Color.black);
+			g2d.setColor(new Color(pBlock.getRed(), pBlock.getGreen(), pBlock.getBlue()));
 	
 			g2d.fill(block);
 		}
