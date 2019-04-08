@@ -1116,7 +1116,7 @@ public static TOHallOfFame getHallOfFame(int start, int end) throws InvalidInput
 		
 		for( int i =start; i>=end;i--) { 
 			
-			TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
+			TOHallOfFameEntry to = new TOHallOfFameEntry(game.numberOfHallOfFameEntries()-i, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
 		}
 		
 		return result; 	
@@ -1156,7 +1156,7 @@ Block223 block223 = Block223Application.getBlock223();
 	
 	for( int i =start; i>=end;i--) { 
 		
-		TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
+		TOHallOfFameEntry to = new TOHallOfFameEntry(game.numberOfHallOfFameEntries()-i, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
 	}
 	
 	return result; 	
@@ -1205,7 +1205,7 @@ public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries)
 		
 		// we do index+1 to make sure to add after the most recent entry
 		
-		TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
+		TOHallOfFameEntry to = new TOHallOfFameEntry(game.numberOfHallOfFameEntries()-i, game.getHallOfFameEntry(i).getPlayername(), game.getHallOfFameEntry(i).getScore(), result);
 	}
 	return result; 
 }
