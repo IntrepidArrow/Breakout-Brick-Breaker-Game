@@ -57,6 +57,8 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 		playModeVisualizer.setBackground(Color.WHITE);
 		playModeVisualizer.setPreferredSize(new Dimension(390, 390));
 		playModeVisualizer.setSize(new Dimension(390, 390));
+		playModeVisualizer.setFocusable(true);
+
 		getContentPane().add(playModeVisualizer, BorderLayout.NORTH);
 
 		button.addActionListener(new java.awt.event.ActionListener() {
