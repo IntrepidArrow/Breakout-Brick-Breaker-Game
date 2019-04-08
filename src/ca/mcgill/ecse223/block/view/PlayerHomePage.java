@@ -136,11 +136,8 @@ public class PlayerHomePage extends JFrame {
 		HofButton.setBounds(672, 218, 140, 40);
 		HofButton.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) { //change the content of this method in order to show the HOF.
-
-				//TODO: Initialize Pop up window for Hall of Fame.
-				new HallOfFame(gameNameHolder).setVisible(true); // will be resolved when the view of the hof will be added to the project.
-
+			public void actionPerformed(ActionEvent e) {
+				new HallOfFame(gameNameHolder); // will be resolved when the view of the hof will be added to the project.
 			}
 		});
 		contentPane.add(HofButton);
@@ -150,6 +147,7 @@ public class PlayerHomePage extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
 				currentGamesList.clearSelection();
+				gameNameHolder = (String) playableGamesList.getSelectedValue();
 			}
 		});
 		playableGamesList.setBounds(37, 404, 600, 207);
