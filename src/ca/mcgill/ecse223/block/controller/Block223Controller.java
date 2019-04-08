@@ -881,8 +881,8 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		}
 		if (game.getPlayStatus() == PlayStatus.GameOver) {
 			Block223Application.setCurrentPlayableGame(null);
-			((Window) ui).setVisible(false);
-			new PlayerHomePage("").setVisible(true);
+			
+			((PlayModeView) ui).gameIsDone();
 		}
 //		while(game.getPlayStatus() == PlayStatus.Paused) {
 //			String userInputs = ui.takeInputs();

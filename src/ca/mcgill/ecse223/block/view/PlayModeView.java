@@ -169,4 +169,13 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 		// TODO Auto-generated method stub
 
 	}
+	public void gameIsDone() {
+		this.setVisible(false);
+		JOptionPane.showMessageDialog(this,
+			    "GAME OVER",
+			    "",
+			    JOptionPane.ERROR_MESSAGE);
+		new PlayerHomePage("").setVisible(true);
+
+	}
 }
