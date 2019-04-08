@@ -133,7 +133,7 @@ public class PlayerHomePage extends JFrame {
 			public void actionPerformed(ActionEvent e) { //change the content of this method in order to show the HOF.
 				
 				//TODO: Initialize Pop up window for Hall of Fame. 
-				new HallOfFame(gameNameHolder).setVisible(true); // will be resolved when the view of the hof will be added to the project. 
+				new testPage(gameNameHolder).setVisible(true); // will be resolved when the view of the hof will be added to the project. 
 				
 			}
 		});

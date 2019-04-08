@@ -22,7 +22,7 @@ import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOHallOfFame;
 import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
 
-public class HallOfFame extends JFrame {
+public class testPage extends JFrame {
 
 	private String gameName; 
 	private static final long serialVersionUID = -4426310869335015542L;
@@ -53,7 +53,7 @@ public class HallOfFame extends JFrame {
 	 * Create the application.
 	 */
 	 
-		public HallOfFame(String gameName) {
+		public testPage(String gameName) {
 			this.gameName = gameName; 
 			initialize();
 		}
@@ -124,22 +124,23 @@ private void refreshHof() {
 		HofDtm.setColumnIdentifiers(HofColumnNames);
 		HofTable.setModel(HofDtm); 
 		
-		TOHallOfFame toHof = null;		
-		try { 
-			 toHof = Block223Controller.getHallOfFameWithGameName(this.getGameName()); 
-		} catch(InvalidInputException e) {
-			error = e.getMessage(); 
-		}		
-		List<TOHallOfFameEntry> list = toHof.getEntries(); 
-	int count =1;
-		for(TOHallOfFameEntry to : list) {
-		Object obj[] = { Integer.toString(count), to.getPlayername(), Integer.toString(to.getScore())}; 
-		HofDtm.addRow(obj);
-		count++;
-		
+//		TOHallOfFame toHof = null;		
+//		try { 
+//			 toHof = Block223Controller.getHallOfFameWithGameName(this.getGameName()); 
+//		} catch(InvalidInputException e) {
+//			error = e.getMessage(); 
+//		}
+//		
+//		List<TOHallOfFameEntry> list = toHof.getEntries(); 
+//	int count =1;
+//		for(TOHallOfFameEntry to : list) {
+//		Object obj[] = { Integer.toString(count), to.getPlayername(), Integer.toString(to.getScore())}; 
+//		HofDtm.addRow(obj);
+//		count++;
+//		
 		}
-		
-		}
+//		
+//		}
 	Dimension d = HofTable.getPreferredSize();
 	HofScrollPane.setPreferredSize(new Dimension(d.width, HEIGHT_OVERVIEW_TABLE));		
 	}
