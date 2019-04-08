@@ -25,7 +25,7 @@ class Game {
 class PlayedGame {
 	depend java.awt.geom.*;
 	
-   const Integer INITIAL_WAIT_TIME = 1000; // at design time, the initial wait time may be adjusted as seen fit
+   const Integer INITIAL_WAIT_TIME = 100; // at design time, the initial wait time may be adjusted as seen fit
    autounique id;
    const Integer NR_LIVES = 3;
    Integer score = 0;
