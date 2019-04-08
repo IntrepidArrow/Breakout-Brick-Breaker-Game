@@ -80,32 +80,32 @@ public class HallOfFame extends JFrame {
 		HofScrollPane.setPreferredSize(new Dimension(d.width, HEIGHT_OVERVIEW_TABLE));
 		HofScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); 
 		
-		
-		GroupLayout groupLayout = new GroupLayout(this.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(closeBtn))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(24)
-							.addComponent(HofTable, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(26, Short.MAX_VALUE))
-				.addComponent(HofScrollPane)
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(closeBtn)
-					.addGap(3)
-					.addComponent(HofTable, GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-					.addGap(27))
-				.addComponent(HofScrollPane)
-		);
-		this.getContentPane().setLayout(groupLayout);
+////		
+////		GroupLayout groupLayout = new GroupLayout(this.getContentPane());
+////		groupLayout.setHorizontalGroup(
+////			groupLayout.createParallelGroup(Alignment.LEADING)
+////				.addGroup(groupLayout.createSequentialGroup()
+////					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+////						.addGroup(groupLayout.createSequentialGroup()
+////							.addContainerGap()
+////							.addComponent(closeBtn))
+////						.addGroup(groupLayout.createSequentialGroup()
+////							.addGap(24)
+////							.addComponent(HofTable, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)))
+////					.addContainerGap(26, Short.MAX_VALUE))
+////				.addComponent(HofScrollPane)
+////		);
+////		groupLayout.setVerticalGroup(
+////			groupLayout.createParallelGroup(Alignment.LEADING)
+////				.addGroup(groupLayout.createSequentialGroup()
+////					.addContainerGap()
+////					.addComponent(closeBtn)
+////					.addGap(3)
+////					.addComponent(HofTable, GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+////					.addGap(27))
+////				.addComponent(HofScrollPane)
+////		);
+//		this.getContentPane().setLayout(groupLayout);
 		closeBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				dispose();
@@ -131,11 +131,11 @@ private void refreshHof() {
 			error = e.getMessage(); 
 		}		
 		List<TOHallOfFameEntry> list = toHof.getEntries(); 
-	int count =1;
+	;
 		for(TOHallOfFameEntry to : list) {
 		Object obj[] = { to.getPosition(), to.getPlayername(), Integer.toString(to.getScore())}; 
 		HofDtm.addRow(obj);
-		count++;
+		
 		
 		}
 		
