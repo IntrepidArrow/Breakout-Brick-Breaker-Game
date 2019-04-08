@@ -202,6 +202,8 @@ class PlayedGame {
 
 
    private void bounceBall(){
+   	boolean advancedBounce = true;
+   
     BouncePoint bounce = getBounce();
 	   double newDirectionX = 0;
 	   double newDirectionY = 0;
@@ -222,8 +224,11 @@ class PlayedGame {
 	   }
 	   else if( bounce.getDirection() == BouncePoint.BounceDirection.FLIP_Y ) {
 		   // ball direction updated
-		   newDirectionX = ballDirectionX + signum(ballDirectionX)*(0.1)*Math.abs(ballDirectionY) ;
-		   newDirectionY = (-1)*ballDirectionY ;
+		   if(advancedBounce&&bounce.getY()==(currentPaddleY-5) && bounce.getX()>=currentPaddleX && bounce.getX()<=(currentPaddleX+currentPaddleLength)) {
+			   newDirectionX = -Math.cos((currentPaddleX-bounce.getX())/currentPaddleLength*Math.PI);
+		   }else {
+			   newDirectionX = ballDirectionX + signum(ballDirectionX)*(0.1)*Math.abs(ballDirectionY) ;
+		   }		   newDirectionY = (-1)*ballDirectionY ;
 		   // current ball position updated
 		   currentBallX = bounce.getX() + (remDist/totalDist) * newDirectionX ;
 		   currentBallY = bounce.getY() + (remDist/totalDist) * newDirectionY ;

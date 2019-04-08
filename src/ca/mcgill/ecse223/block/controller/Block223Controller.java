@@ -886,13 +886,13 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 
 			}
 		}
-//		while(game.getPlayStatus() == PlayStatus.Paused) {
-//			String userInputs = ui.takeInputs();
-//
-//			if (userInputs.contains(" ")) {
-//				Block223Controller.startGame(ui);
-//			}
-//		}
+		while(game.getPlayStatus() == PlayStatus.Paused) {
+			String userInputs = ui.takeInputs();
+
+			if (userInputs.contains(" ")) {
+				Block223Controller.startGame(ui);
+			}
+		}
 		if (game.getPlayer() != null) {
 			Block223 block223 = Block223Application.getBlock223();
 			Block223Persistence.save(block223);
