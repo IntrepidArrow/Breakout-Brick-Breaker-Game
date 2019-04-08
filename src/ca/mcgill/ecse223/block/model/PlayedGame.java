@@ -490,6 +490,9 @@ public class PlayedGame implements Serializable
         // line 25 "../../../../../Block223States.ump"
         doGameOver();
         break;
+      case Paused:
+    	  pause();
+    	  break;
     }
   }
   /* Code from template association_GetOne */
