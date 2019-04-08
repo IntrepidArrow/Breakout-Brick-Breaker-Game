@@ -24,14 +24,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
-import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOBlock;
 import ca.mcgill.ecse223.block.controller.TOGridCell;
-import ca.mcgill.ecse223.block.model.Admin;
-import ca.mcgill.ecse223.block.model.Block223;
-import ca.mcgill.ecse223.block.model.Game;
 
 public class EditLevel extends JFrame {
 
