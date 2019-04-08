@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
@@ -20,12 +19,13 @@ import java.awt.Color;
 public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 
 	PlayModeListener listener;
-	private PlayModeVisualizer playModeVisualizer; //extends JPanel
+	private PlayModeVisualizer playModeVisualizer; // extends JPanel
 	String username;
 	boolean isTestGame;
+
 	public PlayModeView(boolean isTest) {
 		createAndShowGUI();
-		this.isTestGame=isTest;
+		this.isTestGame = isTest;
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 	 */
 	private void createAndShowGUI() {
 		// Create and set up the window.
-		this.setTitle("Block223 PlayMode Example");
+		this.setTitle("Block223 PlayMode");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 
@@ -49,7 +49,7 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 
 		JButton button = new JButton("Start Game");
 		getContentPane().add(button, BorderLayout.PAGE_END);
-		
+
 		playModeVisualizer = new PlayModeVisualizer();
 		playModeVisualizer.setName("Block223 PlayMode");
 		playModeVisualizer.setMaximumSize(new Dimension(390, 390));
@@ -57,6 +57,7 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 		playModeVisualizer.setBackground(Color.WHITE);
 		playModeVisualizer.setPreferredSize(new Dimension(390, 390));
 		playModeVisualizer.setSize(new Dimension(390, 390));
+		playModeVisualizer.setFocusable(true);
 		getContentPane().add(playModeVisualizer, BorderLayout.NORTH);
 
 		button.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +79,7 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 				try {
 					t1.join();
 				} catch (InterruptedException e1) {
+					System.out.println("t1 interrupted");
 				}
 
 				// initiating a thread to start the game loop
@@ -86,13 +88,14 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 					public void run() {
 						try {
 							System.out.println("starting");
-							if(isTestGame) {
+							if (isTestGame) {
 								Block223Controller.testGame(PlayModeView.this);
-							}else {
+							} else {
 								Block223Controller.startGame(PlayModeView.this);
 							}
 							button.setVisible(true);
 						} catch (InvalidInputException e) {
+							System.out.println("t2 interrupted");
 						}
 					}
 				};
@@ -114,13 +117,12 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 	public void refresh() {
 		// TODO Auto-generated method stub
 		try {
-			TOCurrentlyPlayedGame thisGame =  Block223Controller.getCurrentPlayableGame();
+			TOCurrentlyPlayedGame thisGame = Block223Controller.getCurrentPlayableGame();
 			playModeVisualizer.refreshDrawing(thisGame);
-			} catch (InvalidInputException e) {
+		} catch (InvalidInputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 	}
 
