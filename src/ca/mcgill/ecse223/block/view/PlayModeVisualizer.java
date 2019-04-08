@@ -1,6 +1,7 @@
 package ca.mcgill.ecse223.block.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
@@ -42,6 +43,9 @@ public class PlayModeVisualizer extends JPanel  {
 	private void doDrawing(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g.create();
 		// draw paddle
+		g2d.setFont(new Font("Calibri", Font.PLAIN, 15)); 
+
+		g2d.drawString("Lives: "+pGame.getLives()+" Score: "+pGame.getScore(), 5, 385);
 		Rectangle2D paddle = new Rectangle2D.Float(pGame.getCurrentPaddleX(), PLAY_AREA_SIDE - PADDLE_VERTICAL_DISTANCE - PADDLE_WIDTH, pGame.getCurrentPaddleLength(), PADDLE_WIDTH);
 		g2d.setPaint(Color.orange);
 		g2d.fill(paddle);
