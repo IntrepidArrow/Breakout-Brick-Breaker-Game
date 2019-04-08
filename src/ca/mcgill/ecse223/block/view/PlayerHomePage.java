@@ -98,7 +98,6 @@ public class PlayerHomePage extends JFrame {
 			public void mouseClicked(MouseEvent evt) {
 				playableGamesList.clearSelection();
 				gameNameHolder = (String) currentGamesList.getSelectedValue();
-				System.out.println(gameNameHolder);
 			}
 		});
 		currentGamesList.setBounds(37, 148, 600, 207);
@@ -114,6 +113,15 @@ public class PlayerHomePage extends JFrame {
 				if(!(playableGamesList.getSelectedValue()==null) ) {
 					try {
 						Block223Controller.selectPlayableGame((String) playableGamesList.getSelectedValue(), playableGamesList.getSelectedIndex());
+						setVisible(false);
+						PlayModeView playGround = new PlayModeView(false);
+					} catch (InvalidInputException ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage());
+					}
+				}
+				if(currentGamesList.getSelectedValue() != null) {
+					try {
+						Block223Controller.selectPlayableGame((String) currentGamesList.getSelectedValue(), currentGamesList.getSelectedIndex());
 						setVisible(false);
 						PlayModeView playGround = new PlayModeView(false);
 					} catch (InvalidInputException ex) {
@@ -142,15 +150,6 @@ public class PlayerHomePage extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
 				currentGamesList.clearSelection();
-				if(playableGamesList != null) {
-					if(evt.getClickCount() == 2 && playableGamesList.getSelectedValue() != null) {
-						try {
-							Block223Controller.selectGame((String) playableGamesList.getSelectedValue());
-						} catch (InvalidInputException e) {
-							JOptionPane.showMessageDialog(null, e.getMessage());
-						}
-					}
-				}
 			}
 		});
 		playableGamesList.setBounds(37, 404, 600, 207);
