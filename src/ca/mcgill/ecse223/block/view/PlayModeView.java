@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
@@ -27,12 +26,13 @@ import java.awt.event.ActionEvent;
 public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 
 	PlayModeListener listener;
-	private PlayModeVisualizer playModeVisualizer; //extends JPanel
+	private PlayModeVisualizer playModeVisualizer; // extends JPanel
 	String username;
 	boolean isTestGame;
+
 	public PlayModeView(boolean isTest) {
 		createAndShowGUI();
-		this.isTestGame=isTest;
+		this.isTestGame = isTest;
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 	 */
 	private void createAndShowGUI() {
 		// Create and set up the window.
-		this.setTitle("Block223 PlayMode Example");
+		this.setTitle("Block223 PlayMode");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 
@@ -69,11 +69,12 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(isTestGame) {
+					if (isTestGame) {
 						new AdminHomePage(" ").setVisible(true);
 						setVisible(false);
 					} else {
-						new PlayerHomePage(Block223Controller.getCurrentPlayableGame().getPlayername()).setVisible(true);
+						new PlayerHomePage(Block223Controller.getCurrentPlayableGame().getPlayername())
+								.setVisible(true);
 						setVisible(false);
 					}
 
@@ -83,26 +84,25 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 			}
 		});
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(playModeVisualizer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addGroup(groupLayout.createSequentialGroup()
-						.addGap(27)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(playModeVisualizer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+						GroupLayout.PREFERRED_SIZE)
+				.addGroup(groupLayout.createSequentialGroup().addGap(27)
 						.addComponent(button, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
 						.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
-						.addGap(26))
-				);
-		groupLayout.setVerticalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-						.addComponent(playModeVisualizer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(button)
-								.addComponent(backButton))
-						.addContainerGap())
-				);
+						.addGap(26)));
+		groupLayout
+				.setVerticalGroup(
+						groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(
+										groupLayout.createSequentialGroup()
+												.addComponent(playModeVisualizer, GroupLayout.PREFERRED_SIZE,
+														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+														.addComponent(button).addComponent(backButton))
+												.addContainerGap()));
 		getContentPane().setLayout(groupLayout);
 
 		button.addActionListener(new java.awt.event.ActionListener() {
@@ -132,9 +132,9 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 					public void run() {
 						try {
 							System.out.println("starting");
-							if(isTestGame) {
+							if (isTestGame) {
 								Block223Controller.testGame(PlayModeView.this);
-							}else {
+							} else {
 								Block223Controller.startGame(PlayModeView.this);
 							}
 							button.setVisible(true);
@@ -160,13 +160,12 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 	public void refresh() {
 		// TODO Auto-generated method stub
 		try {
-			TOCurrentlyPlayedGame thisGame =  Block223Controller.getCurrentPlayableGame();
+			TOCurrentlyPlayedGame thisGame = Block223Controller.getCurrentPlayableGame();
 			playModeVisualizer.refreshDrawing(thisGame);
 		} catch (InvalidInputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 
 	}
 
@@ -175,12 +174,21 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 		// TODO Auto-generated method stub
 
 	}
+
 	public void gameIsDone() {
 		this.setVisible(false);
-		JOptionPane.showMessageDialog(this,
-				"GAME OVER",
-				"",
-				JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, "GAME OVER", "", JOptionPane.ERROR_MESSAGE);
+		String gameName = null;
+		
+		try {
+			gameName = Block223Controller.getCurrentPlayableGame().getGamename();
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (gameName == null)
+			System.out.println("game name is null");
+		new HallOfFame(gameName);
 		new PlayerHomePage("").setVisible(true);
 
 	}

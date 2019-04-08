@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.block.view;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -24,11 +25,11 @@ import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
 
 public class HallOfFame extends JFrame {
 
-	private String gameName; 
+	private String gameName;
 	private static final long serialVersionUID = -4426310869335015542L;
-	private JScrollPane HofScrollPane; 
-	private DefaultTableModel HofDtm; 
-	private String HofColumnNames[] = {"Position", "Name", "Score"};
+	private JScrollPane HofScrollPane;
+	private DefaultTableModel HofDtm;
+	private String HofColumnNames[] = { "Position", "Name", "Score" };
 	private JTable HofTable;
 	private JButton closeBtn;
 	private static final int HEIGHT_OVERVIEW_TABLE = 200;
@@ -52,36 +53,44 @@ public class HallOfFame extends JFrame {
 	/**
 	 * Create the application.
 	 */
-	 
-		public HallOfFame(String gameName) {
-			this.gameName = gameName; 
-			initialize();
+
+	public HallOfFame(String gameName) {
+		this.gameName = gameName;
+		TOHallOfFame toHof = null;
+		try {
+			toHof = Block223Controller.getHallOfFameWithGameName(this.gameName);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		private String getGameName(){
-			return this.gameName;
-		}
+		if (toHof != null)
+			initialize();
+	}
 
+	private String getGameName() {
+		return this.gameName;
+	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
+
 		this.setBounds(100, 100, 450, 300);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		HofTable = new JTable();
 
 		closeBtn = new JButton("Close");
 		HofScrollPane = new JScrollPane(HofTable);
-		this.add(HofScrollPane); 
-		Dimension d = HofTable.getPreferredSize(); 
+		this.add(HofScrollPane);
+		Dimension d = HofTable.getPreferredSize();
 		HofScrollPane.setPreferredSize(new Dimension(d.width, HEIGHT_OVERVIEW_TABLE));
-		HofScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); 
-		
+		HofScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
 ////		KEEP IT COMMENTED OUT
-		
+
 ////		GroupLayout groupLayout = new GroupLayout(this.getContentPane());
 ////		groupLayout.setHorizontalGroup(
 ////			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -107,42 +116,46 @@ public class HallOfFame extends JFrame {
 ////				.addComponent(HofScrollPane)
 ////		);
 //		this.getContentPane().setLayout(groupLayout);
-		closeBtn.addActionListener(new ActionListener(){
+		closeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				dispose();
-				new PlayerHomePage(Block223Application.getCurrentUserRole().toString()).setVisible(true); // will be solved when I push
+				new PlayerHomePage(Block223Application.getCurrentUserRole().toString()).setVisible(true); // will be
+																											// solved
+																											// when I
+																											// push
 			}
 		});
-		
-		refreshHof(); 
+
+		this.setVisible(true);
+		refreshHof();
 	}
-	
+
 	String error = null;
-private void refreshHof() {
-		
+
+	private void refreshHof() {
+
 		if (error == null || error.length() == 0) {
-		HofDtm = new DefaultTableModel(0, 0); // so each time a new JTable is created with 0 rows. 
-		HofDtm.setColumnIdentifiers(HofColumnNames);
-		HofTable.setModel(HofDtm); 
-		
-		TOHallOfFame toHof = null;		
-		try { 
-			 toHof = Block223Controller.getHallOfFameWithGameName(this.getGameName()); 
-		} catch(InvalidInputException e) {
-			error = e.getMessage(); 
-		}		
-		List<TOHallOfFameEntry> list = toHof.getEntries(); 
-	;
-		for(TOHallOfFameEntry to : list) {
-		Object obj[] = { to.getPosition(), to.getPlayername(), Integer.toString(to.getScore())}; 
-		HofDtm.addRow(obj);
-		
-		
+			HofDtm = new DefaultTableModel(0, 0); // so each time a new JTable is created with 0 rows.
+			HofDtm.setColumnIdentifiers(HofColumnNames);
+			HofTable.setModel(HofDtm);
+
+			TOHallOfFame toHof = null;
+			try {
+				toHof = Block223Controller.getHallOfFameWithGameName(this.getGameName());
+			} catch (InvalidInputException e) {
+				System.out.println(e.getMessage());
+			}
+
+			List<TOHallOfFameEntry> list = toHof == null ? new ArrayList<>() : toHof.getEntries();
+			System.out.println("list size is " + list.size());
+			for (TOHallOfFameEntry to : list) {
+				Object obj[] = { to.getPosition(), to.getPlayername(), Integer.toString(to.getScore()) };
+				HofDtm.addRow(obj);
+			}
+
 		}
-		
-		}
-	Dimension d = HofTable.getPreferredSize();
-	HofScrollPane.setPreferredSize(new Dimension(d.width, HEIGHT_OVERVIEW_TABLE));		
+		Dimension d = HofTable.getPreferredSize();
+		HofScrollPane.setPreferredSize(new Dimension(d.width, HEIGHT_OVERVIEW_TABLE));
 	}
-	
+
 }
