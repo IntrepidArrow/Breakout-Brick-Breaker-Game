@@ -126,9 +126,9 @@ public class AddBlockPage {
 					new EditBlocksPage();
 
 				} catch (NumberFormatException e) {
-					errorMessage.setText("All fields must have numerical values");
+					JOptionPane.showMessageDialog(null, "All fields must have numerical values.");
 				} catch (InvalidInputException e) {
-					errorMessage.setText(e.getMessage());
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 			}
 		});

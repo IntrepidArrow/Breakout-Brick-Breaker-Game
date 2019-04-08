@@ -117,7 +117,7 @@ public class PlayerHomePage extends JFrame {
 					try {
 						Block223Controller.selectPlayableGame((String) playableGamesList.getSelectedValue(), playableGamesList.getSelectedIndex());
 						setVisible(false);
-						PlayModeView playGround = new PlayModeView();
+						PlayModeView playGround = new PlayModeView(false);
 						Block223Controller.startGame(playGround);
 					} catch (InvalidInputException ex) {
 						JOptionPane.showMessageDialog(null, ex.getMessage());
