@@ -28,6 +28,7 @@ import ca.mcgill.ecse223.block.model.UserRole;
 import ca.mcgill.ecse223.block.model.PlayedGame.PlayStatus;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 import ca.mcgill.ecse223.block.view.Block223PlayModeInterface;
+import ca.mcgill.ecse223.block.view.PlayModeView;
 
 public class Block223Controller {
 
@@ -879,6 +880,13 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 		if (game.getPlayStatus() == PlayStatus.GameOver) {
 			Block223Application.setCurrentPlayableGame(null);
 		}
+//		while(game.getPlayStatus() == PlayStatus.Paused) {
+//			String userInputs = ui.takeInputs();
+//
+//			if (userInputs.contains(" ")) {
+//				Block223Controller.startGame(ui);
+//			}
+//		}
 		if (game.getPlayer() != null) {
 			Block223 block223 = Block223Application.getBlock223();
 			Block223Persistence.save(block223);
@@ -930,6 +938,7 @@ public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInp
 				}
 			}
 			else if (userInputs.charAt(i) == ' ') {
+
 				return;
 			}
 		}
