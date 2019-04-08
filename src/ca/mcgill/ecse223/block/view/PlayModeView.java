@@ -55,7 +55,7 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 	private void addComponentsToPane() {
 
 		JButton button = new JButton("Start Game");
-		
+
 		playModeVisualizer = new PlayModeVisualizer();
 		playModeVisualizer.setName("Block223 PlayMode");
 		playModeVisualizer.setMaximumSize(new Dimension(390, 390));
@@ -64,13 +64,19 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 		playModeVisualizer.setPreferredSize(new Dimension(390, 390));
 		playModeVisualizer.setSize(new Dimension(390, 390));
 		playModeVisualizer.setFocusable(true);
-		
+
 		JButton backButton = new JButton("Back");
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new PlayerHomePage(Block223Controller.getCurrentPlayableGame().getPlayername()).setVisible(true);
-					setVisible(false);
+					if(isTestGame) {
+						new AdminHomePage(" ").setVisible(true);
+						setVisible(false);
+					} else {
+						new PlayerHomePage(Block223Controller.getCurrentPlayableGame().getPlayername()).setVisible(true);
+						setVisible(false);
+					}
+
 				} catch (InvalidInputException m) {
 					JOptionPane.showMessageDialog(null, m.getMessage());
 				}
@@ -78,25 +84,25 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 		});
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+				groupLayout.createParallelGroup(Alignment.LEADING)
 				.addComponent(playModeVisualizer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(27)
-					.addComponent(button, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-					.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
-					.addGap(26))
-		);
+						.addGap(27)
+						.addComponent(button, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+						.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+						.addGap(26))
+				);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+				groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(playModeVisualizer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(button)
-						.addComponent(backButton))
-					.addContainerGap())
-		);
+						.addComponent(playModeVisualizer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(button)
+								.addComponent(backButton))
+						.addContainerGap())
+				);
 		getContentPane().setLayout(groupLayout);
 
 		button.addActionListener(new java.awt.event.ActionListener() {
@@ -156,11 +162,11 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 		try {
 			TOCurrentlyPlayedGame thisGame =  Block223Controller.getCurrentPlayableGame();
 			playModeVisualizer.refreshDrawing(thisGame);
-			} catch (InvalidInputException e) {
+		} catch (InvalidInputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 
 	}
 
@@ -172,9 +178,9 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 	public void gameIsDone() {
 		this.setVisible(false);
 		JOptionPane.showMessageDialog(this,
-			    "GAME OVER",
-			    "",
-			    JOptionPane.ERROR_MESSAGE);
+				"GAME OVER",
+				"",
+				JOptionPane.ERROR_MESSAGE);
 		new PlayerHomePage("").setVisible(true);
 
 	}

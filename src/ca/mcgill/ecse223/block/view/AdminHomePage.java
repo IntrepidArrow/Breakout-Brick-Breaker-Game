@@ -234,6 +234,7 @@ public class AdminHomePage extends JFrame {
 					try {
 						Block223Controller.selectGame(desGame);
 						PlayModeView testGround = new PlayModeView(true);
+						dispose();
 					} catch (InvalidInputException ex) {
 						JOptionPane.showMessageDialog(null, ex.getMessage());
 					}
