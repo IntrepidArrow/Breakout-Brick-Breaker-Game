@@ -15,7 +15,6 @@ import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOGame;
 import ca.mcgill.ecse223.block.controller.TOPlayableGame;
-import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
 import javax.swing.DefaultListModel;

@@ -2,9 +2,11 @@ package ca.mcgill.ecse223.block.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -16,6 +18,11 @@ import ca.mcgill.ecse223.block.controller.TOCurrentlyPlayedGame;
 import ca.mcgill.ecse223.block.view.PlayModeListener;
 import javax.swing.JPanel;
 import java.awt.Color;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 
@@ -48,7 +55,6 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 	private void addComponentsToPane() {
 
 		JButton button = new JButton("Start Game");
-		getContentPane().add(button, BorderLayout.PAGE_END);
 		
 		playModeVisualizer = new PlayModeVisualizer();
 		playModeVisualizer.setName("Block223 PlayMode");
@@ -58,8 +64,40 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 		playModeVisualizer.setPreferredSize(new Dimension(390, 390));
 		playModeVisualizer.setSize(new Dimension(390, 390));
 		playModeVisualizer.setFocusable(true);
-
-		getContentPane().add(playModeVisualizer, BorderLayout.NORTH);
+		
+		JButton backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					new PlayerHomePage(Block223Controller.getCurrentPlayableGame().getPlayername()).setVisible(true);
+					setVisible(false);
+				} catch (InvalidInputException m) {
+					JOptionPane.showMessageDialog(null, m.getMessage());
+				}
+			}
+		});
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(playModeVisualizer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(27)
+					.addComponent(button, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+					.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+					.addGap(26))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(playModeVisualizer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(button)
+						.addComponent(backButton))
+					.addContainerGap())
+		);
+		getContentPane().setLayout(groupLayout);
 
 		button.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,5 +169,4 @@ public class PlayModeView extends JFrame implements Block223PlayModeInterface {
 		// TODO Auto-generated method stub
 
 	}
-
 }
