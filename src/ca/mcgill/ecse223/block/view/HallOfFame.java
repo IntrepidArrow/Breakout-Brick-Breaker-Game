@@ -140,7 +140,7 @@ private void refreshHof() {
 		
 		}
 		
-		}
+	}
 	Dimension d = HofTable.getPreferredSize();
 	HofScrollPane.setPreferredSize(new Dimension(d.width, HEIGHT_OVERVIEW_TABLE));		
 	}
